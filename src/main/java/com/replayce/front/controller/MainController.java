@@ -1,5 +1,6 @@
 package com.replayce.front.controller;
 
+import com.replayce.front.client.dto.BaseResponse;
 import com.replayce.front.client.dto.JavaResponse;
 import com.replayce.front.service.MainService;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,14 @@ public class MainController {
 
     @GetMapping("/java")
     public String javaPage(Model model) {
-        JavaResponse res = mainService.getJava(22L, "TempData");
+        BaseResponse<JavaResponse> res = mainService.getJava(22L, "TempData");
 
-        model.addAttribute("id", res.getId());
-        model.addAttribute("query", res.getQuery());
+        // 에러코드 처리 진행해야 한다.
+        // if ( res.getStatus() != 200 ) { return "error"; }
+        System.out.println(res.getMessage());
+
+        model.addAttribute("id", res.getResult().getId());
+        model.addAttribute("query", res.getResult().getQuery());
         return "main/java";
     }
 }
