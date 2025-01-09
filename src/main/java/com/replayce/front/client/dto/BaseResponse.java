@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseResponse<T> {
+public class BaseResponse {
     private String path;
     private String message;
-
-    private T result;
+    private String details;
 }

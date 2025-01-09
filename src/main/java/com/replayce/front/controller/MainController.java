@@ -24,14 +24,10 @@ public class MainController {
 
     @GetMapping("/java")
     public String javaPage(Model model) {
-        BaseResponse<JavaResponse> res = mainService.getJava(22L, "TempData");
+        JavaResponse res = mainService.getJava(22L, "TempData");
 
-        // 에러코드 처리 진행해야 한다.
-        // if ( res.getStatus() != 200 ) { return "error"; }
-        System.out.println(res.getMessage());
-
-        model.addAttribute("id", res.getResult().getId());
-        model.addAttribute("query", res.getResult().getQuery());
+        model.addAttribute("id", res.getId());
+        model.addAttribute("query", res.getQuery());
         return "main/java";
     }
 }
