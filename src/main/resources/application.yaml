@@ -1,3 +1,7 @@
 spring:
   application:
     name: front
+
+java-client:
+  api:
+    host: http://localhost:8081
