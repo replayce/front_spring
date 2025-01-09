@@ -1,6 +1,19 @@
 spring:
   application:
     name: front
+  http:
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+  mustache:
+    charset: UTF-8
+
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
 
 java-client:
   api:
