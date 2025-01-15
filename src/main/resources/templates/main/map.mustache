@@ -1,0 +1,46 @@
+{{>layouts/header}}
+<div>
+    <div id="main-map" style="width:100%;height:800px;"></div>
+</div>
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=k3y3venh9l"></script>
+<script>
+    var mapDiv = null;
+    var map = null;
+
+    $(document).ready(function(){
+        //지도를 삽입할 HTML 요소 또는 HTML 요소의 id를 지정합니다.
+        mapDiv = document.getElementById('main-map');
+
+        var mapOptions = {
+            center: new naver.maps.LatLng(35.158661, 129.160384),
+            zoom: 10,
+            minZoom: 7,
+            zoomControl: true,
+            zoomControlOptions: {
+                position: naver.maps.Position.TOP_RIGHT
+            }
+        };
+
+        //옵션 없이 지도 객체를 생성하면 서울 시청을 중심으로 하는 16 레벨의 지도가 생성됩니다.
+        map = new naver.maps.Map(mapDiv, mapOptions);
+
+        var position = new naver.maps.LatLng(35.158661, 129.160384);
+        var markerOptions = {
+            position: position.destinationPoint(90, 15),
+            map: map,
+            icon: {
+                url: '/images/marker.png',
+                size: new naver.maps.Size(50, 50),
+                scaledSize: new naver.maps.Size(50, 50),
+                origin: new naver.maps.Point(0, 0),
+                anchor: new naver.maps.Point(25, 25)
+            }
+        };
+        var marker = new naver.maps.Marker(markerOptions);
+    });
+
+    window.navermap_authFailure = function () {
+        alert("Naver Map Error");
+    }
+</script>
+{{>layouts/footer}}

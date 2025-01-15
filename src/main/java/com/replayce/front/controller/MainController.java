@@ -30,4 +30,10 @@ public class MainController {
         model.addAttribute("query", res.getQuery());
         return "main/java";
     }
+
+    @GetMapping("/map")
+    public String mapPage(Model model){
+
+        return "main/map";
+    }
 }
