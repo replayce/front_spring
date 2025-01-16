@@ -13,6 +13,6 @@ public class AdminController {
     @GetMapping
     public String mainPage(Model model) {
 //        model.addAttribute("sample", "Replayce");
-        return "admin/admin_tabletest";
+        return "admin/admin_dumm";
     }
 }
