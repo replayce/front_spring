@@ -3,9 +3,50 @@
     <div id="main-map" style="width:100%;height:800px;"></div>
 </div>
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=k3y3venh9l"></script>
+<script type="text/javascript" src="/js/MarkerClustering.js"></script>
 <script>
     var mapDiv = null;
     var map = null;
+    var markers = [];
+
+    function addMarker(lat, lng) {
+        // 마커 작업
+        var position = new naver.maps.LatLng(lat, lng);
+        var markerOptions = {
+            position: position.destinationPoint(90, 15),
+            map: map,
+            icon: {
+                url: '/images/marker.png',
+                size: new naver.maps.Size(50, 50),
+                scaledSize: new naver.maps.Size(50, 50),
+                origin: new naver.maps.Point(0, 0),
+                anchor: new naver.maps.Point(25, 25)
+            }
+        };
+        var marker = new naver.maps.Marker(markerOptions);
+
+        // InfoWindow 작업
+        var tempData = "몰티즈";
+        var contentString = `<div>
+            <h3>경보알림!</h3>
+            <p>현 위치 어디어디어디 해파리 출현 경보 1등급 발생</p>
+        </div>`;
+
+        var infowindow = new naver.maps.InfoWindow({
+            content: contentString
+        });
+
+        naver.maps.Event.addListener(marker, "click", function(e) {
+            if(infowindow.getMap()) {
+                infowindow.close();
+            }
+            else {
+                infowindow.open(map, marker);
+            }
+        });
+
+        markers.push(marker);
+    }
 
     $(document).ready(function(){
         //지도를 삽입할 HTML 요소 또는 HTML 요소의 id를 지정합니다.
@@ -24,19 +65,32 @@
         //옵션 없이 지도 객체를 생성하면 서울 시청을 중심으로 하는 16 레벨의 지도가 생성됩니다.
         map = new naver.maps.Map(mapDiv, mapOptions);
 
-        var position = new naver.maps.LatLng(35.158661, 129.160384);
-        var markerOptions = {
-            position: position.destinationPoint(90, 15),
-            map: map,
-            icon: {
-                url: '/images/marker.png',
-                size: new naver.maps.Size(50, 50),
-                scaledSize: new naver.maps.Size(50, 50),
-                origin: new naver.maps.Point(0, 0),
-                anchor: new naver.maps.Point(25, 25)
-            }
+        addMarker(35.158661, 129.160384);
+        addMarker(35.168661, 129.160384);
+        addMarker(35.178661, 129.160384);
+        addMarker(35.188661, 129.160384);
+        addMarker(35.198661, 129.160384);
+
+        var htmlMarker = {
+            content: `<div style="cursor:pointer;width:50px;height:50px;line-height:42px;font-size:30px;color:black;text-align:center;font-weight:bold;background:url(/images/marker.png);background-size:contain;"></div>`,
+            size: N.Size(50, 50),
+            scaledSize: N.Size(50, 50),
+            anchor: N.Point(25, 25),
         };
-        var marker = new naver.maps.Marker(markerOptions);
+
+        var markerClustering = new MarkerClustering({
+            minClusterSize: 2,
+            maxZoom: 13,
+            map: map,
+            markers: markers,
+            disableClickZoom: false,
+            gridSize: 120,
+            icons: [htmlMarker],
+            indexGenerator: [1000],
+            stylingFunction: function(clusterMarker, count) {
+                $(clusterMarker.getElement()).find('div:first-child').text(count);
+            }
+        });
     });
 
     window.navermap_authFailure = function () {
