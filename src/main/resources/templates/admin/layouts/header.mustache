@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
+    <title>JellyMully - Admin</title>
     <meta
             content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
             name="viewport"
     />
     <link
             rel="icon"
-            href="assets/img/kaiadmin/favicon.ico"
+            href="images/favicon.png"
             type="image/x-icon"
     />
 
@@ -38,8 +38,6 @@
     <link rel="stylesheet" href="assets/css/plugins.min.css" />
     <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
 
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="assets/css/demo.css" />
 </head>
 <body>
 <div class="wrapper">
@@ -48,12 +46,12 @@
         <div class="sidebar-logo">
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="dark">
-                <a href="index.html" class="logo">
+                <a href="/main/map" class="logo">
                     <img
-                            src="assets/img/kaiadmin/logo_light.svg"
+                            src="/images/sample_logo.png"
                             alt="navbar brand"
                             class="navbar-brand"
-                            height="20"
+                            height="40"
                     />
                 </a>
                 <div class="nav-toggle">
@@ -73,6 +71,42 @@
         <div class="sidebar-wrapper scrollbar scrollbar-inner">
             <div class="sidebar-content">
                 <ul class="nav nav-secondary">
+                    <li class="nav-section">
+                        <span class="sidebar-mini-icon">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </span>
+                        <h4 class="text-section">관리자 메뉴</h4>
+                    </li>
+                    <li class="nav-item">
+                        <a href="dashboard.html">
+                            <i class="fas fa-desktop"></i>
+                            <p>대시보드</p>
+                            <span class="caret"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="admin.html">
+                            <i class="fas fa-desktop"></i>
+                            <p>관리자 설정</p>
+                            <span class="caret"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="alert.html">
+                            <i class="fas fa-desktop"></i>
+                            <p>경보 관리</p>
+                            <span class="caret"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="board.html">
+                            <i class="fas fa-desktop"></i>
+                            <p>제보 관리</p>
+                            <span class="caret"></span>
+                        </a>
+                    </li>
+
+                    <!--
                     <li class="nav-item active">
                         <a
                                 data-bs-toggle="collapse"
@@ -321,6 +355,7 @@
                             </ul>
                         </div>
                     </li>
+                    -->
                 </ul>
             </div>
         </div>
@@ -359,9 +394,8 @@
                     class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
             >
                 <div class="container-fluid">
-                    <nav
-                            class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
-                    >
+                    <!--
+                    <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <button type="submit" class="btn btn-search pe-1">
@@ -375,8 +409,9 @@
                             />
                         </div>
                     </nav>
-
+                    -->
                     <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                        <!--
                         <li
                                 class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
                         >
@@ -402,6 +437,8 @@
                                 </form>
                             </ul>
                         </li>
+                        -->
+                        <!--
                         <li class="nav-item topbar-icon dropdown hidden-caret">
                             <a
                                     class="nav-link dropdown-toggle"
@@ -493,6 +530,8 @@
                                 </li>
                             </ul>
                         </li>
+                        -->
+                        <!--
                         <li class="nav-item topbar-icon dropdown hidden-caret">
                             <a
                                     class="nav-link dropdown-toggle"
@@ -571,6 +610,8 @@
                                 </li>
                             </ul>
                         </li>
+                        -->
+                        <!--
                         <li class="nav-item topbar-icon dropdown hidden-caret">
                             <a
                                     class="nav-link"
@@ -649,7 +690,7 @@
                                 </div>
                             </div>
                         </li>
-
+                        -->
                         <li class="nav-item topbar-user dropdown hidden-caret">
                             <a
                                     class="dropdown-toggle profile-pic"
@@ -664,10 +705,12 @@
                                             class="avatar-img rounded-circle"
                                     />
                                 </div>
+                                <!--
                                 <span class="profile-username">
-                      <span class="op-7">Hi,</span>
-                      <span class="fw-bold">Hizrian</span>
-                    </span>
+                                  <span class="op-7">Hi,</span>
+                                  <span class="fw-bold">Hizrian</span>
+                                </span>
+                                -->
                             </a>
                             <ul class="dropdown-menu dropdown-user animated fadeIn">
                                 <div class="dropdown-user-scroll scrollbar-outer">
@@ -686,19 +729,21 @@
                                                 <a
                                                         href="profile.html"
                                                         class="btn btn-xs btn-secondary btn-sm"
-                                                >View Profile</a
+                                                >Account Setting</a
                                                 >
                                             </div>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="dropdown-divider"></div>
+                                        <!--
                                         <a class="dropdown-item" href="#">My Profile</a>
                                         <a class="dropdown-item" href="#">My Balance</a>
                                         <a class="dropdown-item" href="#">Inbox</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="#">Account Setting</a>
                                         <div class="dropdown-divider"></div>
+                                        -->
                                         <a class="dropdown-item" href="#">Logout</a>
                                     </li>
                                 </div>
