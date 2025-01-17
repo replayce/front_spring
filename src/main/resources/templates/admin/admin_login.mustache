@@ -27,32 +27,56 @@
         </div>
         <div class="page-category">
             <!-- Inner page content goes here -->
-
-            <div class="card card-stats card-round" style="padding: 10px 10px">
-                <div class="card-header">
-                    <div class="card-head-row">
-                        <div class="card-title">로그인</div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-stats card-round" style="padding: 10px 10px">
+                        <div class="card-header">
+                            <div class="card-head-row">
+                                <div class="card-title">로그인</div>
+                                <div class="card-tools">
+                                    <a href="/admin_signup" class="btn btn-label-success btn-round btn-sm me-2">
+                                        <span class="btn-label">
+                                            <i class="fa fa-pencil"></i>
+                                        </span>
+                                        sign up
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <form style="margin: 10px 5px" action="/login" method="POST">
+                            <div>
+                                <input class="form-control" style="margin: 5px 5px" type="text" placeholder="아이디" id="username" name="username" required>
+                            </div>
+                            <div>
+                                <input class="form-control" style="margin: 5px 5px" type="password" placeholder="비밀번호" id="password" name="password" required>
+                            </div>
+                            <div>
+                                <input class="btn btn-success" style="margin: 5px 5px" type="submit" value="로그인">
+                            </div>
+                        </form>
+                        <div>
+                            <a href="#" style="margin: 5px 5px">비밀번호를 잊으셨나요?</a>
+                        </div>
                     </div>
-                </div>
-                <form style="margin: 10px 5px" action="/login" method="POST">
-                    <div>
-                        <input style="margin: 5px 5px" type="text" placeholder="아이디" id="username" name="username" required>
-                    </div>
-                    <div>
-                        <input style="margin: 5px 5px" type="password" placeholder="비밀번호" id="password" name="password" required>
-                    </div>
-                    <div>
-                        <input style="margin: 5px 5px" type="submit" value="로그인">
-                    </div>
-                </form>
-                <div>
-                    <a href="#">비밀번호를 잊으셨나요?</a>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 
+<script>
+    function fastRecommend(){
+        const latitude = document.getElementById("latitude").value;
+        const longitude = document.getElementById("longitude").value;
+
+        if (!latitude || !longitude){
+            alert("위도와 경도를 모두 입력해주세요");
+            return;
+        }
+
+        const url = `/recommend_hospital_fast?latitude=${latitude}&longitude=${longitude}`;
+        window.location.href = url;
+    }
+</script>
 
 {{>admin/layouts/footer}}
