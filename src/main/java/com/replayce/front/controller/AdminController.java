@@ -13,6 +13,10 @@ public class AdminController {
     @GetMapping
     public String mainPage(Model model) {
 //        model.addAttribute("sample", "Replayce");
-        return "admin/admin_dumm";
+        return "admin/admin_login";
+    }
+    @GetMapping("/admin_login")
+    public String index() {
+        return "admin/admin_login";
     }
 }
