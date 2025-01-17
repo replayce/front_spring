@@ -1,0 +1,58 @@
+{{>admin/layouts/header}}
+
+
+<div class="container">
+    <div class="page-inner">
+        <div class="page-header">
+            <h4 class="page-title">Dashboard</h4>
+            <ul class="breadcrumbs">
+                <li class="nav-home">
+                    <a href="#">
+                        <i class="icon-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Pages</a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Starter Page</a>
+                </li>
+            </ul>
+        </div>
+        <div class="page-category">
+            <!-- Inner page content goes here -->
+
+            <div class="card card-stats card-round" style="padding: 10px 10px">
+                <div class="card-header">
+                    <div class="card-head-row">
+                        <div class="card-title">로그인</div>
+                    </div>
+                </div>
+                <form style="margin: 10px 5px" action="/login" method="POST">
+                    <div>
+                        <input style="margin: 5px 5px" type="text" placeholder="아이디" id="username" name="username" required>
+                    </div>
+                    <div>
+                        <input style="margin: 5px 5px" type="password" placeholder="비밀번호" id="password" name="password" required>
+                    </div>
+                    <div>
+                        <input style="margin: 5px 5px" type="submit" value="로그인">
+                    </div>
+                </form>
+                <div>
+                    <a href="#">비밀번호를 잊으셨나요?</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+{{>admin/layouts/footer}}
