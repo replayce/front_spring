@@ -41,6 +41,10 @@ public class AdminController {
     public String setting() {
         return "admin/admin_setting";
     }
+    @GetMapping("/admin_edit_reports")
+    public String editReports() {return "admin/admin_edit_reports"; }
+    @GetMapping("/admin_account")
+    public String account() {return "admin/admin_account"; }
 
 
 }
