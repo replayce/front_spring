@@ -20,12 +20,16 @@ public interface AlertClient {
     CommonResponse<AlertResponse> getAlertById(@PathVariable Long alertId);
 
     @PostMapping("/alert")
-    CommonResponse<AlertResponse> createAlert(@RequestBody Alert alert);
+    CommonResponse<AlertResponse> createAlert(
+            @RequestBody Alert alert,
+            @RequestParam("beachId") Long beachId
+    );
 
     @PatchMapping("/alert/{alertId}")
     CommonResponse<AlertResponse> updateAlert(
             @PathVariable Long alertId,
-            @RequestBody Alert alertDetails
+            @RequestBody Alert alertDetails,
+            @RequestParam(value = "beachId", required = false) Long beachId
     );
 
     @DeleteMapping("/alert/{alertId}")
