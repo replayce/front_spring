@@ -146,22 +146,22 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/admin_reports")
+    @GetMapping("admin/admin_reports")
     public String reports() {
         return "admin/admin_reports";
     }
-    @GetMapping("/admin_alerts")
+    @GetMapping("admin/admin_alerts")
     public String alerts() {
         return "admin/admin_alerts";
     }
-    @GetMapping("/admin_setting")
+    @GetMapping("admin/admin_setting")
     public String setting() {
         return "admin/admin_setting";
     }
-    @GetMapping("/admin_edit_reports")
+    @GetMapping("admin/admin_edit_reports")
     public String editReports() {return "admin/admin_edit_reports"; }
 
-    @GetMapping("/admin_account")
+    @GetMapping("admin/admin_account")
     public String account() {return "admin/admin_account"; }
 
 
