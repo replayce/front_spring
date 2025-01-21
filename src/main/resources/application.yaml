@@ -18,3 +18,9 @@ server:
 java-client:
   api:
     host: http://localhost:8081
+
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
