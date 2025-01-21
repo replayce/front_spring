@@ -3,7 +3,16 @@
 <ul>
     {{#alerts}}
         <li>
-            Jelly: {{jelly}}, Beach: {{beach}}, Level: {{level}}, Time: {{time}}
+            <strong>Jelly:</strong> {{jelly}} <br>
+            <strong>Beach:</strong> {{beach}} <br>
+            <strong>Time:</strong> {{time}} <br>
+            <strong>Level:</strong> {{level}} <br>
+            <strong>Image:</strong> <a href="{{imageUrl}}" target="_blank">View Image</a> <br>
+            <strong>Appear Prediction:</strong> {{appearPred}} <br>
+            <strong>Density Prediction:</strong> {{densityPred}} <br>
+            <strong>Location Percent:</strong> {{percentLoc}} <br>
+            <strong>Created At:</strong> {{createDate}} <br>
+            <strong>Updated At:</strong> {{updateDate}} <br>
         </li>
     {{/alerts}}
 </ul>
