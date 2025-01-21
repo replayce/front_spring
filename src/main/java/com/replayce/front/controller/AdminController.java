@@ -151,13 +151,13 @@ public class AdminController {
         }
     }
 
-    @GetMapping("admin/admin_reports")
+    @GetMapping("/admin_reports")
     public String reports() {
         return "admin/admin_reports";
     }
-    @GetMapping("admin/admin_alerts")
+    @GetMapping("/admin_alerts")
     public String alerts(Model model) {
-        String apiUrl = BACKEND_URL + "/api/alert"; // REST API URL
+
         try {
             // FeignClient 호출
             CommonResponse<List<AlertResponse>> response = alertClient.getAllAlerts();
@@ -169,14 +169,14 @@ public class AdminController {
         }
         return "admin/admin_alerts";
     }
-    @GetMapping("admin/admin_setting")
+    @GetMapping("/admin_setting")
     public String setting() {
         return "admin/admin_setting";
     }
-    @GetMapping("admin/admin_edit_reports")
+    @GetMapping("/admin_edit_reports")
     public String editReports() {return "admin/admin_edit_reports"; }
 
-    @GetMapping("admin/admin_account")
+    @GetMapping("/admin_account")
     public String account() {return "admin/admin_account"; }
 
 
