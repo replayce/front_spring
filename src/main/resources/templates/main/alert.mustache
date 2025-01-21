@@ -1,0 +1,10 @@
+{{>layouts/header}}
+<h1>Alert List</h1>
+<ul>
+    {{#alerts}}
+        <li>
+            Jelly: {{jelly}}, Beach: {{beach}}, Level: {{level}}, Time: {{time}}
+        </li>
+    {{/alerts}}
+</ul>
+{{>layouts/footer}}
