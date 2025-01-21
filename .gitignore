@@ -38,3 +38,6 @@ out/
 
 ### WinMerge ###
 *.bak
+
+### YAML ###
+src/main/resources/application-live.yaml
