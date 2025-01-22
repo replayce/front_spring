@@ -117,11 +117,18 @@
                     }
                 },
                 error: function(error) {
-                    statusDiv.textContent = "No file selected.";
+                    if (error.status == 400) {
+                        statusDiv.textContent = error['responseJSON']['message'];
+                    }
+                    else {
+                        statusDiv.textContent = "Server error.";
+                    }
+                    fileInput.value = '';
                 }
             });
         } else {
             statusDiv.textContent = "No file selected.";
+            fileInput.value = '';
         }
     });
 </script>
