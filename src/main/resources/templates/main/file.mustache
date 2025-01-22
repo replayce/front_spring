@@ -73,39 +73,53 @@
         statusDiv.innerHTML = ""; // Clear existing content
 
         if (file) {
-            const fileContainer = document.createElement('div');
-            fileContainer.style.display = 'flex';
-            fileContainer.style.alignItems = 'center';
-            fileContainer.style.gap = '10px';
+            var formData = new FormData();
+            formData.append("file", file);
+            $.ajax({
+                url: '/upload',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    const fileContainer = document.createElement('div');
+                    fileContainer.style.display = 'flex';
+                    fileContainer.style.alignItems = 'center';
+                    fileContainer.style.gap = '10px';
 
-            const fileLink = document.createElement('a');
-            fileLink.classList.add('file-info');
-            fileLink.href = URL.createObjectURL(file); // Create a downloadable link
-            fileLink.download = file.name; // Set the download attribute
-            fileLink.textContent = file.name;
+                    const fileLink = document.createElement('a');
+                    fileLink.classList.add('file-info');
+                    fileLink.href = URL.createObjectURL(file); // Create a downloadable link
+                    fileLink.download = file.name; // Set the download attribute
+                    fileLink.textContent = file.name;
 
-            const fileSize = document.createElement('span');
-            fileSize.textContent = `(${(file.size / (1024 * 1024)).toFixed(2)} MB)`;
+                    const fileSize = document.createElement('span');
+                    fileSize.textContent = `(${(file.size / (1024 * 1024)).toFixed(2)} MB)`;
 
-            const cancelButton = document.createElement('button');
-            cancelButton.textContent = 'Cancel';
-            cancelButton.classList.add('cancel-button');
-            cancelButton.addEventListener('click', function() {
-                fileInput.value = ""; // Reset file input
-                statusDiv.innerHTML = ""; // Clear upload status
+                    const cancelButton = document.createElement('button');
+                    cancelButton.textContent = 'Cancel';
+                    cancelButton.classList.add('cancel-button');
+                    cancelButton.addEventListener('click', function() {
+                        fileInput.value = ""; // Reset file input
+                        statusDiv.innerHTML = ""; // Clear upload status
+                    });
+
+                    fileLink.appendChild(fileSize);
+                    fileContainer.appendChild(fileLink);
+                    fileContainer.appendChild(cancelButton);
+                    statusDiv.appendChild(fileContainer);
+
+                    if (file.type.startsWith('image/')) {
+                        const imagePreview = document.createElement('img');
+                        imagePreview.classList.add('image-preview');
+                        imagePreview.src = URL.createObjectURL(file);
+                        statusDiv.appendChild(imagePreview);
+                    }
+                },
+                error: function(error) {
+                    statusDiv.textContent = "No file selected.";
+                }
             });
-
-            fileLink.appendChild(fileSize);
-            fileContainer.appendChild(fileLink);
-            fileContainer.appendChild(cancelButton);
-            statusDiv.appendChild(fileContainer);
-
-            if (file.type.startsWith('image/')) {
-                const imagePreview = document.createElement('img');
-                imagePreview.classList.add('image-preview');
-                imagePreview.src = URL.createObjectURL(file);
-                statusDiv.appendChild(imagePreview);
-            }
         } else {
             statusDiv.textContent = "No file selected.";
         }
