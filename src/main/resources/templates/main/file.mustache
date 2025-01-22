@@ -1,0 +1,114 @@
+{{>layouts/header}}
+<style>
+    body {
+        margin: 20px;
+    }
+    h1 {
+        font-size: 24px;
+        color: #333;
+    }
+    #file-upload-form {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    label {
+        cursor: pointer;
+        padding: 10px 15px;
+        background-color: #B7B7B7;
+        color: white;
+        border: 1px #000000;
+        font-size: 15px;
+    }
+    input[type="file"] {
+        display: none;
+    }
+    #upload-status {
+        font-size: 14px;
+        color: #333;
+        margin-top: 10px;
+    }
+    .file-info {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 14px;
+        color: #007BFF;
+        text-decoration: none;
+    }
+    .file-info span {
+        font-size: 12px;
+        color: #666;
+    }
+    .image-preview {
+        margin-top: 10px;
+        max-width: 200px;
+        max-height: 200px;
+        object-fit: cover;
+        border: 1px solid #ccc;
+    }
+    .cancel-button {
+        padding: 5px 10px;
+        background-color: #FF4D4D;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 12px;
+    }
+</style>
+
+<h1>File Upload</h1>
+<form id="file-upload-form">
+    <label for="file-input">Choose File</label>
+    <input type="file" id="file-input">
+    <div id="upload-status"></div>
+</form>
+
+<script>
+    const fileInput = document.getElementById('file-input');
+    const statusDiv = document.getElementById('upload-status');
+
+    fileInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        statusDiv.innerHTML = ""; // Clear existing content
+
+        if (file) {
+            const fileContainer = document.createElement('div');
+            fileContainer.style.display = 'flex';
+            fileContainer.style.alignItems = 'center';
+            fileContainer.style.gap = '10px';
+
+            const fileLink = document.createElement('a');
+            fileLink.classList.add('file-info');
+            fileLink.href = URL.createObjectURL(file); // Create a downloadable link
+            fileLink.download = file.name; // Set the download attribute
+            fileLink.textContent = file.name;
+
+            const fileSize = document.createElement('span');
+            fileSize.textContent = `(${(file.size / (1024 * 1024)).toFixed(2)} MB)`;
+
+            const cancelButton = document.createElement('button');
+            cancelButton.textContent = 'Cancel';
+            cancelButton.classList.add('cancel-button');
+            cancelButton.addEventListener('click', function() {
+                fileInput.value = ""; // Reset file input
+                statusDiv.innerHTML = ""; // Clear upload status
+            });
+
+            fileLink.appendChild(fileSize);
+            fileContainer.appendChild(fileLink);
+            fileContainer.appendChild(cancelButton);
+            statusDiv.appendChild(fileContainer);
+
+            if (file.type.startsWith('image/')) {
+                const imagePreview = document.createElement('img');
+                imagePreview.classList.add('image-preview');
+                imagePreview.src = URL.createObjectURL(file);
+                statusDiv.appendChild(imagePreview);
+            }
+        } else {
+            statusDiv.textContent = "No file selected.";
+        }
+    });
+</script>
+{{>layouts/footer}}

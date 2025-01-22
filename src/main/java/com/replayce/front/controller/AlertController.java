@@ -16,7 +16,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/alert") // 공통 경로
+@RequestMapping("/main/alert") // 공통 경로
 public class AlertController {
 
     private final AlertClient alertClient;
