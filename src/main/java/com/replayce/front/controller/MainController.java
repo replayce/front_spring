@@ -36,4 +36,9 @@ public class MainController {
 
         return "main/map";
     }
+
+    @GetMapping("/file")
+    public String getFile(Model model) {
+        return "main/file";
+    }
 }
