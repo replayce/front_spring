@@ -1,0 +1,10 @@
+{{>layouts/header}}
+<h1>Board List</h1>
+<ul>
+    {{#boards}}
+        <li>
+            Writer: {{writer}}, Phone: {{writerNumber}}, Content: {{content}}, Date: {{date}}, Time: {{hour}}:{{minute}}
+        </li>
+    {{/boards}}
+</ul>
+{{>layouts/footer}}
