@@ -15,6 +15,7 @@
 
     <!-- Fonts and icons -->
     <script src="/assets/js/plugin/webfont/webfont.min.js"></script>
+    <script src="/js/AdminCheck.js" defer></script>
     <script>
         WebFont.load({
           google: { families: ["Public Sans:300,400,500,600,700"] },
@@ -39,7 +40,7 @@
     <link rel="stylesheet" href="/assets/css/kaiadmin.min.css" />
 
 </head>
-<body>
+<body onload = "checkAdminAuth()">
 <div class="wrapper">
     <!-- Sidebar -->
     <div class="sidebar" data-background-color="dark">
@@ -751,7 +752,7 @@
                                         <a class="dropdown-item" href="#">Account Setting</a>
                                         <div class="dropdown-divider"></div>
                                         -->
-                                        <a class="dropdown-item" href="#">Logout</a>
+                                        <a class="dropdown-item" href="/admin/admin_logout">Logout</a>
                                     </li>
                                 </div>
                             </ul>
