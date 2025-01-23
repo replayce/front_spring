@@ -1,8 +1,10 @@
 package com.replayce.front.controller;
 
 import com.replayce.front.client.api.AlertClient;
+import com.replayce.front.client.api.ReportClient;
 import com.replayce.front.client.dto.AlertResponse;
 import com.replayce.front.client.dto.CommonResponse;
+import com.replayce.front.client.dto.ReportResponse;
 import com.replayce.front.dto.LoginRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,7 @@ public class AdminController {
     // 백엔드 연결 추가 코드
     private final RestTemplate restTemplate;
     private final AlertClient alertClient;
+    private final ReportClient reportClient;
     private final String BACKEND_URL = "http://localhost:8081";
 
 
@@ -150,9 +153,20 @@ public class AdminController {
     }
 
     @GetMapping("/admin/admin_reports")
-    public String reports() {
+    public String reports(Model model) {
+        try {
+            // FeignClient 호출
+            CommonResponse<List<ReportResponse>> response = reportClient.getBoards();
+            model.addAttribute("reports", response.getResult());
+        } catch (Exception e) {
+            System.err.println("Error fetching reports: " + e.getMessage());
+            model.addAttribute("reports", List.of());
+            model.addAttribute("error", "Failed to fetch alerts from backend.");
+        }
+
         return "admin/admin_reports";
     }
+
     @GetMapping("/admin/admin_alerts")
     public String alerts(Model model) {
 
@@ -173,7 +187,6 @@ public class AdminController {
     }
     @GetMapping("/admin/admin_edit_reports")
     public String editReports() {return "admin/admin_edit_reports"; }
-
     @GetMapping("/admin/admin_account")
     public String account() {return "admin/admin_account"; }
 
