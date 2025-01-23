@@ -4,9 +4,15 @@
 <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
 <script>
 
-$(document).ready(function() {
-    new DataTable('#example');
-});
+    $(document).ready(function() {
+        $('#example').DataTable({
+            searching: false,
+            ordering: false,
+            pageLength: 10,
+            lengthChange: false
+        });
+    });
+
 </script>
 
 <div class="container">
@@ -72,10 +78,8 @@ $(document).ready(function() {
                 </tr>
                 </tfoot>
             </table>
-
         </div>
     </div>
 </div>
-
 
 {{>admin/layouts/footer}}
