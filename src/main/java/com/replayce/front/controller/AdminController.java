@@ -195,11 +195,6 @@ public class AdminController {
     public String setting() {
         return "admin/admin_setting";
     }
-    @GetMapping("/admin/admin_edit_reports")
-    public String editReports() {return "admin/admin_edit_reports"; }
-
-    @GetMapping("/admin/admin_account")
-    public String account() {return "admin/admin_account"; }
 
 
      // 보고서 수정 페이지
