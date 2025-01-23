@@ -1,6 +1,10 @@
 # Amazon Corretto 21을 기반 이미지로 사용
 FROM amazoncorretto:17
 
+# 타임존 설정
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # 빌드된 JAR 파일을 컨테이너로 복사
 COPY build/libs/front-0.0.1-SNAPSHOT.jar app.jar
 
