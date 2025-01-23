@@ -1,168 +1,183 @@
 package com.replayce.front.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.replayce.front.dto.LoginRequest;
+import com.replayce.front.dto.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import jakarta.servlet.http.HttpSession;
 import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
-//@RequestMapping("/admin")
 @Slf4j
 public class AdminController {
 
-    // 백엔드 연결 추가 코드
-    private final RestTemplate restTemplate;
-    private final String BACKEND_URL = "http://localhost:8081";
+    private final RestTemplate restTemplate = new RestTemplate();
 
 
+     // 메인 페이지
 
-
-    @GetMapping
-    public String mainPage(Model model) {
-//        model.addAttribute("sample", "Replayce");
-        return "admin/admin_login";
+    @GetMapping("/")
+    public String mainPage() {
+        return "admin/admin_main";
     }
+
+
+     // 관리자 메인 페이지
+
     @GetMapping("/admin")
     public String main() {
         return "admin/admin_main";
     }
 
+
+     // 로그인 페이지
+
     @GetMapping("/admin_login")
-    public String login(LoginRequest loginRequest, Model model) {
+    public String loginPage() {
         return "admin/admin_login";
     }
 
-    @PostMapping("/login")
-    public String login(String username, String password, Model model) {
+
+     // 로그인 처리
+
+    @PostMapping("/admin_login")
+    public String login(@ModelAttribute LoginRequest loginRequest, HttpSession session, Model model) {
         try {
-            String url = BACKEND_URL + "/api/auth/login";
+            // x-www-form-urlencoded 형식 데이터 생성
+            String loginData = "username=" + loginRequest.getUsername() + "&password=" + loginRequest.getPassword();
 
-            // 요청 데이터 생성
-            Map<String, String> loginRequest = Map.of(
-                    "username", username,
-                    "password", password
-            );
-
-            // HttpEntity 생성 및 Content-Type 설정
+            // HTTP 요청 헤더 설정
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(loginRequest, headers);
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-            // API 요청
-            ResponseEntity<Map<String, Object>> responseEntity = restTemplate.exchange(
-                    url,
-                    HttpMethod.POST,
-                    requestEntity,
-                    new ParameterizedTypeReference<Map<String, Object>>() {}
-            );
+            // HTTP 요청 엔티티 생성
+            HttpEntity<String> entity = new HttpEntity<>(loginData, headers);
 
-            // 성공 여부 확인
-            if (responseEntity.getStatusCode() == HttpStatus.OK) { // 응답 200이면
-                Map<String, Object> body = responseEntity.getBody();
-                if (body != null && body.containsKey("message")) { // 메시지가 있으면 성공
-                    String message = body.get("message").toString();
-                    log.info("Login successful: " + message);
-                    return "redirect:/admin"; // 성공 -> 메인 페이지
-                } else { // 메시지가 없으면 실패 처리
-                    model.addAttribute("error", "Unexpected error: 'message' key not found.");
-                    return "admin/admin_login"; // 실패 -> 로그인 페이지
+            // 백엔드 API 호출
+            String url = "http://localhost:8081/api/auth/login";
+            ResponseEntity<Map> response = restTemplate.postForEntity(url, entity, Map.class);
+
+            // 로그인 성공 처리
+            if (response.getStatusCode().is2xxSuccessful()) {
+                Map<String, Object> body = response.getBody();
+                if (body != null && body.containsKey("result")) {
+                    Map<String, String> result = (Map<String, String>) body.get("result");
+                    String token = result.get("token");
+
+                    // 세션에 토큰 저장
+                    session.setAttribute("token", token);
+
+                    // 성공 시 관리자 페이지로 리다이렉트
+                    return "redirect:/admin";
                 }
-            } else { // 응답 200이 아닌 경우
-                Map<String, Object> body = responseEntity.getBody();
-                String error = (body != null && body.containsKey("details")) ? body.get("details").toString() : "Unknown error occurred.";
-                model.addAttribute("error", "Login failed: " + error);
-                return "admin/admin_login"; // 실패 -> 로그인 페이지
             }
-        } catch (Exception e) { // 그 외의 에러 처리
-            log.error("Login request failed", e);
-            model.addAttribute("error", e.getMessage());
-            return "admin/admin_login"; // 실패 -> 로그인 페이지
+        } catch (Exception e) {
+            log.error("로그인 실패: {}", e.getMessage());
+            model.addAttribute("error", "아이디 또는 비밀번호가 잘못되었습니다.");
         }
+
+        // 로그인 실패 시 다시 로그인 페이지로
+        return "admin/admin_login";
     }
 
+
+     // 회원가입 페이지
+
     @GetMapping("/admin_signup")
-    public String signup() {
+    public String registerPage() {
         return "admin/admin_signup";
     }
 
+
+     // 회원가입 처리
+
+
     @PostMapping("/admin_signup")
-    public String signup(String username, String email, String phoneNumber, String password, Model model) {
+    public String register(@ModelAttribute RegisterRequest registerRequest, Model model) {
         try {
-            String url = BACKEND_URL + "/api/admins/register";
+            // x-www-form-urlencoded 형식 데이터 생성
+            String registerData = "username=" + registerRequest.getUsername() +
+                    "&email=" + registerRequest.getEmail() +
+                    "&phoneNumber=" + registerRequest.getPhoneNumber() +
+                    "&password=" + registerRequest.getPassword();
 
-            // 요청 데이터
-            MultiValueMap<String, String> requestMap = new LinkedMultiValueMap<>();
-            requestMap.add("username", username);
-            requestMap.add("email", email);
-            requestMap.add("phoneNumber", phoneNumber);
-            requestMap.add("password", password);
-
-            // HttpEntity 생성 및 Content-Type 설정
+            // HTTP 요청 헤더 설정
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestMap, headers);
 
+            // HTTP 요청 엔티티 생성
+            HttpEntity<String> entity = new HttpEntity<>(registerData, headers);
 
-            // API 요청
-            ResponseEntity<Map<String, Object>> responseEntity = restTemplate.exchange(
-                    url,
-                    HttpMethod.POST,
-                    requestEntity,
-                    new ParameterizedTypeReference<Map<String, Object>>() {}
-            );
-
-            // 성공 여부 확인
-            if (responseEntity.getStatusCode() == HttpStatus.OK) { // 응답 200이면
-                Map<String, Object> body = responseEntity.getBody();
-                if (body != null && body.containsKey("message")) { // null아닐 때 메세지 받음
-                    String message = body.get("message").toString();
-                    log.info("Registration successful: " + message);
-                    return "redirect:/admin_login"; // 성공 -> 로그인 페이지
-                } else { // null일 때
-                    model.addAttribute("error", "Unexpected error: 'message' key not found.");
-                    return "admin/admin_signup"; // 실패 -> 회원가입 페이지
-                }
-            } else { // 응답 200 아니면
-                Map<String, Object> body = responseEntity.getBody();
-                String error = (body != null && body.containsKey("error")) ? body.get("error").toString() : "Unknown error occurred.";
-                model.addAttribute("error", "Registration failed: " + error);
-                return "admin/admin_signup"; // 실패 -> 회원가입 페이지
+            // 백엔드 API 호출
+            String url = "http://localhost:8081/api/auth/register";
+            ResponseEntity<Map> response = restTemplate.postForEntity(url, entity, Map.class);
+            // 회원가입 성공 처리
+            if (response.getStatusCode() == HttpStatus.CREATED) {
+                model.addAttribute("message", "회원가입이 완료되었습니다. 로그인 해주세요.");
+                return "admin/admin_login";
             }
-        } catch (Exception e) { // 그 외에 모든 에러
-            log.error("Login request failed", e);
+        } catch (Exception e) {
+            log.error("회원가입 실패: {}", e.getMessage());
             model.addAttribute("error", e.getMessage());
-            return "admin/admin_signup"; // 실패 -> 회원가입 페이지
         }
+
+        // 회원가입 실패 시 다시 회원가입 페이지로
+        return "admin/admin_signup";
     }
 
-    @GetMapping("admin/admin_reports")
-    public String reports() {
-        return "admin/admin_reports";
+
+     // 로그아웃 기능
+
+    @GetMapping("/admin/admin_logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/admin_login";
     }
-    @GetMapping("admin/admin_alerts")
+
+
+     // 경보 관리
+
+    @GetMapping("/admin/admin_alerts")
     public String alerts() {
         return "admin/admin_alerts";
     }
-    @GetMapping("admin/admin_setting")
+
+    // 제보 관리
+
+    @GetMapping("/admin/admin_reports")
+    public String reports() {
+        return "admin/admin_reports";
+    }
+
+
+     // 내 계정 관리
+
+    @GetMapping("/admin/admin_setting")
     public String setting() {
         return "admin/admin_setting";
     }
-    @GetMapping("admin/admin_edit_reports")
-    public String editReports() {return "admin/admin_edit_reports"; }
-
-    @GetMapping("admin/admin_account")
-    public String account() {return "admin/admin_account"; }
 
 
+     // 보고서 수정 페이지
+
+    @GetMapping("/admin/admin_edit_reports")
+    public String editReports() {
+        return "admin/admin_edit_reports";
+    }
+
+
+     // 계정 페이지
+
+    @GetMapping("/admin/admin_account")
+    public String account() {
+        return "admin/admin_account";
+    }
 }
