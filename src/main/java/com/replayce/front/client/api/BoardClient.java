@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "boardClient", url = "http://localhost:8081/main")
+@FeignClient(name = "boardClient", url = "http://localhost:8081/api")
 public interface BoardClient {
 
     @GetMapping("/board")
