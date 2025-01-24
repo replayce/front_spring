@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.RestTemplate;
 
 @Controller
 @RequiredArgsConstructor
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
 
     private final MainService mainService;
+    private final RestTemplate restTemplate;
 
     @GetMapping
     public String mainPage(Model model) {
@@ -41,4 +43,5 @@ public class MainController {
     public String getFile(Model model) {
         return "main/file";
     }
+
 }

@@ -1,0 +1,415 @@
+/* 레이아웃을 잡는 예시 CSS 코드입니다.
+   프로젝트에 맞춰 자유롭게 수정하세요. */
+
+/* 전체 컨테이너 */
+.container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: white;
+    font-family: 'Inter', sans-serif;
+}
+
+/* 상단 헤더 */
+.top-header {
+    width: 1920px;
+    height: 80px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: rgba(217, 217, 217, 0);
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 50px;
+    padding: 0 17px;
+}
+
+.top-header-inner {
+    width: 1885px;
+    height: 64px;
+    position: relative;
+}
+
+/* 헤더의 둥근 사각형 배경 */
+.top-background {
+    width: 1880px;
+    height: 60px;
+    position: absolute;
+    left: 3px;
+    top: 2px;
+    background: #73B8BF;
+    border-radius: 50px;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 67px;
+}
+
+/* 로고 */
+.top-background-logo {
+    width: 184px;
+    height: 51px;
+}
+
+/* 왼쪽 상단 아이콘 */
+.left-icon {
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* 네비게이션 메뉴 */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-menu-item {
+    width: 100px;
+    height: 50px;
+    background: #BADCDE;
+    box-shadow: -2px -2px 2px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 24px;
+    font-weight: 400;
+    color: black;
+}
+
+/* 메인 이미지 */
+.main-image {
+    width: 1320px;
+    height: 880px;
+    position: absolute;
+    left: 30px;
+    top: 100px;
+    padding: 6px;
+}
+
+/* 오른쪽 사이드 패널 */
+.side-panel {
+    position: absolute;
+    left: 1385px;
+    top: 102px;
+    height: 879px;
+
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 18px;
+}
+
+/* 푸터 */
+.footer {
+    width: 1920px;
+    height: 80px;
+    position: absolute;
+    left: 0;
+    top: 1000px;
+    background: #D9D9D9;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    padding: 0 17px;
+}
+
+.footer-text {
+    color: black;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+/* ========= 드롭다운 스타일 ========= */
+/* 공통 컨테이너 */
+.dropdown-container {
+    width: 320px;  /* 필요한 경우 변경 */
+    position: relative;
+}
+
+/* 드롭다운 헤더(버튼) */
+.dropdown-header {
+    height: 45px;
+    padding: 0 20px;
+    background: #D9D9D9;
+    border-radius: 10px;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 헤더 텍스트 */
+.dropdown-header-text {
+    color: black;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+/* 화살표 */
+.dropdown-arrow {
+    width: 35px;
+    height: 35px;
+    position: relative;
+    display: inline-block;
+    background: none;
+}
+
+.dropdown-arrow::before {
+    content: "";
+    width: 17.5px;
+    height: 13.12px;
+    position: absolute;
+    top: 11.67px;
+    left: 8.75px;
+    background: black;
+}
+
+/* 실제 목록 */
+.dropdown-content {
+    display: none; /* 기본은 숨김 */
+    background: #D9D9D9;
+    border-radius: 10px;
+    position: absolute;
+    top: 50px;   /* 헤더 아래 */
+    left: 0;
+    padding: 10px;
+    z-index: 999; /* 다른 요소 위로 */
+}
+
+/* 열리면 show 클래스로 표시 */
+.dropdown-content.show {
+    display: flex;
+}
+
+/* ======= 지역 선택 드롭다운 ======= */
+/* 내부 스크롤 영역 */
+.dropdown-scroll {
+    flex: 1;
+    max-height: 150px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dropdown-item {
+    color: black;
+    font-size: 17px;
+    font-weight: 400;
+}
+
+/* 오른쪽 스크롤바 흉내(시각용) */
+.custom-scrollbar {
+    width: 5px;
+    height: 100%;
+    background: black;
+    margin-left: 10px;
+}
+
+/* ======= 도움말 드롭다운 ======= */
+.help-content {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+/* 각각의 라인(아이콘 + 텍스트) */
+.help-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.help-text {
+    color: black;
+    font-size: 17px;
+    font-weight: 400;
+}
+
+/* 예측된 해파리 (초록 테두리 사각형) */
+.help-box {
+    width: 28px;
+    height: 28px;
+    border-radius: 5px;
+    background: transparent;
+    border: 3px #4CB638 solid;
+}
+
+.help-predicted { /* 혹시 확장 스타일이 필요하다면 작성 */ }
+
+/* 저밀도 (갈색 테두리 원) */
+.help-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 9999px;
+    background: transparent;
+    border: 3px #613812 solid;
+}
+
+.help-low-density { /* 동일한 갈색 원 테두리 */ }
+.help-high-density {
+    background: #603814;
+    border: none;
+}
+
+/* =========== 카드 그리드 =========== */
+.card-grid {
+    width: 100%;
+    height: 490px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background: transparent;
+}
+
+.card-item {
+    padding: 7px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-item.highlight {
+    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.5);
+}
+
+.card-border {
+    width: 150px;
+    height: 150px;
+    position: relative;
+    border-radius: 10px;
+    border: 10px #95B2B0 solid;
+}
+
+.highlight-border {
+    border-color: #38B64A;
+    background: rgba(58, 181, 74, 0);
+}
+
+/* 퍼센트 표시 */
+.card-percentage {
+    width: 100%;
+    height: 30px;
+    padding: 2px 17px;
+    background: rgba(58, 181, 74, 0.8);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 400;
+    position: absolute;
+    bottom: 0;
+}
+
+.highlight-percentage { /* 필요 시 오버라이딩 */ }
+
+/* 카드 썸네일 */
+.card-thumbnail {
+    width: 135px;
+    height: 135px;
+    padding: 0 15px;
+    border-radius: 5px;
+    background: rgba(217, 217, 217, 0.01);
+
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.highlight-thumbnail {
+    box-shadow: 10px 10px 4px rgba(0, 0, 0, 0.5) inset;
+}
+
+.card-thumbnail img {
+    width: 100px;
+    height: 100px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* ======= 알림들 ======= */
+/* 단일 알림 */
+.notification {
+    width: 100%;
+    height: 50px;
+    background: #D9D9D9;
+    border-radius: 10px;
+
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+}
+
+.notification-text-area {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.notification-icon {
+    width: 35px;
+    height: 35px;
+}
+
+.notification-place,
+.notification-finding,
+.notification-time {
+    color: black;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+/* 확장형 알림 */
+.notification-big {
+    width: 100%;
+    height: 240px;
+    background: #D9D9D9;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 15px;
+}
+
+.notification-big-line {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-count {
+    color: black;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+/* ============== 드롭다운 이외의 영역 클릭 시 닫기 ============== */
+/* (JS로 처리하지만, 필요한 경우 아래와 같이 CSS를 활용한 처리를 추가 가능) */
+/* .dropdown-content.show 외부영역 클릭감지는 JS에 의존 */

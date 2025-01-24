@@ -26,7 +26,7 @@ import java.util.Map;
 public class AdminController {
 
     // 백엔드 연결 추가 코드
-    private final RestTemplate restTemplate;
+    private final RestTemplate restTemplate = new RestTemplate();
     private final AlertClient alertClient;
     private final ReportClient reportClient;
     private final String BACKEND_URL = "http://localhost:8081";
