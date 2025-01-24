@@ -2,22 +2,22 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8" />
-    <title>Jelly Mully</title>
-    <!-- 외부 CSS 연결 -->
+    <title>Jelly Mully (Dropdown Integrated)</title>
+    <!-- 외부 CSS 로드 -->
     <link rel="stylesheet" href="/assets/css/main.css" />
 </head>
 <body>
 
 <div class="container">
-    <!-- 상단 헤더 -->
+
+    <!-- 상단 헤더 영역 -->
     <div class="top-header">
         <div class="top-header-inner">
-            <!-- 메인 바탕 (둥근 직사각형) -->
             <div class="top-background">
                 <!-- 로고 -->
-                <img class="top-background-logo" src="/images/jellymully_logo_KR.png" alt="Logo" />
+                <img class="top-background-logo" src="/images/jellymully_logo_KR.png" alt="Logo">
 
-                <!-- 메뉴 -->
+                <!-- 네비게이션 메뉴 -->
                 <div class="nav-menu">
                     <div class="nav-menu-item">HOME</div>
                     <div class="nav-menu-item">도감</div>
@@ -25,134 +25,157 @@
                     <div class="nav-menu-item">HOME</div>
                 </div>
             </div>
-            <!-- 왼쪽 상단 작은 이미지 -->
-            <img class="left-icon" src="/images/jellymully_logo_img.png" alt="Icon" />
+            <!-- 왼쪽 상단 아이콘 -->
+            <img class="left-icon" src="/images/jellymully_logo_img.png" alt="Side Icon">
         </div>
-    </div>
-
-    <!-- 하단 푸터 -->
-    <div class="footer">
-        <div class="footer-text">Jelly Mully</div>
     </div>
 
     <!-- 메인 이미지 -->
-    <img class="main-image" src="/images/mMap.png" alt="Main Image" />
+    <img class="main-image" src="/images/mMap.png" alt="Main Image">
 
-    <!-- 사이드 패널(오른쪽) -->
+    <!-- 오른쪽 사이드 패널 -->
     <div class="side-panel">
-        <!-- 지역 & 도움말 -->
-        <div class="select-row">
-            <div class="select-box">
-                <div class="select-box-text">지역을 선택해주세요.</div>
-                <div class="select-box-icon">
-                    <div class="arrow-box"></div>
-                </div>
+
+        <!-- (1) ‘지역 선택’ 드롭다운 -->
+        <div class="dropdown-container">
+            <!-- 드롭다운 헤더(버튼) -->
+            <div class="dropdown-header" onclick="toggleDropdown('region-dropdown')">
+                <span class="dropdown-header-text">지역을 선택해주세요.</span>
+                <span class="dropdown-arrow"></span>
             </div>
-            <div class="help-box">
-                <div class="help-box-text">도움말</div>
-                <div class="help-box-icon">
-                    <div class="arrow-box"></div>
+            <!-- 드롭다운 내용 -->
+            <div id="region-dropdown" class="dropdown-content region-dropdown">
+                <div class="dropdown-scroll">
+                    <div class="dropdown-item">강릉</div>
+                    <div class="dropdown-item">해운대</div>
+                    <div class="dropdown-item">속초</div>
+                    <div class="dropdown-item">블라블라</div>
+                    <div class="dropdown-item">어쩌구</div>
+                </div>
+                <!-- 오른쪽 커스텀 스크롤바(시각만 흉내) -->
+                <div class="custom-scrollbar"></div>
+            </div>
+        </div>
+
+        <!-- (2) ‘도움말’ 드롭다운 -->
+        <div class="dropdown-container">
+            <!-- 드롭다운 헤더(버튼) -->
+            <div class="dropdown-header" onclick="toggleDropdown('help-dropdown')">
+                <span class="dropdown-header-text">도움말</span>
+                <span class="dropdown-arrow"></span>
+            </div>
+            <!-- 드롭다운 내용 -->
+            <div id="help-dropdown" class="dropdown-content help-content">
+                <div class="help-item">
+                    <div class="help-box help-predicted"></div>
+                    <span class="help-text">예측된 해파리</span>
+                </div>
+                <div class="help-item">
+                    <div class="help-circle help-low-density"></div>
+                    <span class="help-text">저밀도</span>
+                </div>
+                <div class="help-item">
+                    <div class="help-circle help-high-density"></div>
+                    <span class="help-text">고밀도</span>
                 </div>
             </div>
         </div>
 
-        <!-- 카드 아이템 나열 -->
+        <!-- 카드 나열 영역 (예시) -->
         <div class="card-grid">
-            <!-- 카드 1 -->
+            <!-- 카드 1 (highlight 예시) -->
             <div class="card-item highlight">
                 <div class="card-border highlight-border">
                     <div class="card-percentage highlight-percentage">97%</div>
                 </div>
                 <div class="card-thumbnail highlight-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="Thumb 1" />
+                    <img src="/images/jelly_icons/노무라입깃.png" alt="thumb1">
                 </div>
             </div>
             <!-- 카드 2 -->
             <div class="card-item">
                 <div class="card-border"></div>
                 <div class="card-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="Thumb 2" />
+                    <img src="/images/jelly_icons/노무라입깃.png" alt="thumb2">
                 </div>
             </div>
             <!-- 카드 3 -->
             <div class="card-item">
                 <div class="card-border"></div>
                 <div class="card-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="Thumb 3" />
+                    <img src="/images/jelly_icons/노무라입깃.png" alt="thumb3">
                 </div>
             </div>
-            <!-- 카드 4 -->
+            <!-- 카드 4 (highlight 예시) -->
             <div class="card-item highlight">
                 <div class="card-border highlight-border">
                     <div class="card-percentage highlight-percentage">97%</div>
                 </div>
                 <div class="card-thumbnail highlight-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="Thumb 4" />
-                </div>
-            </div>
-            <!-- 카드 5 -->
-            <div class="card-item">
-                <div class="card-border"></div>
-                <div class="card-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="Thumb 5" />
-                </div>
-            </div>
-            <!-- 카드 6 -->
-            <div class="card-item">
-                <div class="card-border"></div>
-                <div class="card-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="Thumb 6" />
-                </div>
-            </div>
-            <!-- 카드 7 -->
-            <div class="card-item">
-                <div class="card-border"></div>
-                <div class="card-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="Thumb 7" />
-                </div>
-            </div>
-            <!-- 카드 8 -->
-            <div class="card-item">
-                <div class="card-border"></div>
-                <div class="card-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="Thumb 8" />
+                    <img src="/images/jelly_icons/노무라입깃.png" alt="thumb4">
                 </div>
             </div>
         </div>
 
-        <!-- 알림 1 -->
+        <!-- 단일 알림(예시) -->
         <div class="notification">
             <div class="notification-text-area">
-                <img class="notification-icon" src="/images/jelly_icons/노무라입깃.png" alt="icon"/>
+                <img class="notification-icon" src="/images/jelly_icons/노무라입깃.png" alt="icon">
                 <div class="notification-place">해운대해수욕장:</div>
             </div>
             <div class="notification-finding">노무라입깃해파리 발견</div>
             <div class="notification-time">1초 전</div>
         </div>
 
-        <!-- 알림 2(확장형) -->
+        <!-- 확장형 알림(예시) -->
         <div class="notification-big">
-            <!-- 줄 1 -->
+            <!-- 첫 번째 라인 -->
             <div class="notification-big-line">
                 <div class="notification-text-area">
-                    <img class="notification-icon" src="/images/jelly_icons/노무라입깃.png" alt="icon"/>
+                    <img class="notification-icon" src="/images/jelly_icons/노무라입깃.png" alt="icon">
                     <div class="notification-place">해운대해수욕장:</div>
                 </div>
                 <div class="notification-finding">보름달물해파리 발견</div>
                 <div class="notification-count">17건</div>
             </div>
-            <!-- 줄 2 -->
+            <!-- 두 번째 라인 -->
             <div class="notification-big-line">
                 <div class="notification-text-area">
-                    <img class="notification-icon" src="/images/jelly_icons/노무라입깃.png" alt="icon"/>
+                    <img class="notification-icon" src="/images/jelly_icons/노무라입깃.png" alt="icon">
                     <div class="notification-place">해운대해수욕장:</div>
                 </div>
                 <div class="notification-finding">노무라입깃해파리 발견</div>
                 <div class="notification-count">15건</div>
             </div>
         </div>
+
+    </div> <!-- side-panel 끝 -->
+
+    <!-- 하단 푸터 -->
+    <div class="footer">
+        <div class="footer-text">Jelly Mully</div>
     </div>
-</div>
+
+</div> <!-- container 끝 -->
+
+<!-- 간단한 토글 스크립트 -->
+<script>
+    function toggleDropdown(dropdownId) {
+        const elem = document.getElementById(dropdownId);
+        // 이미 열려있다면 닫고, 닫혀있다면 엽니다.
+        elem.classList.toggle('show');
+    }
+
+    // 바깥을 클릭하면 닫히도록 하는 예시(선택사항)
+    window.addEventListener('click', function(e) {
+        // 드롭다운 헤더나 헤더 내부를 클릭한 게 아니라면, 모두 닫기
+        if (!e.target.matches('.dropdown-header') &&
+                !e.target.closest('.dropdown-header')) {
+            const dropdowns = document.querySelectorAll('.dropdown-content');
+            dropdowns.forEach(d => d.classList.remove('show'));
+        }
+    });
+</script>
 
 </body>
 </html>
