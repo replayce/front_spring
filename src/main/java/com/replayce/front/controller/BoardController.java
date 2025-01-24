@@ -21,24 +21,26 @@ public class BoardController {
 
     private final BoardClient boardClient;
 
+    // 게시글 조회
     @GetMapping
-    public String getAllBoards(Model model) {
-        System.out.println("확인");
-        try {
-            CommonResponse<List<BoardResponse>> response = boardClient.getAllBoards();
-            model.addAttribute("boards", response.getResult());
-        } catch (Exception e) {
-            System.err.println("Error fetching boards: " + e.getMessage());
-            model.addAttribute("boards", List.of());
-            model.addAttribute("error", "Failed to fetch boards from backend.");
-        }
+    public String getAllBoards(@RequestParam(value = "content", required = false) String content, Model model) {
+        List<BoardResponse> boards = content != null ?
+                boardClient.getBoardsByContent(content) : boardClient.getAllBoards();
+        model.addAttribute("boards", boards);
         return "main/board";
     }
 
-    @GetMapping("/{boardId}")
-    public ResponseEntity<CommonResponse<BoardResponse>> getBoardById(@PathVariable Long boardId) {
-        CommonResponse<BoardResponse> response = boardClient.getBoardById(boardId);
-        return ResponseEntity.ok(response);
+    // 내 글 검색
+    @GetMapping("/search")
+    public String searchMyBoards(
+            @RequestParam String writer,
+            @RequestParam Long writerNumber,
+            @RequestParam String writerPassword,
+            Model model
+    ) {
+        List<BoardResponse> myBoards = boardClient.searchMyBoards(writer, writerNumber, writerPassword);
+        model.addAttribute("boards", myBoards);
+        return "main/board";
     }
 
     @PostMapping

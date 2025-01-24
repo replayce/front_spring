@@ -10,14 +10,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "boardClient", url = "http://localhost:8081/main")
+@FeignClient(name = "boardClient", url = "http://localhost:8081/api")
 public interface BoardClient {
 
     @GetMapping("/board")
-    CommonResponse<List<BoardResponse>> getAllBoards();
+    List<BoardResponse> getAllBoards();
 
-    @GetMapping("/board/{boardId}")
-    CommonResponse<BoardResponse> getBoardById(@PathVariable Long boardId);
+    @GetMapping("/board/search")
+    List<BoardResponse> searchMyBoards(
+            @RequestParam String writer,
+            @RequestParam Long writerNumber,
+            @RequestParam String writerPassword
+    );
+
+    @GetMapping("/board")
+    List<BoardResponse> getBoardsByContent(@RequestParam String content);
 
     @PostMapping("/board")
     CommonResponse<BoardResponse> createBoard(@RequestBody Board board);
