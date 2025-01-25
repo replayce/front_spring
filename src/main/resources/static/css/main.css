@@ -1,0 +1,178 @@
+/* 레이아웃을 잡는 예시 CSS 코드입니다.
+   프로젝트에 맞춰 자유롭게 수정하세요. */
+
+/* 전체 컨테이너 */
+a {
+    text-decoration: none;
+}
+
+.container {
+    font-family: 'Inter', sans-serif;
+}
+
+/* 상단 헤더 */
+.top-header {
+    min-height: 80px;
+    /* height: 80px; */
+}
+
+.top-header-inner {
+    padding: 0 30px;
+    text-align: right;
+}
+
+/* 로고 */
+.header-logo {
+    float:left;
+    margin-top:10px;
+}
+
+.top-background-logo {
+    height: 44px;
+    padding-bottom: 4px;
+}
+
+/* 왼쪽 상단 아이콘 */
+.left-icon {
+    height: 60px;
+
+}
+
+/* 네비게이션 메뉴 */
+.nav-menu {
+   display:inline-block;
+}
+
+.nav-menu-item {
+    width: 104px;
+    height: 44px;
+    margin-left: 26px;
+    margin-top: 18px;
+    margin-bottom: 18px;
+
+    background: #BADCDE;
+    border-radius: 10px;
+    display:inline-block;
+    text-align: center;
+    line-height:44px;
+    color: black;
+}
+
+.nav-menu-item:hover {
+    box-shadow:5px 5px 5px rgba(0,0,0,0.3);
+}
+
+.main-contents {
+    min-height:calc(100vh - 200px);
+    background-color:rgba(255, 255, 255, 0.3);
+    text-align:center;
+    padding-top:30px;
+    padding-bottom:30px;
+}
+
+.left-contents {
+    display:inline-block;
+    max-width:830px;
+    width:90vw;
+    height: 700px;
+    margin-left: 15px;
+    margin-right:15px;
+    background-color: #95B2B0;
+    border-radius: 10px;
+    vertical-align: top;
+}
+
+.right-contents {
+    display:inline-block;
+    width: 380px;
+    height: 700px;
+    margin-left:15px;
+    margin-right:15px;
+    /* background-color:#95B2B0; */
+    border-radius: 10px;
+    vertical-align: top;
+}
+
+.jelly-filter, .jelly-list {
+    display:flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom:10px;
+}
+
+.jelly-character {
+    width:120px;
+    height:120px;
+    background-color:#95B2B0;
+    border-radius: 10px;
+    position:relative;
+    box-sizing: border-box;
+}
+
+.jelly-rate{
+    position: absolute;
+    bottom: 0px;
+    background-color: #3AB54B;
+    width: 80px;
+    left: 15px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color:white;
+
+}
+
+.jelly-character:hover {
+    box-shadow:5px 5px 5px rgba(0,0,0,0.3);
+}
+
+.jelly-alert {
+
+    border: 5px solid #3AB54B;
+}
+
+.jelly-character > img {
+    width: 100px;
+    margin-top: 10px;
+}
+
+.board-list {
+    height:270px;
+    background-color:#95B2B0;
+}
+
+#alert-location {
+    width: 250px;
+    height: 30px;
+    border: 0px;
+    border-radius: 10px;
+    padding-left:10px;
+    background-color: #95B2B0;
+}
+
+#icon-help {
+    width:120px;
+    height:30px;
+    border: 0px;
+    border-radius:10px;
+    padding-left:10px;
+    background-color :#95B2B0;
+}
+
+/* 푸터 */
+.footer {
+    height:60px;
+    text-align:right;
+}
+
+.footer-text {
+    background-color: rgba(255, 255, 255, 0.3);
+    display: inline-block;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top:8px;
+    margin-right:18px;
+}
+
+/* ============== 드롭다운 이외의 영역 클릭 시 닫기 ============== */
+/* (JS로 처리하지만, 필요한 경우 아래와 같이 CSS를 활용한 처리를 추가 가능) */
+/* .dropdown-content.show 외부영역 클릭감지는 JS에 의존 */
