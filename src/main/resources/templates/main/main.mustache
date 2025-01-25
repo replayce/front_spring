@@ -26,10 +26,10 @@
             </div>
             <!-- 네비게이션 메뉴 -->
             <div class="nav-menu">
-                <a href="/main.html"><div class="nav-menu-item">HOME</div></a>
-                <a href="/main.html"><div class="nav-menu-item">도감</div></a>
-                <a href="/main.html"><div class="nav-menu-item">HOME</div></a>
-                <a href="/main.html"><div class="nav-menu-item">HOME</div></a>
+                <a href="/main"><div class="nav-menu-item">메인 메뉴</div></a>
+                <a href="/main/detail"><div class="nav-menu-item">해파리 도감</div></a>
+                <a href="/main/board"><div class="nav-menu-item">제보 게시판</div></a>
+                <a href="/main.html"><div class="nav-menu-item">나머지</div></a>
             </div>
         </div>
     </div>
@@ -40,16 +40,19 @@
         </div>
         <div class="right-contents">
             <div class="jelly-filter">
-                <select id="alert-location" name="alert-location">
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="fiat">Fiat</option>
-                    <option value="audi">Audi</option>
+                <select id="alert-location" name="alert-location" required>
+                    <option value="" disabled selected>지역을 선택하세요</option>
+                    <option value="부산">부산</option>
+                    <option value="강릉">강릉</option>
+                    <option value="영광">영광</option>
+                    <option value="속초">속초</option>
+                    <option value="통영">통영</option>
                 </select>
                 <select id="icon-help" name="icon-help">
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="fiat">Fiat</option>
+                    <option value="" disabled selected>도움말</option>
+                    <option value="">예측된 해파리</option>
+                    <option value="">저밀도</option>
+                    <option value="">고밀도</option>
                 </select>
             </div>
             <div class="jelly-list">
