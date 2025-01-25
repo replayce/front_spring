@@ -4,156 +4,109 @@
     <meta charset="UTF-8" />
     <title>Jelly Mully (Dropdown Integrated)</title>
     <!-- 외부 CSS 로드 -->
-    <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="/css/main.css" />
 </head>
-<body>
+<body style="
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('/images/jelly_back_img_01.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-position: bottom;
+">
 
 <div class="container">
-
     <!-- 상단 헤더 영역 -->
     <div class="top-header">
         <div class="top-header-inner">
-            <div class="top-background">
-                <!-- 로고 -->
-                <img class="top-background-logo" src="/images/jellymully_logo_KR.png" alt="Logo">
-
-                <!-- 네비게이션 메뉴 -->
-                <div class="nav-menu">
-                    <div class="nav-menu-item">HOME</div>
-                    <div class="nav-menu-item">도감</div>
-                    <div class="nav-menu-item">HOME</div>
-                    <div class="nav-menu-item">HOME</div>
-                </div>
+            <div class="header-logo">
+                <a href="/main.html">
+                    <img class="left-icon" src="/images/jellymully_logo_01.png" alt="Side Icon">
+                    <img class="top-background-logo" src="/images/jellymully_logo_EN 1.png" alt="Logo">
+                </a>
             </div>
-            <!-- 왼쪽 상단 아이콘 -->
-            <img class="left-icon" src="/images/jellymully_logo_img.png" alt="Side Icon">
+            <!-- 네비게이션 메뉴 -->
+            <div class="nav-menu">
+                <a href="/main.html"><div class="nav-menu-item">HOME</div></a>
+                <a href="/main.html"><div class="nav-menu-item">도감</div></a>
+                <a href="/main.html"><div class="nav-menu-item">HOME</div></a>
+                <a href="/main.html"><div class="nav-menu-item">HOME</div></a>
+            </div>
         </div>
     </div>
 
-    <!-- 메인 이미지 -->
-    <img class="main-image" src="/images/mMap.png" alt="Main Image">
+    <div class="main-contents">
+        <div class="left-contents">
 
-    <!-- 오른쪽 사이드 패널 -->
-    <div class="side-panel">
-
-        <!-- (1) ‘지역 선택’ 드롭다운 -->
-        <div class="dropdown-container">
-            <!-- 드롭다운 헤더(버튼) -->
-            <div class="dropdown-header" onclick="toggleDropdown('region-dropdown')">
-                <span class="dropdown-header-text">지역을 선택해주세요.</span>
-                <span class="dropdown-arrow"></span>
+        </div>
+        <div class="right-contents">
+            <div class="jelly-filter">
+                <select id="alert-location" name="alert-location">
+                    <option value="volvo">Volvo</option>
+                    <option value="saab">Saab</option>
+                    <option value="fiat">Fiat</option>
+                    <option value="audi">Audi</option>
+                </select>
+                <select id="icon-help" name="icon-help">
+                    <option value="volvo">Volvo</option>
+                    <option value="saab">Saab</option>
+                    <option value="fiat">Fiat</option>
+                </select>
             </div>
-            <!-- 드롭다운 내용 -->
-            <div id="region-dropdown" class="dropdown-content region-dropdown">
-                <div class="dropdown-scroll">
-                    <div class="dropdown-item">강릉</div>
-                    <div class="dropdown-item">해운대</div>
-                    <div class="dropdown-item">속초</div>
-                    <div class="dropdown-item">블라블라</div>
-                    <div class="dropdown-item">어쩌구</div>
+            <div class="jelly-list">
+                <div class="jelly-character jelly-alert">
+                    <img src="/images/jelly_icons/노무라입깃.png" alt="">
+                    <div class="jelly-rate" style="">95%</div>
                 </div>
-                <!-- 오른쪽 커스텀 스크롤바(시각만 흉내) -->
-                <div class="custom-scrollbar"></div>
+                <div class="jelly-character jelly-alert">
+                    <img src="/images/jelly_icons/보름달물.png" alt="">
+                    <div class="jelly-rate" style="">9%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/커튼원양.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/유령.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/작은상자.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/두빛보름달.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/기수식용(숲뿌리).png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/야광원양.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/푸른우산관.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+            </div>
+            <div class="board-list">
+
             </div>
         </div>
-
-        <!-- (2) ‘도움말’ 드롭다운 -->
-        <div class="dropdown-container">
-            <!-- 드롭다운 헤더(버튼) -->
-            <div class="dropdown-header" onclick="toggleDropdown('help-dropdown')">
-                <span class="dropdown-header-text">도움말</span>
-                <span class="dropdown-arrow"></span>
-            </div>
-            <!-- 드롭다운 내용 -->
-            <div id="help-dropdown" class="dropdown-content help-content">
-                <div class="help-item">
-                    <div class="help-box help-predicted"></div>
-                    <span class="help-text">예측된 해파리</span>
-                </div>
-                <div class="help-item">
-                    <div class="help-circle help-low-density"></div>
-                    <span class="help-text">저밀도</span>
-                </div>
-                <div class="help-item">
-                    <div class="help-circle help-high-density"></div>
-                    <span class="help-text">고밀도</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 카드 나열 영역 (예시) -->
-        <div class="card-grid">
-            <!-- 카드 1 (highlight 예시) -->
-            <div class="card-item highlight">
-                <div class="card-border highlight-border">
-                    <div class="card-percentage highlight-percentage">97%</div>
-                </div>
-                <div class="card-thumbnail highlight-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="thumb1">
-                </div>
-            </div>
-            <!-- 카드 2 -->
-            <div class="card-item">
-                <div class="card-border"></div>
-                <div class="card-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="thumb2">
-                </div>
-            </div>
-            <!-- 카드 3 -->
-            <div class="card-item">
-                <div class="card-border"></div>
-                <div class="card-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="thumb3">
-                </div>
-            </div>
-            <!-- 카드 4 (highlight 예시) -->
-            <div class="card-item highlight">
-                <div class="card-border highlight-border">
-                    <div class="card-percentage highlight-percentage">97%</div>
-                </div>
-                <div class="card-thumbnail highlight-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="thumb4">
-                </div>
-            </div>
-        </div>
-
-        <!-- 단일 알림(예시) -->
-        <div class="notification">
-            <div class="notification-text-area">
-                <img class="notification-icon" src="/images/jelly_icons/노무라입깃.png" alt="icon">
-                <div class="notification-place">해운대해수욕장:</div>
-            </div>
-            <div class="notification-finding">노무라입깃해파리 발견</div>
-            <div class="notification-time">1초 전</div>
-        </div>
-
-        <!-- 확장형 알림(예시) -->
-        <div class="notification-big">
-            <!-- 첫 번째 라인 -->
-            <div class="notification-big-line">
-                <div class="notification-text-area">
-                    <img class="notification-icon" src="/images/jelly_icons/노무라입깃.png" alt="icon">
-                    <div class="notification-place">해운대해수욕장:</div>
-                </div>
-                <div class="notification-finding">보름달물해파리 발견</div>
-                <div class="notification-count">17건</div>
-            </div>
-            <!-- 두 번째 라인 -->
-            <div class="notification-big-line">
-                <div class="notification-text-area">
-                    <img class="notification-icon" src="/images/jelly_icons/노무라입깃.png" alt="icon">
-                    <div class="notification-place">해운대해수욕장:</div>
-                </div>
-                <div class="notification-finding">노무라입깃해파리 발견</div>
-                <div class="notification-count">15건</div>
-            </div>
-        </div>
-
-    </div> <!-- side-panel 끝 -->
+    </div>
 
     <!-- 하단 푸터 -->
     <div class="footer">
-        <div class="footer-text">Jelly Mully</div>
+        <div class="footer-text">
+            이용약관
+        </div>
+        <div class="footer-text">
+            개인정보처리방침
+        </div>
+        <div class="footer-text">
+            Copyright 2025. made with by NULL 찾아 5조
+        </div>
     </div>
 
 </div> <!-- container 끝 -->
