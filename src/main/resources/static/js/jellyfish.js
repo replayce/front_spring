@@ -1,55 +1,67 @@
 const jellyData = [
     {
         name: "노무라입깃해파리",
-        image: "/images/jelly_icons/노무라입깃.png",
+        iconimage: "/images/jelly_icons/노무라입깃.png",
+        mainimage: "/images/jelly_images/노무라입깃.png",
         description: "노무라입깃 해파리는 독성이 강한 해파리로 주의가 필요합니다.",
         countermeasures: "피부에 닿으면 물로 씻어내고 즉시 병원을 방문하세요."
     },
     {
         name: "보름달물해파리",
-        image: "/images/jelly_icons/보름달물.png",
+        iconimage: "/images/jelly_icons/보름달물.png",
+        mainimage: "/images/jelly_images/보름달물.png",
         description: "보름달물 해파리는 ... (상세 설명을 여기에 입력하세요)",
         countermeasures: "보름달물에 대한 대처 방안은 ... (대처 방안을 여기에 입력하세요)"
     },
     {
         name: "두빛보름달해파리",
-        image: "/images/jelly_icons/두빛보름달.png",
+        iconimage: "/images/jelly_icons/두빛보름달.png",
+        mainimage: "/images/jelly_images/두빛보름달.jpg",
         description: "두빛보름달 해파리는 ... (상세 설명을 여기에 입력하세요)",
         countermeasures: "두빛보름달물에 대한 대처 방안은 ... (대처 방안을 여기에 입력하세요)"
     },
     {
         name: "야광원양해파리",
-        image: "/images/jelly_icons/야광원양.png",
+        iconimage: "/images/jelly_icons/야광원양.png",
+        mainimage: "/images/jelly_images/야광원양.jpg",
         description: "야광원양 해파리는 ... (상세 설명을 여기에 입력하세요)",
         countermeasures: "야광원양에 대한 대처 방안은 ... (대처 방안을 여기에 입력하세요)"
     },
     {
         name: "유령해파리",
-        image: "/images/jelly_icons/유령.png",
+        iconimage: "/images/jelly_icons/유령.png",
+        mainimage: "/images/jelly_images/유령.jpg",
         description: "유령 해파리는 ... (상세 설명을 여기에 입력하세요)",
         countermeasures: "유령에 대한 대처 방안은 ... (대처 방안을 여기에 입력하세요)"
     },
     {
         name: "작은상자해파리",
-        image: "/images/jelly_icons/작은상자.png",
-        description: "작은상자 해파리는 ... (상세 설명을 여기에 입력하세요)",
-        countermeasures: "작은상자에 대한 대처 방안은 ... (대처 방안을 여기에 입력하세요)"
+        iconimage: "/images/jelly_icons/작은상자.png",
+        mainimage: "/images/jelly_images/작은상자.jpg",
+        description: "크기: 3cm 내외의 소형종" +
+            "형태 및 특징: 머리가 작은 박스 모양이며 투명하다. 머리 아래에 4개의 촉수가 붙어 있는데 평소에는 길게 늘어나 있지만 순식간에 짧게 오므라 들기도 한다. " +
+            "움직임이 매우 빠르고 몸체가 투명하여 물 속에서 발견하기 어려울 때가 많다. 독성이 매우 강하여 주의가 요구된다." +
+            "출현시기 및 분포: 6~9월까지 주로 한여름에 출현한다. 남해 앵강만 동해 제주도 일대에서 출현한다.",
+        countermeasures: "채찍모양의 상처 주변부위가 급격히 부어오름. 식초를 이용한 응급처치 가능"
     },
     {
         name: "커튼원양해파리",
-        image: "/images/jelly_icons/커튼원양.png",
+        iconimage: "/images/jelly_icons/커튼원양.png",
+        mainimage: "/images/jelly_images/커튼원양.jpg",
         description: "커튼원양 해파리는 ... (상세 설명을 여기에 입력하세요)",
         countermeasures: "커튼원양에 대한 대처 방안은 ... (대처 방안을 여기에 입력하세요)"
     },
     {
         name: "푸른우산관해파리",
-        image: "/images/jelly_icons/푸른우산관.png",
+        iconimage: "/images/jelly_icons/푸른우산관.png",
+        mainimage: "/images/jelly_images/푸른우산관.jpg",
         description: "푸른우산관 해파리는 ... (상세 설명을 여기에 입력하세요)",
         countermeasures: "푸른우산관에 대한 대처 방안은 ... (대처 방안을 여기에 입력하세요)"
     },
     {
         name: "기수식용(숲뿌리)해파리",
-        image: "/images/jelly_icons/기수식용(숲뿌리).png",
+        iconimage: "/images/jelly_icons/기수식용(숲뿌리).png",
+        mainimage: "/images/jelly_images/기수식용(숲뿌리).jpg",
         description: "기수식용(숲뿌리) 해파리는 ... (상세 설명을 여기에 입력하세요)",
         countermeasures: "기수식용(숲뿌리)에 대한 대처 방안은 ... (대처 방안을 여기에 입력하세요)"
     },
@@ -61,8 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const rightArrow = document.getElementById('right-arrow');
     const jellySelect = document.getElementById('jelly-select');
     const jellyImage = document.getElementById('jelly-image');
-    const jellyDescription = document.getElementById('jelly-description');
-    const jellyCountermeasures = document.getElementById('jelly-countermeasures');
+    const jellyDescription = document.getElementById('jelly-description-text');
+    const jellyCountermeasures = document.getElementById('jelly-countermeasures-text');
 
     let currentIndex = 0;
     const visibleCount = 3; // 한 번에 보이는 아이콘 수
@@ -91,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         jellyDiv.classList.add('jelly-character');
 
         const img = document.createElement('img');
-        img.src = jelly.image; // 파일 확장자 포함
+        img.src = jelly.iconimage; // 파일 확장자 포함
         img.alt = jelly.name;
 
         jellyDiv.appendChild(img);
@@ -116,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 콘텐츠 업데이트 함수
+    // 콘텐츠 업데이트 함수 (해파리 이미지 업뎃)
     function updateContent() {
         const jelly = jellyData[currentIndex];
         // 슬라이더 위치 조정 (클론을 고려하여 +1)
@@ -128,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         jellySelect.value = currentIndex;
 
         // 상세 정보 업데이트
-        jellyImage.src = jelly.image;
+        jellyImage.src = jelly.mainimage;
         jellyImage.alt = jelly.name;
         jellyDescription.textContent = jelly.description;
         jellyCountermeasures.textContent = jelly.countermeasures;
@@ -184,4 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 첫 번째 실제 슬라이드 위치로 설정
     sliderImagesContainer.style.transform = `translateX(-166px)`;
+
+    if(jellyData.length > 0)
+        updateContent();
 });
