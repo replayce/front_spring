@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 //API 응답 데이터 DTO //서버->클라이언트
 public class BoardResponse {
+    private Long boardId;
     private String imageUrl;
     private String date;
     private int hour;
@@ -14,6 +15,7 @@ public class BoardResponse {
     private String location;
     private String jelly;
     private String toxicity;
-    private String describe;
+    private String description;
     private String content;
+    private String writer;
 }

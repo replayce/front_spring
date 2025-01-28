@@ -3,15 +3,17 @@
 <ul>
     {{#boards}}
         <li>
+            {{boardId}}<br>
             <strong>Image:</strong> <a href="{{imageUrl}}" target="_blank">View Image</a> <br>
             <strong>Date:</strong> {{date}} <br>
             <strong>Time:</strong> {{hour}}:{{minute}} <br>
             <strong>Location:</strong> {{location}} <br>
-            <strong>Writer:</strong> {{writer}} <br> //사용자 정보 넣을지 뺄지 고민
+            <strong>Writer:</strong> {{writer}} <br> <!--사용자 정보 넣을지 뺄지 고민 -->
             <strong>Content:</strong> {{content}} <br>
             <strong>Jelly:</strong> {{jelly}} <br>
             <strong>Toxicity:</strong> {{toxicity}} <br>
-            <strong>Describe:</strong> {{describe}} <br>
+            <strong>Describe:</strong> {{description}} <br>
+
             <strong>Actions:</strong>
             <a href="/main/board/{{boardId}}">View Details</a> <br>
         </li>
