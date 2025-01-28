@@ -80,36 +80,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const visibleCount = 3; // 한 번에 보이는 아이콘 수
     const totalItems = jellyData.length;
 
-    // 슬라이더 이미지 추가 (클론 포함)
+    // 슬라이드(아이콘) 이미지 추가 (클론 포함)
     function loadSliderImages() {
-        // 마지막 아이템 클론을 앞에 추가
-        const lastClone = createJellyDiv(jellyData[jellyData.length -1], totalItems -1);
+        // [1] 마지막 아이템 "클론"을 맨 앞에 추가 (index 넘기지 않음)
+        const lastClone = createJellyDiv(jellyData[ totalItems - 1 ]);
         sliderImagesContainer.appendChild(lastClone);
 
-        // 모든 실제 아이템 추가
+        // [2] 모든 "실제" 아이템 추가 (index 부여)
         jellyData.forEach((jelly, index) => {
             const jellyDiv = createJellyDiv(jelly, index);
             sliderImagesContainer.appendChild(jellyDiv);
         });
 
-        // 첫 번째 아이템 클론을 뒤에 추가
-        const firstClone = createJellyDiv(jellyData[0], 0);
+        // [3] 첫 번째 아이템 "클론"을 맨 뒤에 추가 (index 넘기지 않음)
+        const firstClone = createJellyDiv(jellyData[0]);
         sliderImagesContainer.appendChild(firstClone);
     }
 
     // 헬퍼 함수: 해파리 div 생성
+    // index가 null이 아니면 data-index 부여 (실제 아이템)
+    // index가 null이면(클론) data-index 없음
     function createJellyDiv(jelly, index = null) {
         const jellyDiv = document.createElement('div');
         jellyDiv.classList.add('jelly-character');
 
         const img = document.createElement('img');
-        img.src = jelly.iconimage; // 파일 확장자 포함
+        img.src = jelly.iconimage;
         img.alt = jelly.name;
-
         jellyDiv.appendChild(img);
+
+        // 실제 해파리에만 data-index와 클릭 이벤트 부여
         if (index !== null) {
             jellyDiv.setAttribute('data-index', index);
-            // 클릭 시 해당 해파리로 이동
             jellyDiv.addEventListener('click', () => {
                 currentIndex = index;
                 updateContent();
@@ -128,36 +130,48 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 콘텐츠 업데이트 함수 (해파리 이미지 업뎃)
+    // 중앙 슬라이드 / 상세정보 업데이트
     function updateContent() {
         const jelly = jellyData[currentIndex];
-        // 슬라이더 위치 조정 (클론을 고려하여 +1)
-        const sliderWidth = 166; // 각 이미지 너비 + 간격 (136 + 30)
-        sliderImagesContainer.style.transition = 'transform 0.5s ease-in-out';
-        sliderImagesContainer.style.transform = `translateX(-${(currentIndex +1) * sliderWidth}px)`;
 
-        // 드롭다운 선택
+        // [1] 슬라이더 위치 조정 (클론 감안해서 currentIndex + 1)
+        const sliderWidth = 166;
+        sliderImagesContainer.style.transition = 'transform 0.5s ease-in-out';
+        sliderImagesContainer.style.transform = `translateX(-${(currentIndex + 1) * sliderWidth}px)`;
+
+        // [2] 드롭다운도 현재 인덱스로
         jellySelect.value = currentIndex;
 
-        // 상세 정보 업데이트
+        // [3] 상세 정보 업데이트
         jellyImage.src = jelly.mainimage;
         jellyImage.alt = jelly.name;
         jellyDescription.textContent = jelly.description;
         jellyCountermeasures.textContent = jelly.countermeasures;
+
+        // [4] 모든 슬라이드에 active 제거 -> 현재 인덱스 슬라이드만 active 부여
+        const allSlides = document.querySelectorAll('.jelly-character');
+        allSlides.forEach(slide => slide.classList.remove('active'));
+
+        // data-index가 currentIndex와 같은 슬라이드에 active
+        const currentSlide = document.querySelector(`.jelly-character[data-index="${currentIndex}"]`);
+        if (currentSlide) {
+            currentSlide.classList.add('active');
+        }
     }
 
-    // 화살표 클릭 이벤트
+    // 화살표 클릭 이벤트 (좌측)
     leftArrow.addEventListener('click', () => {
         if (currentIndex <= 0) {
-            currentIndex = totalItems -1;
+            currentIndex = totalItems - 1;
         } else {
             currentIndex--;
         }
         updateContent();
     });
 
+    // 화살표 클릭 이벤트 (우측)
     rightArrow.addEventListener('click', () => {
-        if (currentIndex >= totalItems -1) {
+        if (currentIndex >= totalItems - 1) {
             currentIndex = 0;
         } else {
             currentIndex++;
@@ -165,23 +179,40 @@ document.addEventListener('DOMContentLoaded', () => {
         updateContent();
     });
 
-    // 슬라이더의 끝에 도달했을 때 루핑 처리
+    // 슬라이더 끝 도달 시, 무한 루핑 처리
     sliderImagesContainer.addEventListener('transitionend', () => {
         const slides = document.querySelectorAll('.jelly-character');
-        if (slides[currentIndex +1].getAttribute('data-index') === null) {
-            // 만약 현재 슬라이드가 클론 슬라이드라면
-            sliderImagesContainer.style.transition = 'none';
-            if (currentIndex === -1) { // 왼쪽 끝에서 왼쪽으로 이동할 때
-                currentIndex = totalItems -1;
-                sliderImagesContainer.style.transform = `translateX(-${(currentIndex +1) * 166}px)`;
-            } else if (currentIndex === totalItems) { // 오른쪽 끝에서 오른쪽으로 이동할 때
+
+        // 만약 (currentIndex + 1) 위치의 슬라이드가 "클론" (data-index 없음)이라면 보정 필요
+        if (slides[currentIndex + 1] &&
+            !slides[currentIndex + 1].hasAttribute('data-index')) {
+
+            // 왼쪽 끝을 넘었을 경우
+            if (currentIndex === -1) {
+                sliderImagesContainer.style.transition = 'none';
+                currentIndex = totalItems - 1;
+                sliderImagesContainer.style.transform =
+                    `translateX(-${(currentIndex + 1) * 166}px)`;
+
+                // 오른쪽 끝을 넘었을 경우
+            } else if (currentIndex === totalItems) {
+                sliderImagesContainer.style.transition = 'none';
                 currentIndex = 0;
-                sliderImagesContainer.style.transform = `translateX(-${(currentIndex +1) * 166}px)`;
+                sliderImagesContainer.style.transform =
+                    `translateX(-${(currentIndex + 1) * 166}px)`;
             }
+
+            // 한 프레임 뒤 transition 복구 (점프 시 애니메이션 방지)
+            requestAnimationFrame(() => {
+                sliderImagesContainer.style.transition = 'transform 0.5s ease-in-out';
+            });
+
+            // 인덱스 보정 후 재호출 -> .active 등 정상 적용
+            updateContent();
         }
     });
 
-    // 드롭다운 변경 이벤트
+    // 드롭다운 변경 시 해당 해파리로
     jellySelect.addEventListener('change', (e) => {
         const selectedIndex = parseInt(e.target.value);
         if (!isNaN(selectedIndex)) {
@@ -190,13 +221,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 초기 로드
-    loadSliderImages();
-    loadDropdown();
+    // 초기 세팅
+    loadSliderImages();   // 슬라이드/클론 로드
+    loadDropdown();       // 드롭다운 로드
 
-    // 첫 번째 실제 슬라이드 위치로 설정
+    // 첫 번째 실제 슬라이드 위치로 강제 이동
     sliderImagesContainer.style.transform = `translateX(-166px)`;
 
-    if(jellyData.length > 0)
+    // 해파리 데이터가 있다면 첫 번째(0번째) 아이템으로 업데이트
+    if (jellyData.length > 0) {
         updateContent();
+    }
 });
