@@ -14,7 +14,7 @@ public class Board {
     private int minute;
     private String location;
     private String writer;
-    private Long writerNumber;
+    private String writerNumber;
     private String writerPassword;
     private String content;
 }

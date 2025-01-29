@@ -19,7 +19,7 @@ public interface BoardClient {
     @GetMapping("/board/search")
     List<BoardResponse> searchMyBoards(
             @RequestParam String writer,
-            @RequestParam Long writerNumber,
+            @RequestParam String writerNumber,
             @RequestParam String writerPassword
     );
 

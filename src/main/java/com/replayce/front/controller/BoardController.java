@@ -34,7 +34,7 @@ public class BoardController {
     @GetMapping("/search")
     public String searchMyBoards(
             @RequestParam String writer,
-            @RequestParam Long writerNumber,
+            @RequestParam String writerNumber,
             @RequestParam String writerPassword,
             Model model
     ) {
