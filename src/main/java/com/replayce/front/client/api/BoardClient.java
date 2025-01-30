@@ -14,17 +14,17 @@ import java.util.List;
 public interface BoardClient {
 
     @GetMapping("/board")
-    List<BoardResponse> getAllBoards();
+    CommonResponse<List<BoardResponse>> getAllBoards();
 
     @GetMapping("/board/search")
     List<BoardResponse> searchMyBoards(
             @RequestParam String writer,
-            @RequestParam Long writerNumber,
+            @RequestParam String writerNumber,
             @RequestParam String writerPassword
     );
 
-    @GetMapping("/board")
-    List<BoardResponse> getBoardsByContent(@RequestParam String content);
+    @GetMapping("/board/{boardId}")
+    CommonResponse<BoardResponse> getBoard(@PathVariable Long boardId);
 
     @PostMapping("/board")
     CommonResponse<BoardResponse> createBoard(@RequestBody Board board);
