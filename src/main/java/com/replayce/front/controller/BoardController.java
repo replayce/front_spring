@@ -1,10 +1,7 @@
 package com.replayce.front.controller;
 
 import com.replayce.front.client.api.BoardClient;
-import com.replayce.front.client.dto.Board;
-import com.replayce.front.client.dto.BoardResponse;
-import com.replayce.front.client.dto.BaseResponse;
-import com.replayce.front.client.dto.CommonResponse;
+import com.replayce.front.client.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +20,21 @@ public class BoardController {
 
     // 게시글 조회
     @GetMapping
-    public String getAllBoards(@RequestParam(value = "content", required = false) String content, Model model) {
-        List<BoardResponse> boards = content != null ?
-                boardClient.getBoardsByContent(content) : boardClient.getAllBoards();
-        model.addAttribute("boards", boards);
+    public String getAllBoards(Model model) {
+        try {
+            CommonResponse<List<BoardResponse>> response = boardClient.getAllBoards();
+            List<BoardResponse> boards = response.getResult();
+            model.addAttribute("boards", boards);
+        } catch (Exception e) {
+            model.addAttribute("error", "게시글을 불러오는 중 오류가 발생했습니다.");
+        }
         return "main/board";
+    }
+
+    @GetMapping("/{boardId}")
+    public ResponseEntity<CommonResponse<BoardResponse>> getBoard(@PathVariable Long boardId) {
+        CommonResponse<BoardResponse> boards = boardClient.getBoard(boardId);
+        return ResponseEntity.ok(boards);
     }
 
     // 내 글 검색
@@ -48,6 +55,7 @@ public class BoardController {
         CommonResponse<BoardResponse> response = boardClient.createBoard(board);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
 
     @PatchMapping("/{boardId}")
     public ResponseEntity<CommonResponse<BoardResponse>> updateBoard(

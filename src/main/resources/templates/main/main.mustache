@@ -4,156 +4,121 @@
     <meta charset="UTF-8" />
     <title>Jelly Mully (Dropdown Integrated)</title>
     <!-- 외부 CSS 로드 -->
-    <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="/css/main.css" />
+
+    <!-- 지도 영역 추가 부분 !! -->
+    <!-- 네이버 지도 API -->
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=k3y3venh9l"></script>
+    <!-- Marker Clustering 라이브러리 -->
+    <script type="text/javascript" src="/js/MarkerClustering.js"></script>
+    <!-- 지도 관련 JavaScript -->
+    <script type="text/javascript" src="/js/map.js"></script>
+
 </head>
-<body>
+<body style="
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('/images/jelly_back_img_01.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-position: bottom;
+">
 
 <div class="container">
-
     <!-- 상단 헤더 영역 -->
     <div class="top-header">
         <div class="top-header-inner">
-            <div class="top-background">
-                <!-- 로고 -->
-                <img class="top-background-logo" src="/images/jellymully_logo_KR.png" alt="Logo">
-
-                <!-- 네비게이션 메뉴 -->
-                <div class="nav-menu">
-                    <div class="nav-menu-item">HOME</div>
-                    <div class="nav-menu-item">도감</div>
-                    <div class="nav-menu-item">HOME</div>
-                    <div class="nav-menu-item">HOME</div>
-                </div>
+            <div class="header-logo">
+                <a href="/main">
+                    <img class="left-icon" src="/images/jellymully_logo_01.png" alt="Side Icon">
+                    <img class="top-background-logo" src="/images/jellymully_logo_EN 1.png" alt="Logo">
+                </a>
             </div>
-            <!-- 왼쪽 상단 아이콘 -->
-            <img class="left-icon" src="/images/jellymully_logo_img.png" alt="Side Icon">
+            <!-- 네비게이션 메뉴 -->
+            <div class="nav-menu">
+                <a href="/main"><div class="nav-menu-item">메인 메뉴</div></a>
+                <a href="/main/detail"><div class="nav-menu-item">해파리 도감</div></a>
+                <a href="/main/board"><div class="nav-menu-item">제보 게시판</div></a>
+                <a href="/main.html"><div class="nav-menu-item">나머지</div></a>
+            </div>
         </div>
     </div>
 
-    <!-- 메인 이미지 -->
-    <img class="main-image" src="/images/mMap.png" alt="Main Image">
-
-    <!-- 오른쪽 사이드 패널 -->
-    <div class="side-panel">
-
-        <!-- (1) ‘지역 선택’ 드롭다운 -->
-        <div class="dropdown-container">
-            <!-- 드롭다운 헤더(버튼) -->
-            <div class="dropdown-header" onclick="toggleDropdown('region-dropdown')">
-                <span class="dropdown-header-text">지역을 선택해주세요.</span>
-                <span class="dropdown-arrow"></span>
+    <div class="main-contents">
+        <div class="left-contents">
+            <div id="main-map" style="width:100%;height:100%;"></div>
+        </div>
+        <div class="right-contents">
+            <div class="jelly-filter">
+                <select id="alert-location" name="alert-location" required>
+                    <option value="" disabled selected>지역을 선택하세요</option>
+                    <option value="부산">부산</option>
+                    <option value="강릉">강릉</option>
+                    <option value="영광">영광</option>
+                    <option value="속초">속초</option>
+                    <option value="통영">통영</option>
+                </select>
+                <select id="icon-help" name="icon-help">
+                    <option value="" disabled selected>도움말</option>
+                    <option value="">예측된 해파리</option>
+                    <option value="">저밀도</option>
+                    <option value="">고밀도</option>
+                </select>
             </div>
-            <!-- 드롭다운 내용 -->
-            <div id="region-dropdown" class="dropdown-content region-dropdown">
-                <div class="dropdown-scroll">
-                    <div class="dropdown-item">강릉</div>
-                    <div class="dropdown-item">해운대</div>
-                    <div class="dropdown-item">속초</div>
-                    <div class="dropdown-item">블라블라</div>
-                    <div class="dropdown-item">어쩌구</div>
+            <div class="jelly-list">
+                <div class="jelly-character jelly-alert">
+                    <img src="/images/jelly_icons/노무라입깃.png" alt="">
+                    <div class="jelly-rate" style="">95%</div>
                 </div>
-                <!-- 오른쪽 커스텀 스크롤바(시각만 흉내) -->
-                <div class="custom-scrollbar"></div>
+                <div class="jelly-character jelly-alert">
+                    <img src="/images/jelly_icons/보름달물.png" alt="">
+                    <div class="jelly-rate" style="">9%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/커튼원양.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/유령.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/작은상자.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/두빛보름달.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/기수식용(숲뿌리).png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/야광원양.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/푸른우산관.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+            </div>
+            <div class="board-list">
+
             </div>
         </div>
-
-        <!-- (2) ‘도움말’ 드롭다운 -->
-        <div class="dropdown-container">
-            <!-- 드롭다운 헤더(버튼) -->
-            <div class="dropdown-header" onclick="toggleDropdown('help-dropdown')">
-                <span class="dropdown-header-text">도움말</span>
-                <span class="dropdown-arrow"></span>
-            </div>
-            <!-- 드롭다운 내용 -->
-            <div id="help-dropdown" class="dropdown-content help-content">
-                <div class="help-item">
-                    <div class="help-box help-predicted"></div>
-                    <span class="help-text">예측된 해파리</span>
-                </div>
-                <div class="help-item">
-                    <div class="help-circle help-low-density"></div>
-                    <span class="help-text">저밀도</span>
-                </div>
-                <div class="help-item">
-                    <div class="help-circle help-high-density"></div>
-                    <span class="help-text">고밀도</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 카드 나열 영역 (예시) -->
-        <div class="card-grid">
-            <!-- 카드 1 (highlight 예시) -->
-            <div class="card-item highlight">
-                <div class="card-border highlight-border">
-                    <div class="card-percentage highlight-percentage">97%</div>
-                </div>
-                <div class="card-thumbnail highlight-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="thumb1">
-                </div>
-            </div>
-            <!-- 카드 2 -->
-            <div class="card-item">
-                <div class="card-border"></div>
-                <div class="card-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="thumb2">
-                </div>
-            </div>
-            <!-- 카드 3 -->
-            <div class="card-item">
-                <div class="card-border"></div>
-                <div class="card-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="thumb3">
-                </div>
-            </div>
-            <!-- 카드 4 (highlight 예시) -->
-            <div class="card-item highlight">
-                <div class="card-border highlight-border">
-                    <div class="card-percentage highlight-percentage">97%</div>
-                </div>
-                <div class="card-thumbnail highlight-thumbnail">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="thumb4">
-                </div>
-            </div>
-        </div>
-
-        <!-- 단일 알림(예시) -->
-        <div class="notification">
-            <div class="notification-text-area">
-                <img class="notification-icon" src="/images/jelly_icons/노무라입깃.png" alt="icon">
-                <div class="notification-place">해운대해수욕장:</div>
-            </div>
-            <div class="notification-finding">노무라입깃해파리 발견</div>
-            <div class="notification-time">1초 전</div>
-        </div>
-
-        <!-- 확장형 알림(예시) -->
-        <div class="notification-big">
-            <!-- 첫 번째 라인 -->
-            <div class="notification-big-line">
-                <div class="notification-text-area">
-                    <img class="notification-icon" src="/images/jelly_icons/노무라입깃.png" alt="icon">
-                    <div class="notification-place">해운대해수욕장:</div>
-                </div>
-                <div class="notification-finding">보름달물해파리 발견</div>
-                <div class="notification-count">17건</div>
-            </div>
-            <!-- 두 번째 라인 -->
-            <div class="notification-big-line">
-                <div class="notification-text-area">
-                    <img class="notification-icon" src="/images/jelly_icons/노무라입깃.png" alt="icon">
-                    <div class="notification-place">해운대해수욕장:</div>
-                </div>
-                <div class="notification-finding">노무라입깃해파리 발견</div>
-                <div class="notification-count">15건</div>
-            </div>
-        </div>
-
-    </div> <!-- side-panel 끝 -->
+    </div>
 
     <!-- 하단 푸터 -->
     <div class="footer">
-        <div class="footer-text">Jelly Mully</div>
+        <div class="footer-text">
+            이용약관
+        </div>
+        <div class="footer-text">
+            개인정보처리방침
+        </div>
+        <div class="footer-text">
+            Copyright 2025. made with by NULL 찾아 5조
+        </div>
     </div>
 
 </div> <!-- container 끝 -->
@@ -176,6 +141,137 @@
         }
     });
 </script>
+<!-- 지도 관련 스크립트 -->
+<!--<script>-->
+<!--    // 지도 및 마커 초기화 변수-->
+<!--    let map = null;-->
+<!--    let markers = [];-->
+
+<!--    // 지역별 좌표 데이터-->
+<!--    const regions = {-->
+<!--        "부산": { lat: 35.1796, lng: 129.0756 },-->
+<!--        "강릉": { lat: 37.7519, lng: 128.8761 },-->
+<!--        "영광": { lat: 35.3492, lng: 128.4613 },-->
+<!--        "속초": { lat: 38.2053, lng: 128.5912 },-->
+<!--        "통영": { lat: 34.8532, lng: 128.4163 },-->
+<!--        // 추후 지역 추가 가능-->
+<!--    };-->
+
+<!--    // 지역 추가 함수 (필요 시 사용)-->
+<!--    function addRegion(name, lat, lng) {-->
+<!--        regions[name] = { lat, lng };-->
+
+<!--        const dropdown = document.getElementById('alert-location');-->
+<!--        const option = document.createElement('option');-->
+<!--        option.value = name;-->
+<!--        option.textContent = name;-->
+<!--        dropdown.appendChild(option);-->
+<!--    }-->
+
+<!--    // 마커 추가 함수-->
+<!--    function addMarker(lat, lng) {-->
+<!--        const position = new naver.maps.LatLng(lat, lng);-->
+<!--        const markerOptions = {-->
+<!--            position: position.destinationPoint(90, 15),-->
+<!--            map: map,-->
+<!--            icon: {-->
+<!--                url: '/images/marker.png',-->
+<!--                size: new naver.maps.Size(50, 50),-->
+<!--                scaledSize: new naver.maps.Size(50, 50),-->
+<!--                origin: new naver.maps.Point(0, 0),-->
+<!--                anchor: new naver.maps.Point(25, 25)-->
+<!--            }-->
+<!--        };-->
+<!--        const marker = new naver.maps.Marker(markerOptions);-->
+
+<!--        const contentString = `-->
+<!--            <div>-->
+<!--                <h3>경보알림!</h3>-->
+<!--                <p>현 위치 어디어디어디 해파리 출현 경보 1등급 발생</p>-->
+<!--            </div>`;-->
+
+<!--        const infowindow = new naver.maps.InfoWindow({-->
+<!--            content: contentString-->
+<!--        });-->
+
+<!--        naver.maps.Event.addListener(marker, "click", function() {-->
+<!--            if (infowindow.getMap()) {-->
+<!--                infowindow.close();-->
+<!--            } else {-->
+<!--                infowindow.open(map, marker);-->
+<!--            }-->
+<!--        });-->
+
+<!--        markers.push(marker);-->
+<!--    }-->
+
+<!--    // 지도 초기화 및 마커 클러스터링 설정-->
+<!--    document.addEventListener("DOMContentLoaded", function(){-->
+<!--        const mapDiv = document.getElementById('main-map');-->
+
+<!--        const mapOptions = {-->
+<!--            center: new naver.maps.LatLng(35.158661, 129.160384),-->
+<!--            zoom: 10,-->
+<!--            minZoom: 7,-->
+<!--            zoomControl: true,-->
+<!--            zoomControlOptions: {-->
+<!--                position: naver.maps.Position.TOP_RIGHT-->
+<!--            }-->
+<!--        };-->
+
+<!--        // 지도 객체 생성-->
+<!--        map = new naver.maps.Map(mapDiv, mapOptions);-->
+
+<!--        // 초기 마커 추가-->
+<!--        addMarker(35.158661, 129.160384);-->
+<!--        addMarker(35.168661, 129.160384);-->
+<!--        addMarker(35.178661, 129.160384);-->
+<!--        addMarker(35.188661, 129.160384);-->
+<!--        addMarker(35.198661, 129.160384);-->
+
+<!--        // 마커 클러스터링 설정-->
+<!--        const htmlMarker = {-->
+<!--            content: `<div style="cursor:pointer;width:50px;height:50px;line-height:42px;font-size:30px;color:black;text-align:center;font-weight:bold;background:url(/images/marker.png);background-size:contain;"></div>`,-->
+<!--            size: new naver.maps.Size(50, 50),-->
+<!--            scaledSize: new naver.maps.Size(50, 50),-->
+<!--            anchor: new naver.maps.Point(25, 25),-->
+<!--        };-->
+
+<!--        const markerClustering = new MarkerClustering({-->
+<!--            minClusterSize: 2,-->
+<!--            maxZoom: 13,-->
+<!--            map: map,-->
+<!--            markers: markers,-->
+<!--            disableClickZoom: false,-->
+<!--            gridSize: 120,-->
+<!--            icons: [htmlMarker],-->
+<!--            indexGenerator: [1000],-->
+<!--            stylingFunction: function(clusterMarker, count) {-->
+<!--                clusterMarker.getElement().querySelector('div').textContent = count;-->
+<!--            }-->
+<!--        });-->
+
+<!--        // 드롭다운 이벤트 리스너-->
+<!--        const dropdown = document.getElementById('alert-location');-->
+<!--        dropdown.addEventListener('change', function() {-->
+<!--            const selectedRegion = this.value;-->
+<!--            if (regions[selectedRegion]) {-->
+<!--                const { lat, lng } = regions[selectedRegion];-->
+<!--                const newCenter = new naver.maps.LatLng(lat, lng);-->
+<!--                map.setCenter(newCenter);-->
+<!--                map.setZoom(13); // 원하는 줌 레벨로 설정-->
+<!--            } else {-->
+<!--                alert("선택한 지역의 좌표 정보가 없습니다.");-->
+<!--            }-->
+<!--        });-->
+<!--    });-->
+
+<!--    // 네이버 맵 인증 실패 시 알림-->
+<!--    window.navermap_authFailure = function () {-->
+<!--        alert("Naver Map Error");-->
+<!--    }-->
+<!--</script>-->
+
 
 </body>
 </html>

@@ -44,4 +44,12 @@ public class MainController {
         return "main/file";
     }
 
+    @GetMapping("/detail")
+    public String getDetail(Model model) {
+        model.addAttribute("sample", "Replayce");
+        return "main/detail";
+    }
+
 }
+
+
