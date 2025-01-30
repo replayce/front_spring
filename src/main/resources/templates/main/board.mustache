@@ -1,22 +1,132 @@
-{{>layouts/header}}
-<h1>Board List</h1>
-<ul>
-    {{#boards}}
-        <li>
-            {{boardId}}<br>
-            <strong>Image:</strong> <a href="{{imageUrl}}" target="_blank">View Image</a> <br>
-            <strong>Date:</strong> {{date}} <br>
-            <strong>Time:</strong> {{hour}}:{{minute}} <br>
-            <strong>Location:</strong> {{location}} <br>
-            <strong>Writer:</strong> {{writer}} <br> <!--사용자 정보 넣을지 뺄지 고민 -->
-            <strong>Content:</strong> {{content}} <br>
-            <strong>Jelly:</strong> {{jelly}} <br>
-            <strong>Toxicity:</strong> {{toxicity}} <br>
-            <strong>Describe:</strong> {{description}} <br>
+{{! Mustache template for the board page }}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/board.css" />
+</head>
+<body style="
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('/images/jelly_back_img_01.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-position: bottom;
+">
+<div class="container">
+    <div class="top-header">
+        <div class="top-header-inner">
+            <div class="header-logo">
+                <a href="/main">
+                    <img class="left-icon" src="/images/jellymully_logo_01.png" alt="Side Icon">
+                    <img class="top-background-logo" src="/images/jellymully_logo_EN 1.png" alt="Logo">
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="/main"><div class="nav-menu-item">메인 메뉴</div></a>
+                <a href="/main/detail"><div class="nav-menu-item">해파리 도감</div></a>
+                <a href="/main/board"><div class="nav-menu-item">제보 게시판</div></a>
+                <a href="/main.html"><div class="nav-menu-item">나머지</div></a>
+            </div>
+        </div>
+    </div>
 
-            <strong>Actions:</strong>
-            <a href="/main/board/{{boardId}}">View Details</a> <br>
-        </li>
-    {{/boards}}
-</ul>
-{{>layouts/footer}}
+    <div class="main-contents">
+        <div class="left-contents">
+            <div class="left-top">
+                <div class="search">
+                    <input type="text" placeholder="검색어를 입력하세요">
+                </div>
+                <button class="search-button">검색</button>
+                <button class="sort-button">정렬</button>
+                <button class="my-content">내 글 보기</button>
+            </div>
+
+            <div class="left-bottom">
+                <div class="board-list-title">
+                    <span class="no">No</span>
+                    <span class="icon">아이콘</span>
+                    <span class="loc">위치</span>
+                    <span class="jelly-name">해파리</span>
+                    <span class="report-time">제보일시</span>
+                    <span class="informant">제보자</span>
+                </div>
+                <div class="board-content-list">
+                    {{#boards}}
+                        <div class="board-row">
+                            <span class="no">{{boardId}}</span>
+                            <span class="icon"><img src="/images/jelly_icons/노무라입깃.png" alt="해파리 아이콘"></span>
+                            <span class="loc">{{location}}</span>
+                            <span class="jelly-name">{{jelly}}</span>
+                            <span class="report-time">{{formattedTime}}</span>
+                            <span class="informant">{{writer}}</span>
+                        </div>
+                    {{/boards}}
+                </div>
+            </div>
+        </div>
+        <div class="right-contents">
+            <div class="jelly-filter">
+                <select id="alert-location" name="alert-location" required>
+                    <option value="" disabled selected>지역을 선택하세요</option>
+                    <option value="부산">부산</option>
+                    <option value="강릉">강릉</option>
+                    <option value="영광">영광</option>
+                    <option value="속초">속초</option>
+                    <option value="통영">통영</option>
+                </select>
+                <select id="icon-help" name="icon-help">
+                    <option value="" disabled selected>도움말</option>
+                    <option value="">예측된 해파리</option>
+                    <option value="">저밀도</option>
+                    <option value="">고밀도</option>
+                </select>
+            </div>
+            <div class="jelly-list">
+                <div class="jelly-character jelly-alert">
+                    <img src="/images/jelly_icons/노무라입깃.png" alt="">
+                    <div class="jelly-rate" style="">95%</div>
+                </div>
+                <div class="jelly-character jelly-alert">
+                    <img src="/images/jelly_icons/보름달물.png" alt="">
+                    <div class="jelly-rate" style="">9%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/커튼원양.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/유령.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/작은상자.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/두빛보름달.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/기수식용(숲뿌리).png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/야광원양.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+                <div class="jelly-character">
+                    <img src="/images/jelly_icons/푸른우산관.png" alt="">
+                    <div class="jelly-rate" style="display:none;">95%</div>
+                </div>
+            </div>
+            <div class="button-top">
+                <button class="filter">필터적용</button>
+                <button class="filter-search">검색</button>
+            </div>
+            <button class="report">제보하기</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
