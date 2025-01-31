@@ -1,10 +1,7 @@
 package com.replayce.front.controller;
 
 import com.replayce.front.client.api.BoardClient;
-import com.replayce.front.client.dto.Board;
-import com.replayce.front.client.dto.BoardResponse;
-import com.replayce.front.client.dto.BaseResponse;
-import com.replayce.front.client.dto.CommonResponse;
+import com.replayce.front.client.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,24 +18,36 @@ public class BoardController {
 
     private final BoardClient boardClient;
 
+    // 게시글 조회
     @GetMapping
     public String getAllBoards(Model model) {
-        System.out.println("확인");
         try {
             CommonResponse<List<BoardResponse>> response = boardClient.getAllBoards();
-            model.addAttribute("boards", response.getResult());
+            List<BoardResponse> boards = response.getResult();
+            model.addAttribute("boards", boards);
         } catch (Exception e) {
-            System.err.println("Error fetching boards: " + e.getMessage());
-            model.addAttribute("boards", List.of());
-            model.addAttribute("error", "Failed to fetch boards from backend.");
+            model.addAttribute("error", "게시글을 불러오는 중 오류가 발생했습니다.");
         }
         return "main/board";
     }
 
     @GetMapping("/{boardId}")
-    public ResponseEntity<CommonResponse<BoardResponse>> getBoardById(@PathVariable Long boardId) {
-        CommonResponse<BoardResponse> response = boardClient.getBoardById(boardId);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<CommonResponse<BoardResponse>> getBoard(@PathVariable Long boardId) {
+        CommonResponse<BoardResponse> boards = boardClient.getBoard(boardId);
+        return ResponseEntity.ok(boards);
+    }
+
+    // 내 글 검색
+    @GetMapping("/search")
+    public String searchMyBoards(
+            @RequestParam String writer,
+            @RequestParam String writerNumber,
+            @RequestParam String writerPassword,
+            Model model
+    ) {
+        List<BoardResponse> myBoards = boardClient.searchMyBoards(writer, writerNumber, writerPassword);
+        model.addAttribute("boards", myBoards);
+        return "main/board";
     }
 
     @PostMapping
@@ -46,6 +55,7 @@ public class BoardController {
         CommonResponse<BoardResponse> response = boardClient.createBoard(board);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
 
     @PatchMapping("/{boardId}")
     public ResponseEntity<CommonResponse<BoardResponse>> updateBoard(
