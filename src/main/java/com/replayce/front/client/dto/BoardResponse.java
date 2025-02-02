@@ -3,6 +3,10 @@ package com.replayce.front.client.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Getter
 @Setter
 //API 응답 데이터 DTO //서버->클라이언트
@@ -20,4 +24,26 @@ public class BoardResponse {
     private String jelly; // 추가: 해파리 이름
     private String toxicity; // 추가: 독성
     private String description; // 추가: 설명
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
+
+    public String getFormattedTime() {
+        LocalDateTime now = LocalDateTime.now();
+        Duration duration = Duration.between(createDate, now);
+
+        long seconds = duration.getSeconds();
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        long days = hours / 24;
+
+        if (seconds < 60) {
+            return seconds + "초 전";
+        } else if (minutes < 60) {
+            return minutes + "분 전";
+        } else if (hours < 24) {
+            return hours + "시간 전";
+        } else {
+            return createDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }
+    }
 }
