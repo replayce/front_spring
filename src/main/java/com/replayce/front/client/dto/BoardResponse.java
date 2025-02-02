@@ -28,6 +28,9 @@ public class BoardResponse {
     private LocalDateTime updateDate;
 
     public String getFormattedTime() {
+        if (createDate == null) {
+            return "등록된 날짜 없음";
+        }
         LocalDateTime now = LocalDateTime.now();
         Duration duration = Duration.between(createDate, now);
 

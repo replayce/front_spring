@@ -3,8 +3,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Jelly Mully - 제보 게시판</title>
     <link rel="stylesheet" href="/css/board.css" />
+    <script defer src="/js/board.js"></script>
 </head>
 <body style="
     margin: 0;
@@ -39,7 +40,7 @@
                 </div>
                 <button class="search-button">검색</button>
                 <button class="sort-button">정렬</button>
-                <button class="my-content">내 글 보기</button>
+                <button class="my-content" onclick="openSearchPopup()">내 글 보기</button>
             </div>
 
             <div class="left-bottom">
@@ -128,5 +129,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>

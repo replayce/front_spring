@@ -377,3 +377,137 @@ a {
 /*        flex: 1 1 calc(50% - 10px);*/
 /*    }*/
 /*}*/
+
+
+/* --- 팝업 스타일 --- */
+#search-popup {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 10px;
+    padding: 40px;
+    z-index: 1000;
+    width: 600px;
+    height: 480px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#search-popup h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    margin-top: 30px;
+}
+
+/* --- 입력 필드 스타일 --- */
+.input-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+    align-items: center; /* 중앙 정렬 */
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+}
+
+.input-group label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.input-group input {
+    width: 100%;
+    height: 50px; /* 높이 조정 */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* --- 비밀번호 입력 필드 + 눈 아이콘 --- */
+.password-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 52px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.password-container input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    flex: 1;
+    height: 50px;
+    background-color: transparent;
+}
+
+.password-container .toggle-password {
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 18px;
+}
+
+/* --- 버튼 스타일 --- */
+.popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.popup-buttons button {
+    width: 140px;
+    height: 50px;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-btn {
+    background: #3A4E9C; /* 요청된 3번째 사진 색상 */
+    color: white;
+}
+
+.close-btn {
+    background: #A5C3C2; /* 요청된 4번째 사진 색상 */
+    color: white;
+}
+
+.search-btn:hover {
+    background: #2D3F7C;
+}
+
+.close-btn:hover {
+    background: #91ABA8;
+}
+
+/* --- 팝업 오버레이 --- */
+#popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+}
+
+
