@@ -128,7 +128,7 @@ public class AdminController {
             }
         } catch (Exception e) {
             log.error("회원가입 실패: {}", e.getMessage());
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("error", "회원가입 실패. 다시 시도해 주세요.");
         }
 
         // 회원가입 실패 시 다시 회원가입 페이지로
