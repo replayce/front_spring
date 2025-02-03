@@ -1,7 +1,11 @@
 package com.replayce.front.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.replayce.front.client.dto.AlertResponse;
 import com.replayce.front.client.dto.BaseResponse;
 import com.replayce.front.client.dto.JavaResponse;
+import com.replayce.front.client.dto.OceanInfoResponse;
 import com.replayce.front.service.MainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,9 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/main")
+@RequestMapping
 public class MainController {
 
     private final MainService mainService;
@@ -20,7 +26,25 @@ public class MainController {
 
     @GetMapping
     public String mainPage(Model model) {
-        model.addAttribute("sample", "Replayce");
+        List<OceanInfoResponse> oceanInfoList = mainService.getAllOceanInfo();
+        model.addAttribute("oceanInfoList", oceanInfoList);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String json = objectMapper.writeValueAsString(oceanInfoList);
+            model.addAttribute("oceanInfoJson", json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        List<AlertResponse> alertList = mainService.getAlerts();
+        try {
+            String json = new ObjectMapper().writeValueAsString(alertList);
+            model.addAttribute("alertListJson", json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
         return "main/main";
     }
 

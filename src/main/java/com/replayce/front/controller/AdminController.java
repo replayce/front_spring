@@ -32,14 +32,6 @@ public class AdminController {
     private final String BACKEND_URL = "http://localhost:8081";
 
 
-     // 메인 페이지
-
-    @GetMapping("/")
-    public String mainPage() {
-        return "main/main";
-    }
-
-
      // 관리자 메인 페이지
 
     @GetMapping("/admin")
@@ -161,7 +153,7 @@ public class AdminController {
 
         try {
             // FeignClient 호출
-            CommonResponse<List<AlertResponse>> response = alertClient.getAllAlerts();
+            CommonResponse<List<AlertResponse>> response = alertClient.getAllAlerts(0);
             model.addAttribute("alerts", response.getResult());
         } catch (Exception e) {
             System.err.println("Error fetching alerts: " + e.getMessage());

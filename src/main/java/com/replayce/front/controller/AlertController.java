@@ -26,7 +26,7 @@ public class AlertController {
     public String getAllAlerts(Model model) {
         try {
             // Feign Client 호출
-            CommonResponse<List<AlertResponse>> response = alertClient.getAllAlerts();
+            CommonResponse<List<AlertResponse>> response = alertClient.getAllAlerts(0);
             model.addAttribute("alerts", response.getResult());
         } catch (Exception e) {
             System.err.println("Error fetching alerts: " + e.getMessage());
