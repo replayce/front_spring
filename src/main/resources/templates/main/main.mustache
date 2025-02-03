@@ -1,8 +1,5 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8" />
-    <title>Jelly Mully (Dropdown Integrated)</title>
+{{>layouts/header}}
+    <title>Jelly Mully</title>
     <!-- 외부 CSS 로드 -->
     <link rel="stylesheet" href="/css/main.css" />
 
@@ -13,35 +10,7 @@
     <script type="text/javascript" src="/js/MarkerClustering.js"></script>
     <!-- 지도 관련 JavaScript -->
     <script type="text/javascript" src="/js/map.js"></script>
-
-</head>
-<body style="
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: url('/images/jelly_back_img_01.jpg') no-repeat center center fixed;
-    background-size: cover;
-    background-position: bottom;
-">
-
-<div class="container">
-    <!-- 상단 헤더 영역 -->
-    <div class="top-header">
-        <div class="top-header-inner">
-            <div class="header-logo">
-                <a href="/main">
-                    <img class="left-icon" src="/images/jellymully_logo_01.png" alt="Side Icon">
-                    <img class="top-background-logo" src="/images/jellymully_logo_EN 1.png" alt="Logo">
-                </a>
-            </div>
-            <!-- 네비게이션 메뉴 -->
-            <div class="nav-menu">
-                <a href="/main"><div class="nav-menu-item">메인 메뉴</div></a>
-                <a href="/main/detail"><div class="nav-menu-item">해파리 도감</div></a>
-                <a href="/main/board"><div class="nav-menu-item">제보 게시판</div></a>
-                <a href="/main.html"><div class="nav-menu-item">나머지</div></a>
-            </div>
-        </div>
-    </div>
+{{>layouts/header2}}
 
     <div class="main-contents">
         <div class="left-contents">
@@ -108,20 +77,9 @@
         </div>
     </div>
 
-    <!-- 하단 푸터 -->
-    <div class="footer">
-        <div class="footer-text">
-            이용약관
-        </div>
-        <div class="footer-text">
-            개인정보처리방침
-        </div>
-        <div class="footer-text">
-            Copyright 2025. made with by NULL 찾아 5조
-        </div>
-    </div>
 
-</div> <!-- container 끝 -->
+
+
 
 <!-- 간단한 토글 스크립트 -->
 <script>
@@ -141,137 +99,5 @@
         }
     });
 </script>
-<!-- 지도 관련 스크립트 -->
-<!--<script>-->
-<!--    // 지도 및 마커 초기화 변수-->
-<!--    let map = null;-->
-<!--    let markers = [];-->
 
-<!--    // 지역별 좌표 데이터-->
-<!--    const regions = {-->
-<!--        "부산": { lat: 35.1796, lng: 129.0756 },-->
-<!--        "강릉": { lat: 37.7519, lng: 128.8761 },-->
-<!--        "영광": { lat: 35.3492, lng: 128.4613 },-->
-<!--        "속초": { lat: 38.2053, lng: 128.5912 },-->
-<!--        "통영": { lat: 34.8532, lng: 128.4163 },-->
-<!--        // 추후 지역 추가 가능-->
-<!--    };-->
-
-<!--    // 지역 추가 함수 (필요 시 사용)-->
-<!--    function addRegion(name, lat, lng) {-->
-<!--        regions[name] = { lat, lng };-->
-
-<!--        const dropdown = document.getElementById('alert-location');-->
-<!--        const option = document.createElement('option');-->
-<!--        option.value = name;-->
-<!--        option.textContent = name;-->
-<!--        dropdown.appendChild(option);-->
-<!--    }-->
-
-<!--    // 마커 추가 함수-->
-<!--    function addMarker(lat, lng) {-->
-<!--        const position = new naver.maps.LatLng(lat, lng);-->
-<!--        const markerOptions = {-->
-<!--            position: position.destinationPoint(90, 15),-->
-<!--            map: map,-->
-<!--            icon: {-->
-<!--                url: '/images/marker.png',-->
-<!--                size: new naver.maps.Size(50, 50),-->
-<!--                scaledSize: new naver.maps.Size(50, 50),-->
-<!--                origin: new naver.maps.Point(0, 0),-->
-<!--                anchor: new naver.maps.Point(25, 25)-->
-<!--            }-->
-<!--        };-->
-<!--        const marker = new naver.maps.Marker(markerOptions);-->
-
-<!--        const contentString = `-->
-<!--            <div>-->
-<!--                <h3>경보알림!</h3>-->
-<!--                <p>현 위치 어디어디어디 해파리 출현 경보 1등급 발생</p>-->
-<!--            </div>`;-->
-
-<!--        const infowindow = new naver.maps.InfoWindow({-->
-<!--            content: contentString-->
-<!--        });-->
-
-<!--        naver.maps.Event.addListener(marker, "click", function() {-->
-<!--            if (infowindow.getMap()) {-->
-<!--                infowindow.close();-->
-<!--            } else {-->
-<!--                infowindow.open(map, marker);-->
-<!--            }-->
-<!--        });-->
-
-<!--        markers.push(marker);-->
-<!--    }-->
-
-<!--    // 지도 초기화 및 마커 클러스터링 설정-->
-<!--    document.addEventListener("DOMContentLoaded", function(){-->
-<!--        const mapDiv = document.getElementById('main-map');-->
-
-<!--        const mapOptions = {-->
-<!--            center: new naver.maps.LatLng(35.158661, 129.160384),-->
-<!--            zoom: 10,-->
-<!--            minZoom: 7,-->
-<!--            zoomControl: true,-->
-<!--            zoomControlOptions: {-->
-<!--                position: naver.maps.Position.TOP_RIGHT-->
-<!--            }-->
-<!--        };-->
-
-<!--        // 지도 객체 생성-->
-<!--        map = new naver.maps.Map(mapDiv, mapOptions);-->
-
-<!--        // 초기 마커 추가-->
-<!--        addMarker(35.158661, 129.160384);-->
-<!--        addMarker(35.168661, 129.160384);-->
-<!--        addMarker(35.178661, 129.160384);-->
-<!--        addMarker(35.188661, 129.160384);-->
-<!--        addMarker(35.198661, 129.160384);-->
-
-<!--        // 마커 클러스터링 설정-->
-<!--        const htmlMarker = {-->
-<!--            content: `<div style="cursor:pointer;width:50px;height:50px;line-height:42px;font-size:30px;color:black;text-align:center;font-weight:bold;background:url(/images/marker.png);background-size:contain;"></div>`,-->
-<!--            size: new naver.maps.Size(50, 50),-->
-<!--            scaledSize: new naver.maps.Size(50, 50),-->
-<!--            anchor: new naver.maps.Point(25, 25),-->
-<!--        };-->
-
-<!--        const markerClustering = new MarkerClustering({-->
-<!--            minClusterSize: 2,-->
-<!--            maxZoom: 13,-->
-<!--            map: map,-->
-<!--            markers: markers,-->
-<!--            disableClickZoom: false,-->
-<!--            gridSize: 120,-->
-<!--            icons: [htmlMarker],-->
-<!--            indexGenerator: [1000],-->
-<!--            stylingFunction: function(clusterMarker, count) {-->
-<!--                clusterMarker.getElement().querySelector('div').textContent = count;-->
-<!--            }-->
-<!--        });-->
-
-<!--        // 드롭다운 이벤트 리스너-->
-<!--        const dropdown = document.getElementById('alert-location');-->
-<!--        dropdown.addEventListener('change', function() {-->
-<!--            const selectedRegion = this.value;-->
-<!--            if (regions[selectedRegion]) {-->
-<!--                const { lat, lng } = regions[selectedRegion];-->
-<!--                const newCenter = new naver.maps.LatLng(lat, lng);-->
-<!--                map.setCenter(newCenter);-->
-<!--                map.setZoom(13); // 원하는 줌 레벨로 설정-->
-<!--            } else {-->
-<!--                alert("선택한 지역의 좌표 정보가 없습니다.");-->
-<!--            }-->
-<!--        });-->
-<!--    });-->
-
-<!--    // 네이버 맵 인증 실패 시 알림-->
-<!--    window.navermap_authFailure = function () {-->
-<!--        alert("Naver Map Error");-->
-<!--    }-->
-<!--</script>-->
-
-
-</body>
-</html>
+{{>layouts/footer}}
