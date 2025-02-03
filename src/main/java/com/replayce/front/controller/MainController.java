@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 @Controller
@@ -48,6 +49,12 @@ public class MainController {
     public String getDetail(Model model) {
         model.addAttribute("sample", "Replayce");
         return "main/detail";
+    }
+
+    @GetMapping("/report")
+    public String report(Model model) {
+        model.addAttribute("sample", "Replayce");
+        return "main/report";
     }
 
 }
