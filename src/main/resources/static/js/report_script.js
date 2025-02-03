@@ -138,31 +138,51 @@ function toRadians(degrees) {
 // ----------------- 이름 자동 생성 --------------------//
 
 async function generateJellyfishNameWithOpenAI() {
-    const apiKey = "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"; // 🔴 생성한 API 키를 안전한 곳에서 가져오기
+    const apiKey = "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"; // 🔴 OpenAI API 키 입력
     const reporterInput = document.getElementById("reporter-name");
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({
-            model: "gpt-3.5-turbo",
-            messages: [
-                { role: "system", content: "너는 해파리 이름을 만드는 AI야." },
-                { role: "user", content: "귀여운 해파리의 별명을 만들어줘. 형식: '노란 모자 해파리' 또는 '파란 리본 해파리'." }
-            ],
-            max_tokens: 10,  // 비용 절감을 위해 10토큰 제한
-            temperature: 0.7
-        })
-    });
+    console.log("🔵 OpenAI API 요청 시작...");
 
-    const data = await response.json();
-    if (data.choices && data.choices[0] && data.choices[0].message) {
-        reporterInput.value = data.choices[0].message.content.trim();
-    } else {
-        reporterInput.value = "이름 생성 실패 😢";
+    try {
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: "gpt-3.5-turbo",
+                messages: [
+                    { role: "system", content: "너는 해파리 이름을 만드는 AI야." },
+                    { role: "user", content: "귀여운 해파리의 별명을 만들어줘. 형식: '노란 모자 해파리' 또는 '파란 리본 해파리'." }
+                ],
+                max_tokens: 10,
+                temperature: 0.7
+            })
+        });
+
+        console.log("🟢 API 응답 상태 코드:", response.status);
+
+        if (!response.ok) {
+            const errorText = await response.text(); // ❗ 오류 메시지 가져오기
+            console.error("❌ API 오류:", response.status, response.statusText, errorText);
+            alert(`API 오류 발생: ${response.status} ${response.statusText}\n${errorText}`);
+            return;
+        }
+
+        const data = await response.json();
+        console.log("🟡 API 응답 데이터:", data);
+
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+            reporterInput.value = data.choices[0].message.content.trim();
+            console.log("✅ 입력창 업데이트 완료:", reporterInput.value);
+        } else {
+            console.error("❌ API 응답이 비어 있음:", data);
+            reporterInput.value = "이름 생성 실패 😢";
+        }
+    } catch (error) {
+        console.error("❌ API 호출 오류:", error);
+        alert("API 요청 중 오류 발생. 콘솔에서 로그를 확인하세요.");
     }
 }
 
