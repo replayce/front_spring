@@ -297,6 +297,16 @@ document.addEventListener('DOMContentLoaded', () => {
     loadSliderImages();   // 슬라이드/클론 로드
     loadDropdown();       // 드롭다운 로드
 
+    // 메인에서 해파리 아이콘 이미지 선택시 도감 페이지 이동
+    const params = new URLSearchParams(window.location.search);
+    const jellyName = params.get('jelly');
+    if (jellyName) {
+        const foundIndex = jellyData.findIndex(j => j.name === jellyName);
+        if (foundIndex >= 0) {
+            currentIndex = foundIndex;
+        }
+    }
+
     // 첫 번째 실제 슬라이드 위치로 강제 이동
     sliderImagesContainer.style.transform = `translateX(-166px)`;
 
