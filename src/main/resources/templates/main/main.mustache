@@ -11,8 +11,6 @@
     <!-- 지도 관련 JavaScript -->
     <script type="text/javascript" src="/js/map.js"></script>
 {{>layouts/header2}}
-
-    <div class="main-contents">
         <div class="left-contents">
             <div id="main-map" style="width:100%;height:100%;"></div>
         </div>
@@ -20,11 +18,9 @@
             <div class="jelly-filter">
                 <select id="alert-location" name="alert-location" required>
                     <option value="" disabled selected>지역을 선택하세요</option>
-                    <option value="부산">부산</option>
-                    <option value="강릉">강릉</option>
-                    <option value="영광">영광</option>
-                    <option value="속초">속초</option>
-                    <option value="통영">통영</option>
+                    {{#oceanInfoList}}
+                    <option value="{{id}}">{{oceanTitle}}</option>
+                    {{/oceanInfoList}}
                 </select>
                 <select id="icon-help" name="icon-help">
                     <option value="" disabled selected>도움말</option>
@@ -75,28 +71,14 @@
 
             </div>
         </div>
-    </div>
-
-
-
-
 
 <!-- 간단한 토글 스크립트 -->
 <script>
-    function toggleDropdown(dropdownId) {
-        const elem = document.getElementById(dropdownId);
-        // 이미 열려있다면 닫고, 닫혀있다면 엽니다.
-        elem.classList.toggle('show');
-    }
-
-    // 바깥을 클릭하면 닫히도록 하는 예시(선택사항)
-    window.addEventListener('click', function(e) {
-        // 드롭다운 헤더나 헤더 내부를 클릭한 게 아니라면, 모두 닫기
-        if (!e.target.matches('.dropdown-header') &&
-                !e.target.closest('.dropdown-header')) {
-            const dropdowns = document.querySelectorAll('.dropdown-content');
-            dropdowns.forEach(d => d.classList.remove('show'));
-        }
+    var alertList = {{{alertListJson}}};
+    var oceanInfoList = {{{oceanInfoJson}}};
+    var oceanInfoObj = {};
+    oceanInfoList.forEach(item => {
+        oceanInfoObj[item.id] = { ...item };
     });
 </script>
 
