@@ -1,38 +1,9 @@
 {{! Mustache template for the board page }}
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{{>layouts/header}}
     <title>Jelly Mully - 제보 게시판</title>
     <link rel="stylesheet" href="/css/board.css" />
     <script defer src="/js/board.js"></script>
-</head>
-<body style="
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: url('/images/jelly_back_img_01.jpg') no-repeat center center fixed;
-    background-size: cover;
-    background-position: bottom;
-">
-<div class="container">
-    <div class="top-header">
-        <div class="top-header-inner">
-            <div class="header-logo">
-                <a href="/main">
-                    <img class="left-icon" src="/images/jellymully_logo_01.png" alt="Side Icon">
-                    <img class="top-background-logo" src="/images/jellymully_logo_EN 1.png" alt="Logo">
-                </a>
-            </div>
-            <div class="nav-menu">
-                <a href="/main"><div class="nav-menu-item">메인 메뉴</div></a>
-                <a href="/main/detail"><div class="nav-menu-item">해파리 도감</div></a>
-                <a href="/main/board"><div class="nav-menu-item">제보 게시판</div></a>
-                <a href="/main.html"><div class="nav-menu-item">나머지</div></a>
-            </div>
-        </div>
-    </div>
-
-    <div class="main-contents">
+{{>layouts/header2}}
         <div class="left-contents">
             <div class="left-top">
                 <div class="search">
@@ -123,12 +94,8 @@
             <div class="button-top">
                 <button class="filter">필터 적용</button>
             </div>
-            <a href="/main/report">
+            <a href="/report">
                 <button class="report">제보하기</button>
             </a>
         </div>
-    </div>
-</div>
-
-</body>
-</html>
+{{>layouts/footer}}

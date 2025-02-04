@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/main/board")
+@RequestMapping("/board")
 public class BoardController {
 
     private final BoardClient boardClient;
