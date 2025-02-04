@@ -1,7 +1,31 @@
 let map = null;
 let markers = [];
 
-function addMarker(lat, lng, type) {
+function changeJellyAlert(beach_id) {
+    // 알람 초기화
+    $("div.jelly-list > div.jelly-character").removeClass("jelly-alert");
+    $("div.jelly-list > div.jelly-character > div.jelly-rate").hide();
+    $("div.jelly-list > div.jelly-character > div.jelly-density").removeClass("jelly-density-high").removeClass("jelly-density-low");
+
+    // 알람이 아니면 끝
+    if(!alertObj[beach_id]) return;
+
+    // 알람 셋팅
+    alertObj[beach_id].forEach( item => {
+        var jellyDiv = $(`div.jelly-list > div.jelly-character[data-name="${item["jelly"]}"]`);
+        jellyDiv.addClass("jelly-alert");
+        jellyDiv.find("div.jelly-rate").text(parseInt(item["percentLoc"]) + "%").show();
+        if (item['densityPred'] == 1) {
+            jellyDiv.find("div.jelly-density").addClass("jelly-density-low");
+        }
+        else {
+            jellyDiv.find("div.jelly-density").addClass("jelly-density-high");
+        }
+    });
+}
+
+
+function addMarker(lat, lng, type, beach_id) {
     var url_list = ["/images/alert_00.png", "/images/alert_01.png"];
 
     //마커 작업
@@ -31,12 +55,11 @@ function addMarker(lat, lng, type) {
 //        content: contentString
 //    });
 
-    naver.maps.Event.addListener(marker, "click", function() {
-//        if (infowindow.getMap()) {
-//            infowindow.close();
-//        } else {
-//            infowindow.open(map, marker);
-//        }
+    naver.maps.Event.addListener(marker, "click", function(e) {
+        // Select 변경
+        $('#alert-location').val(beach_id);
+
+        changeJellyAlert(beach_id);
     });
 
     markers.push(marker);
@@ -59,8 +82,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 //    addMarker(35.198661, 129.160384);
     oceanInfoList.forEach(item => {
-        var type = 0;  // 0:없음, 1:있음
-        addMarker(item.oceanLat, item.oceanLon, type);
+        addMarker(item.oceanLat, item.oceanLon, !alertObj[item.id] ? 0 : 1, item.id);
     });
 
     const htmlMarker = {
@@ -93,6 +115,8 @@ document.addEventListener("DOMContentLoaded", function(){
             const newCenter = new naver.maps.LatLng(oceanLat, oceanLon);
             map.setCenter(newCenter);
             map.setZoom(12); // 원하는 줌 레벨로 설정
+
+            changeJellyAlert(selectedRegion);
         } else {
             alert("선택한 지역의 좌표 정보가 없습니다.");
         }
