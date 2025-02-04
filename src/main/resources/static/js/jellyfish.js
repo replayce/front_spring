@@ -2,7 +2,7 @@ const jellyData = [
     {
         name: "노무라입깃해파리",
         iconimage: "/images/jelly_icons/노무라입깃.png",
-        mainimage: "/images/jelly_images/노무라입깃.png",
+        mainimage: "/images/jelly_images/노무라입깃.jpg",
         description: {
             size: "최대 길이 2m, 최대 무게 150kg",
             feature: "최대무게 150kg에 머리부분은 연한 갈색을 띄고 단단하며 촉수는 검붉은색이다. " +
