@@ -1,7 +1,7 @@
 // 페이지네이션
 // 전역 변수로 현재 페이지와 페이지 사이즈를 관리 (필요시 전역 상태 관리)
 let currentPage = 1;
-let pageSize = 10; // 기본값, 사용자가 변경할 수 있음
+let pageSize = 12; // 기본값, 사용자가 변경할 수 있음
 
 document.addEventListener("DOMContentLoaded", function () {
     getAllBoards(); // 페이지 로드 시 전체 게시글을 불러오기
