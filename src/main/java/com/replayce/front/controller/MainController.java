@@ -2,10 +2,7 @@ package com.replayce.front.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.replayce.front.client.dto.AlertResponse;
-import com.replayce.front.client.dto.BaseResponse;
-import com.replayce.front.client.dto.JavaResponse;
-import com.replayce.front.client.dto.OceanInfoResponse;
+import com.replayce.front.client.dto.*;
 import com.replayce.front.service.MainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -45,6 +42,9 @@ public class MainController {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+
+        List<BoardResponse> boardList = mainService.getRecentBoard();
+        model.addAttribute("boardList", boardList.subList(0, Math.min(6, boardList.size())));
 
         return "main/main";
     }
