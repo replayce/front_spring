@@ -11,6 +11,83 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+// 해파리 필터 기능 추가
+function setupJellyFilters() {
+    const jellyCharacters = document.querySelectorAll(".jelly-character");
+
+    jellyCharacters.forEach(jelly => {
+        jelly.addEventListener("click", function (event) {
+            event.preventDefault(); //  기본 클릭 효과 방지
+            this.blur(); //  기본 포커스 상태 제거
+            this.classList.toggle("selected-jelly"); //  클릭 시 초록색 테두리 추가/제거
+        });
+    });
+
+    //  필터 적용 버튼 이벤트 추가
+    const filterButton = document.querySelector(".filter");
+    if (filterButton) {
+        filterButton.addEventListener("click", function () {
+            console.log(" 필터 적용 버튼 클릭됨!"); // 버튼 클릭 이벤트 확인
+            applyJellyFilter();
+        });
+    }
+}
+
+//  DOM이 로드된 후 해파리 필터 기능 초기화
+document.addEventListener("DOMContentLoaded", function () {
+    setupJellyFilters();
+});
+
+
+// 선택된 해파리 필터 적용 함수
+function applyJellyFilter() {
+    const selectedJellies = [];
+
+    // 선택된 해파리 아이콘 찾기
+    document.querySelectorAll(".selected-jelly img").forEach(jelly => {
+        const jellyName = jelly.alt.trim(); //  이미지 alt 속성에서 해파리 이름 가져오기
+        if (jellyName) {
+            selectedJellies.push(jellyName);
+        }
+    });
+
+    console.log("🔥 선택된 해파리 목록:", selectedJellies); //  디버깅 로그
+
+    if (selectedJellies.length === 0) {
+        console.log("📌 선택된 해파리가 없으므로 전체 게시글을 불러옵니다.");
+        getAllBoards(); //  선택된 해파리가 없으면 전체 게시글 다시 불러오기
+        return;
+    }
+
+    //  선택된 해파리를 올바르게 인코딩하여 API 요청
+    const encodedJellies = encodeURIComponent(selectedJellies.join(","));
+    const requestUrl = `http://localhost:8081/api/board/filter?jellies=${encodedJellies}`;
+
+    console.log("🚀 API 요청 URL:", requestUrl); // URL 확인
+
+    fetch(requestUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("📌 필터 적용 후 응답 데이터:", data); //  응답 데이터 확인
+
+            if (data.result && data.result.length > 0) {
+                updateBoardList(data.result);
+            } else {
+                alert("❌ 필터에 해당하는 게시글이 없습니다.");
+            }
+        })
+        .catch(error => {
+            console.error("⚠️ 필터 적용 오류:", error);
+            alert("❌ 필터 적용 중 오류가 발생했습니다.");
+        });
+}
+
+
 // 전체 게시글 불러오기 함수
 function getAllBoards() {
     fetch("http://localhost:8081/api/board")
