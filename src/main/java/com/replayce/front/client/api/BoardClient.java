@@ -16,7 +16,6 @@ public interface BoardClient {
     //내 글 검색
     @GetMapping("/board/search")
     List<BoardResponse> searchMyBoards(
-            @RequestParam String writer,
             @RequestParam String writerNumber,
             @RequestParam String writerPassword
     );

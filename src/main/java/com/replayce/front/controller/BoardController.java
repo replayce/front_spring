@@ -49,12 +49,11 @@ public class BoardController {
     // 내 글 검색
     @GetMapping("/search")
     public String searchMyBoards(
-            @RequestParam String writer,
             @RequestParam String writerNumber,
             @RequestParam String writerPassword,
             Model model
     ) {
-        List<BoardResponse> myBoards = boardClient.searchMyBoards(writer, writerNumber, writerPassword);
+        List<BoardResponse> myBoards = boardClient.searchMyBoards(writerNumber, writerPassword);
         model.addAttribute("boards", myBoards);
         return "main/board";
     }
