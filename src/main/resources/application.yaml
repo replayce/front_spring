@@ -25,6 +25,10 @@ java-client:
   api:
     host: http://localhost:8081
 
+python-client:
+  api:
+    host: http://localhost:8082
+
 feign:
   httpclient:
     enabled: false
