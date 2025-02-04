@@ -40,7 +40,8 @@ public class BoardController {
     //상세보기
     @GetMapping("/detail/{boardId}")
     public String getDetail(Model model, @PathVariable Long boardId) {
-        CommonResponse<BoardResponse> board = boardClient.getBoard(boardId);
+        CommonResponse<BoardResponse> response = boardClient.getBoard(boardId);
+        BoardResponse board = response.getResult();
         model.addAttribute("board", board);
         return "main/board_detail";
     }

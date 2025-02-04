@@ -1,7 +1,7 @@
 {{>layouts/header}}
     <title>해파리 상세보기</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles_detail.css">
+    <link rel="stylesheet" href="/css/styles_detail.css">
     <script>
         function editPost() {
             let boardId = "{{boardId}}";
@@ -62,7 +62,7 @@
     <div class="detail-box">
         <!-- 왼쪽: 해파리 사진 -->
         <div class="image-container">
-            <img src="{{imageUrl}}" alt="해파리 사진" class="jellyfish-image">
+            <img src="{{board.imageUrl}}" alt="해파리 사진" class="jellyfish-image">
         </div>
 
         <!-- 오른쪽: 정보 섹션 -->
@@ -71,22 +71,23 @@
                 <div class="info-top-left">
                     <div class="info-group">
                         <label class="info-label">해파리</label>
-                        <input type="text" class="form-control short-input" value="{{jelly}}" readonly>
+                        <input type="text" class="form-control short-input" value="{{board.jelly}}" readonly>
                     </div>
 
                     <div class="info-group">
                         <label class="info-label">목격 위치</label>
-                        <input type="text" class="form-control short-input" value="{{location}}" readonly>
+                        <input type="text" class="form-control short-input" value="{{board.location}}" readonly>
                     </div>
 
                     <div class="info-group">
                         <label class="info-label">목격 시점</label>
-                        <input type="text" class="form-control short-input" value="{{date}}|{{hour}}:{{minute}}" readonly>
+                        <input type="text" class="form-control short-input" value="{{board.date}} | {{board.hour}}:{{board.minute}}" readonly>
                     </div>
 
                     <div class="info-group">
                         <label class="info-label">제보자 이름</label>
-                        <input type="text" class="form-control short-input" value="{{writer}}" readonly>
+                        <!--<input type="text" class="form-control short-input" value="오현구" readonly>-->
+                        <input type="text" class="form-control short-input" value="{{board.writer}}" readonly>
                     </div>
                 </div>
 
@@ -99,7 +100,7 @@
             <div class="info-group-des">
                 <label class="info-label-des">상세 설명</label>
                 <!--<textarea class="description" readonly>기억안나 해수욕장에서 수영하려고 했는데 모래사장에 올라오다시피 가까이 와있었어요. 너무 커서 순간 외계생물체는 아닐까 생각했어요.</textarea>-->
-                <textarea class="description" readonly>{{description}}</textarea>
+                <textarea class="description" readonly>{{board.description}}</textarea>
             </div>
 
         </div>
