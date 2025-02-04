@@ -1,9 +1,36 @@
-document.getElementById("searchInput").addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault(); // 기본 Enter 이벤트 방지
-            document.getElementById("searchButton").click(); // 검색 버튼 클릭 이벤트 실행
-        }
+document.addEventListener("DOMContentLoaded", function () {
+    getAllBoards(); // 페이지 로드 시 전체 게시글을 불러오기
+
+    const searchInput = document.getElementById("searchQuery");
+    if (searchInput) {  // ✅ searchInput이 존재하는지 확인
+        searchInput.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") { // 엔터 키 입력 감지
+                searchBoards();
+            }
+        });
+    }
 });
+
+// 전체 게시글 불러오기 함수
+function getAllBoards() {
+    fetch("http://localhost:8081/api/board")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.result && data.result.length > 0) {
+                updateBoardList(data.result);
+            } else {
+                console.warn("게시글이 없습니다.");
+            }
+        })
+        .catch(error => {
+            console.error("게시글 불러오기 오류:", error);
+        });
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     const jellyCharacters = document.querySelectorAll(".jelly-character");
@@ -107,7 +134,7 @@ function searchBoards() {
     const searchQuery = document.getElementById('searchQuery').value.trim();
 
     if (!searchQuery) {
-        alert("검색어를 입력하세요.");
+        getAllBoards();  // 검색어가 없으면 전체 게시글 다시 불러오기
         return;
     }
 
