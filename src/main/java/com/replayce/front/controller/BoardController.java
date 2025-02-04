@@ -50,6 +50,15 @@ public class BoardController {
         return "main/board";
     }
 
+    // 검색 기능 (내용, 위치, 해파리 종류, 독성을 모두 포함)
+    @GetMapping("/search/query")
+    public String searchBoards(@RequestParam String query, Model model) {
+        List<BoardResponse> searchResults = boardClient.searchBoards(query);
+        model.addAttribute("boards", searchResults);
+        return "main/board";
+    }
+
+
     @PostMapping
     public ResponseEntity<CommonResponse<BoardResponse>> createBoard(@RequestBody Board board) {
         CommonResponse<BoardResponse> response = boardClient.createBoard(board);
