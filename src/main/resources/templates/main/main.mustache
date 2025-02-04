@@ -22,49 +22,66 @@
                     <option value="{{id}}">{{oceanTitle}}</option>
                     {{/oceanInfoList}}
                 </select>
-                <select id="icon-help" name="icon-help">
-                    <option value="" disabled selected>도움말</option>
-                    <option value="">예측된 해파리</option>
-                    <option value="">저밀도</option>
-                    <option value="">고밀도</option>
-                </select>
+                <div id="icon-help">
+                    <span>도움말</span>
+                    <div id="help-dropdown" style="display:none;">
+                        <div><div class="help-alert"></div><span> : 예측된 해파리</span></div>
+                        <div><div class="help-low"></div><span> : 저밀도</span></div>
+                        <div><div class="help-high"></div><span> : 고밀도</span></div>
+                    </div>
+                </div>
+<!--                <select id="icon-help" name="icon-help">-->
+<!--                    <option value="" disabled selected>도움말</option>-->
+<!--                    <option value="">예측된 해파리</option>-->
+<!--                    <option value="">저밀도</option>-->
+<!--                    <option value="">고밀도</option>-->
+<!--                </select>-->
             </div>
             <div class="jelly-list">
-                <div class="jelly-character jelly-alert">
+                <div class="jelly-character" data-name="노무라입깃해파리">
                     <img src="/images/jelly_icons/노무라입깃.png" alt="노무라입깃해파리">
-                    <div class="jelly-rate" style="">95%</div>
+                    <div class="jelly-rate" style="display:none;">0%</div>
+                    <div class="jelly-density"></div>
                 </div>
-                <div class="jelly-character jelly-alert">
+                <div class="jelly-character" data-name="보름달물해파리">
                     <img src="/images/jelly_icons/보름달물.png" alt="보름달물해파리">
-                    <div class="jelly-rate" style="">9%</div>
+                    <div class="jelly-rate" style="display:none;">0%</div>
+                    <div class="jelly-density"></div>
                 </div>
-                <div class="jelly-character">
+                <div class="jelly-character" data-name="커튼원양해파리">
                     <img src="/images/jelly_icons/커튼원양.png" alt="커튼원양해파리">
-                    <div class="jelly-rate" style="display:none;">95%</div>
+                    <div class="jelly-rate" style="display:none;">0%</div>
+                    <div class="jelly-density"></div>
                 </div>
-                <div class="jelly-character">
+                <div class="jelly-character" data-name="유령해파리">
                     <img src="/images/jelly_icons/유령.png" alt="유령해파리">
-                    <div class="jelly-rate" style="display:none;">95%</div>
+                    <div class="jelly-rate" style="display:none;">0%</div>
+                    <div class="jelly-density"></div>
                 </div>
-                <div class="jelly-character">
+                <div class="jelly-character" data-name="작은상자해파리">
                     <img src="/images/jelly_icons/작은상자.png" alt="작은상자해파리">
-                    <div class="jelly-rate" style="display:none;">95%</div>
+                    <div class="jelly-rate" style="display:none;">0%</div>
+                    <div class="jelly-density"></div>
                 </div>
-                <div class="jelly-character">
+                <div class="jelly-character" data-name="두빛보름달해파리">
                     <img src="/images/jelly_icons/두빛보름달.png" alt="두빛보름달해파리">
-                    <div class="jelly-rate" style="display:none;">95%</div>
+                    <div class="jelly-rate" style="display:none;">0%</div>
+                    <div class="jelly-density"></div>
                 </div>
-                <div class="jelly-character">
+                <div class="jelly-character" data-name="기수식용(숲뿌리)해파리">
                     <img src="/images/jelly_icons/기수식용(숲뿌리).png" alt="기수식용(숲뿌리)해파리">
-                    <div class="jelly-rate" style="display:none;">95%</div>
+                    <div class="jelly-rate" style="display:none;">0%</div>
+                    <div class="jelly-density"></div>
                 </div>
-                <div class="jelly-character">
+                <div class="jelly-character" data-name="야광원양해파리">
                     <img src="/images/jelly_icons/야광원양.png" alt="야광원양해파리">
-                    <div class="jelly-rate" style="display:none;">95%</div>
+                    <div class="jelly-rate" style="display:none;">0%</div>
+                    <div class="jelly-density"></div>
                 </div>
-                <div class="jelly-character">
+                <div class="jelly-character" data-name="푸른우산관해파리">
                     <img src="/images/jelly_icons/푸른우산관.png" alt="푸른우산관해파리">
-                    <div class="jelly-rate" style="display:none;">95%</div>
+                    <div class="jelly-rate" style="display:none;">0%</div>
+                    <div class="jelly-density"></div>
                 </div>
             </div>
             <div class="board-list">
@@ -74,12 +91,21 @@
 
 <!-- 간단한 토글 스크립트 -->
 <script>
-    var alertList = {{{alertListJson}}};
     var oceanInfoList = {{{oceanInfoJson}}};
     var oceanInfoObj = {};
     oceanInfoList.forEach(item => {
         oceanInfoObj[item.id] = { ...item };
     });
+
+    var alertList = {{{alertListJson}}};
+    var alertObj = {};
+    alertList.forEach(item => {
+        if (!alertObj[item.beachId]) {
+            alertObj[item.beachId] = [];
+        }
+        alertObj[item.beachId].push({...item});
+    });
+
 
     //  .jelly-character에 클릭 이벤트 -> 도감 연결
     document.querySelectorAll('.jelly-character').forEach(item => {
@@ -88,9 +114,22 @@
             const jellyName = item.querySelector('img').alt;
 
             // detail 페이지로 이동 + URL 파라미터로 해파리 이름 전달
-            location.href = "/main/detail?jelly=" + encodeURIComponent(jellyName);
+            location.href = "/detail?jelly=" + encodeURIComponent(jellyName);
         });
     });
+
+    $(document).ready(function() {
+        $('div#icon-help').on('click', function() {
+            if ($('div#help-dropdown').css('display') == 'none') {
+                $('div#help-dropdown').show();
+            }
+            else {
+                $('div#help-dropdown').hide();
+            }
+        });
+    });
+
+
 </script>
 
 {{>layouts/footer}}
