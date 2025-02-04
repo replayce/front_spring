@@ -1,76 +1,27 @@
-// // ----------------------- 해파리 판별 ---------------------//
-// document.getElementById("jellyfish-photo").addEventListener("change", function(event) {
-//     const file = event.target.files[0];
-//     if (file) {
-//         const reader = new FileReader();
-//         reader.onload = function(e) {
-//             document.getElementById("preview-image").src = e.target.result;
-//             document.getElementById("preview-image").style.display = "block";
-//             document.querySelector(".upload-text").style.display = "none";
-//
-//             // 🟢 해파리 종류 입력창을 올바르게 선택하도록 수정
-//             const jellyfishTypeInput = document.getElementById("jellyfish-type");
-//
-//             if (jellyfishTypeInput) {
-//                 // 여기서 해파리 판별 AI API를 호출하여 이름을 자동 입력하도록 구현 가능
-//                 fetchJellyfishTypeFromAPI(file).then(jellyfishName => {
-//                     jellyfishTypeInput.value = jellyfishName;
-//                 }).catch(() => {
-//                     jellyfishTypeInput.value = "해파리 판별 실패 😢";
-//                 });
-//             } else {
-//                 console.error("❌ 해파리 입력창을 찾을 수 없음!");
-//             }
-//         };
-//         reader.readAsDataURL(file);
-//     }
-// });
-//
-// // 🟢 해파리 판별 API 호출 함수 (실제 API 연결 필요)
-// async function fetchJellyfishTypeFromAPI(file) {
-//     const formData = new FormData();
-//     formData.append("image", file);
-//
-//     try {
-//         const response = await fetch("YOUR_JELLYFISH_AI_API_URL", {
-//             method: "POST",
-//             body: formData
-//         });
-//
-//         if (!response.ok) {
-//             throw new Error(`API 오류: ${response.status} ${response.statusText}`);
-//         }
-//
-//         const data = await response.json();
-//         return data.jellyfish_name || "알 수 없는 해파리";
-//     } catch (error) {
-//         console.error("❌ 해파리 판별 오류:", error);
-//         return "해파리 판별 실패 😢";
-//     }
-// }
-// // ------------------ 해파리 판별 -------------------- //
-
 // ----------------------- 해파리 판별 & 이미지 업로드 ---------------------//
 
 document.addEventListener("DOMContentLoaded", function () {
     // 🟢 "등록하기" 버튼 클릭 이벤트 등록
     document.querySelector(".submit-btn").addEventListener("click", function (event) {
         event.preventDefault(); // 기본 폼 제출 방지
-        console.log("🚀 등록 버튼 클릭됨!"); // 테스트 로그 출력
-        submitReport(); // 데이터 서버로 전송
+        console.log("🚀 등록 버튼 클릭됨!");
+        submitReport();
     });
 
-    // 🟢 사용자가 사진 업로드 시 실행
-    document.getElementById("jellyfish-photo").addEventListener("change", function (event) {
+    // 🟢 사진 업로드 시 실행 (해파리 판별 API 호출)
+    document.getElementById("jellyfish-photo").addEventListener("change", function(event) {
         const file = event.target.files[0];
         if (file) {
-            previewImage(file); // 이미지 미리보기
-            uploadImageToServer(file); // 스토리지에 업로드
+            previewImage(file);
+            uploadImageToServer(file);
         }
     });
+
+    // 🟢 "이름 자동 생성" 버튼 클릭 시 실행 (랜덤 해파리 이름 생성)
+    document.getElementById("auto-generate-btn").addEventListener("click", generateJellyfishNameWithOpenAI);
 });
 
-// 🟢 (1) 이미지 미리보기
+// 🟢 (1) 이미지 미리보기 함수
 function previewImage(file) {
     const reader = new FileReader();
     reader.onload = function (e) {
@@ -99,8 +50,8 @@ async function uploadImageToServer(file) {
         const data = await response.json();
         if (data.result) {
             console.log("🟢 이미지 업로드 성공:", data.result);
-            document.getElementById("jellyfish-image-url").value = data.result; // 이미지 URL 저장
-            fetchJellyfishTypeFromAPI(data.result); // 🟢 Python 서버에 판별 요청
+            document.getElementById("jellyfish-image-url").value = data.result;
+            fetchJellyfishTypeFromAPI(data.result);
         } else {
             throw new Error("이미지 URL 없음");
         }
@@ -131,7 +82,7 @@ async function fetchJellyfishTypeFromAPI(imageUrl) {
 // 🟢 (4) 등록하기 요청
 async function submitReport() {
     let reportData = {
-        content: "", // ✅ content는 빈 값
+        content: "",
         writer: document.getElementById("reporter-name").value,
         writerNumber: document.querySelector("input[type='text']").value,
         writerPassword: document.querySelector("input[type='password']").value,
@@ -150,7 +101,7 @@ async function submitReport() {
     } else if (reportData.jelly === "보름달물 해파리") {
         reportData.toxicity = "약독성";
     } else {
-        reportData.toxicity = ""; // 기타 경우 빈 값
+        reportData.toxicity = "";
     }
 
     try {
@@ -159,7 +110,7 @@ async function submitReport() {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(reportData), // ✅ JSON 형식으로 변환하여 전송
+            body: JSON.stringify(reportData),
         });
 
         if (!response.ok) {
@@ -167,13 +118,12 @@ async function submitReport() {
         }
 
         alert("등록 성공!");
-        window.location.href = "/main/board"; // ✅ 게시글 목록으로 이동
+        window.location.href = "/main/board";
     } catch (error) {
         console.error("❌ 등록 오류:", error);
         alert("등록에 실패했습니다.");
     }
 }
-
 // ------------------ 해파리 판별 & 이미지 업로드 -------------------- //
 
 
@@ -301,7 +251,8 @@ async function generateJellyfishNameWithOpenAI() {
         console.log("🟡 API 응답 데이터:", data);
 
         if (data.choices && data.choices[0] && data.choices[0].message) {
-            reporterInput.value = data.choices[0].message.content.trim();
+            // ✅ 따옴표 및 공백 제거
+            reporterInput.value = data.choices[0].message.content.trim().replace(/["']/g, "");
             console.log("✅ 입력창 업데이트 완료:", reporterInput.value);
         } else {
             console.error("❌ API 응답이 비어 있음:", data);
