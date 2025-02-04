@@ -302,9 +302,19 @@ a {
     box-shadow: 5px 5px 5px rgba(0,0,0,0.3);
 }
 
+/* 기본 클릭 시 생기는 검정색 테두리 완전 제거 */
+.jelly-character:focus,
+.jelly-character:active {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
 /* 선택된 해파리 이미지에 초록색 테두리 추가 */
 .selected-jelly {
     border: 5px solid #3AB54B !important; /* 초록색 테두리 */
+    border-radius: 10px; /* 둥근 모서리 */
+    /* transition: all 0.2s ease-in-out; /* 부드러운 효과 */
 }
 
 /* 예시 배경 */
