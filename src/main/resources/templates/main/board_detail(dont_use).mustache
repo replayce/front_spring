@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jelly Mully - 제보 게시판 - 상세 보기</title>
+    <link rel="stylesheet" href="/css/board.css">
+    <script>
+        function editPost() {
+            let boardId = "{{boardId}}";
+            let content = document.getElementById("content").value;
+
+            fetch(`/main/board/${boardId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    content: content
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("게시글이 수정되었습니다.");
+                    location.reload();
+                } else {
+                    alert("수정에 실패하였습니다.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        function deletePost() {
+            let boardId = "{{boardId}}";
+            if (confirm("정말 삭제하시겠습니까?")) {
+                fetch(`/main/board/${boardId}`, {
+                    method: "DELETE"
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert("게시글이 삭제되었습니다.");
+                        window.location.href = "/main/board";
+                    } else {
+                        alert("삭제에 실패하였습니다.");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="top-header">
+        <div class="header-logo">
+            <a href="/main">
+                <img class="left-icon" src="/images/jellymully_logo_01.png" alt="Logo">
+            </a>
+        </div>
+    </div>
+
+    <div class="detail-container">
+        <button onclick="history.back()">뒤로가기</button>
+
+        <div class="board-detail">
+            <img src="{{imageUrl}}" alt="게시글 이미지" class="board-image">
+            <div class="board-info">
+                <p><strong>해파리</strong> {{jelly}}</p>
+                <p><strong>목격 위치</strong> {{location}}</p>
+                <p><strong>목격 시점</strong> {{date}} {{hour}}:{{minute}}</p>
+                <p><strong>제보자 이름</strong> {{writer}}</p>
+                <p><strong>해파리 독성</strong> {{toxicity}}</p>
+                <p><strong>해파리 설명</strong> {{writerNumber}}</p>
+                <p><strong>상세 설명</strong></p>
+                <textarea id="content">{{description}}</textarea>
+            </div>
+        </div>
+
+        <button onclick="editPost()">수정하기</button>
+        <button onclick="deletePost()" class="delete-btn">삭제</button>
+    </div>
+</div>
+</body>
+</html>

@@ -37,6 +37,14 @@ public class BoardController {
         return ResponseEntity.ok(boards);
     }
 
+    //상세보기
+    @GetMapping("/detail")
+    public String getDetail(Model model, @PathVariable Long boardId) {
+        CommonResponse<BoardResponse> board = boardClient.getBoard(boardId);
+        model.addAttribute("board", board);
+        return "main/board_detail";
+    }
+
     // 내 글 검색
     @GetMapping("/search")
     public String searchMyBoards(
@@ -60,10 +68,23 @@ public class BoardController {
 
 
     @PostMapping
-    public ResponseEntity<CommonResponse<BoardResponse>> createBoard(@RequestBody Board board) {
-        CommonResponse<BoardResponse> response = boardClient.createBoard(board);
+    public ResponseEntity<CommonResponse<BoardResponse>> createBoard(@RequestBody BoardRequestDto requestDto) {
+        if (requestDto.getToxicity() == null || requestDto.getToxicity().isEmpty()) {
+            if ("노무라입깃 해파리".equals(requestDto.getJelly())) {
+                requestDto.setToxicity("강독성");
+            } else if ("보름달물 해파리".equals(requestDto.getJelly())) {
+                requestDto.setToxicity("약독성");
+            }
+        }
+
+        if (requestDto.getContent() == null) {
+            requestDto.setContent("");
+        }
+
+        CommonResponse<BoardResponse> response = boardClient.createBoard(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
 
 
     @PatchMapping("/{boardId}")

@@ -21,4 +21,5 @@ public class AlertResponse {
     private LocalDateTime createDate; // 생성 시간
     @JsonIgnore
     private LocalDateTime updateDate; // 수정 시간
+    private Long beachId;
 }

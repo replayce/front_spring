@@ -1,39 +1,8 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8" />
+{{>layouts/header}}
     <title>Jelly Mully - 해파리 도감</title>
     <link rel="stylesheet" href="/css/detail.css" />
-</head>
-<body style="
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: url('/images/jelly_back_img_01.jpg') no-repeat center center fixed;
-    background-size: cover;
-    background-position: bottom;
-">
-
-<div class="container">
-    <!-- 상단 헤더 영역 -->
-    <div class="top-header">
-        <div class="top-header-inner">
-            <div class="header-logo">
-                <a href="/main">
-                    <img class="left-icon" src="/images/jellymully_logo_01.png" alt="Side Icon">
-                    <img class="top-background-logo" src="/images/jellymully_logo_EN 1.png" alt="Logo">
-                </a>
-            </div>
-            <!-- 네비게이션 메뉴 -->
-            <div class="nav-menu">
-                <a href="/main"><div class="nav-menu-item">메인 메뉴</div></a>
-                <a href="/main/detail"><div class="nav-menu-item">해파리 도감</div></a>
-                <a href="/main/board"><div class="nav-menu-item">제보 게시판</div></a>
-                <a href="/main.html"><div class="nav-menu-item">나머지</div></a>
-            </div>
-        </div>
-    </div>
-
-    <div class="main-contents">
+    <script src="/js/jellyfish.js"></script>
+{{>layouts/header2}}
         <!-- 왼쪽 섹션 -->
         <div class="left-section">
             <div class="slider-container">
@@ -79,17 +48,4 @@
             </div>
         </div>
 
-    </div>
-
-    <!-- 하단 푸터 -->
-    <div class="footer">
-        <div class="footer-text">이용약관</div>
-        <div class="footer-text">개인정보처리방침</div>
-        <div class="footer-text">Copyright 2025. made with by NULL 찾아 5조</div>
-    </div>
-</div>
-
-<!-- 해파리 데이터 로드 -->
-<script src="/js/jellyfish.js"></script>
-</body>
-</html>
+{{>layouts/footer}}
