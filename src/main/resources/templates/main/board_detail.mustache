@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Jelly Mully - 제보 게시판 - 상세 보기</title>
-    <link rel="stylesheet" href="/css/board.css">
+{{>layouts/header}}
+    <title>해파리 상세보기</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles_detail.css">
     <script>
         function editPost() {
             let boardId = "{{boardId}}";
@@ -47,37 +45,65 @@
             }
         }
     </script>
-</head>
-<body>
-<div class="container">
-    <div class="top-header">
-        <div class="header-logo">
-            <a href="/main">
-                <img class="left-icon" src="/images/jellymully_logo_01.png" alt="Logo">
-            </a>
+{{>layouts/header2}}
+
+<!-- 전체 반투명 오버레이 -->
+<div class="overlay">
+    <!-- 상단 버튼 (박스 바깥) -->
+    <div class="header-container">
+        <button class="btn back-btn">뒤로가기</button>
+        <div class="header-actions">
+            <button class="btn delete-btn">삭제</button>
+            <button class="btn edit-btn">수정하기</button>
         </div>
     </div>
 
-    <div class="detail-container">
-        <button onclick="history.back()">뒤로가기</button>
-
-        <div class="board-detail">
-            <img src="{{imageUrl}}" alt="게시글 이미지" class="board-image">
-            <div class="board-info">
-                <p><strong>해파리</strong> {{jelly}}</p>
-                <p><strong>목격 위치</strong> {{location}}</p>
-                <p><strong>목격 시점</strong> {{date}} {{hour}}:{{minute}}</p>
-                <p><strong>제보자 이름</strong> {{writer}}</p>
-                <p><strong>해파리 독성</strong> {{toxicity}}</p>
-                <p><strong>해파리 설명</strong> {{writerNumber}}</p>
-                <p><strong>상세 설명</strong></p>
-                <textarea id="content">{{description}}</textarea>
-            </div>
+    <!-- 상세보기 박스 -->
+    <div class="detail-box">
+        <!-- 왼쪽: 해파리 사진 -->
+        <div class="image-container">
+            <img src="{{imageUrl}}" alt="해파리 사진" class="jellyfish-image">
         </div>
 
-        <button onclick="editPost()">수정하기</button>
-        <button onclick="deletePost()" class="delete-btn">삭제</button>
+        <!-- 오른쪽: 정보 섹션 -->
+        <div class="info-container">
+            <div class="info-top">
+                <div class="info-top-left">
+                    <div class="info-group">
+                        <label class="info-label">해파리</label>
+                        <input type="text" class="form-control short-input" value="{{jelly}}" readonly>
+                    </div>
+
+                    <div class="info-group">
+                        <label class="info-label">목격 위치</label>
+                        <input type="text" class="form-control short-input" value="{{location}}" readonly>
+                    </div>
+
+                    <div class="info-group">
+                        <label class="info-label">목격 시점</label>
+                        <input type="text" class="form-control short-input" value="{{date}}|{{hour}}:{{minute}}" readonly>
+                    </div>
+
+                    <div class="info-group">
+                        <label class="info-label">제보자 이름</label>
+                        <input type="text" class="form-control short-input" value="{{writer}}" readonly>
+                    </div>
+                </div>
+
+                <div class="jellyfish-icon">
+                    <img src="/images/jelly_icons/노무라입깃.png" alt="해파리 아이콘">
+                    <button class="btn view-map">도감 보기</button>
+                </div>
+            </div>
+
+            <div class="info-group-des">
+                <label class="info-label-des">상세 설명</label>
+                <!--<textarea class="description" readonly>기억안나 해수욕장에서 수영하려고 했는데 모래사장에 올라오다시피 가까이 와있었어요. 너무 커서 순간 외계생물체는 아닐까 생각했어요.</textarea>-->
+                <textarea class="description" readonly>{{description}}</textarea>
+            </div>
+
+        </div>
     </div>
 </div>
-</body>
-</html>
+
+{{>layouts/footer}}
