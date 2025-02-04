@@ -9,7 +9,11 @@ import java.time.LocalDateTime;
 @Setter
 public class ReportResponse {
     private int id;
-    private String title;
     private String writer;
-    private LocalDateTime createdDate;
+    private String writerNumber;
+    private String date;
+    private int hour;
+    private int minute;
+    private String location;
+    private String jelly;
 }

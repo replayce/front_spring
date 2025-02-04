@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "reportClient", url = "http://localhost:8081")
+@FeignClient(name = "reportClient", url = "http://localhost:8081/api")
 public interface ReportClient {
-    @GetMapping("/boards")
+    @GetMapping("/board")
     CommonResponse<List<ReportResponse>> getBoards();
 
 }
