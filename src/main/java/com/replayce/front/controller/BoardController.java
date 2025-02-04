@@ -37,6 +37,14 @@ public class BoardController {
         return ResponseEntity.ok(boards);
     }
 
+    //상세보기
+    @GetMapping("/detail")
+    public String getDetail(Model model, @PathVariable Long boardId) {
+        CommonResponse<BoardResponse> board = boardClient.getBoard(boardId);
+        model.addAttribute("board", board);
+        return "main/board_detail";
+    }
+
     // 내 글 검색
     @GetMapping("/search")
     public String searchMyBoards(

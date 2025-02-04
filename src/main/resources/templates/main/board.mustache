@@ -25,12 +25,14 @@
                 <div class="board-content-list">
                     {{#boards}}
                         <div class="board-row">
-                            <span class="no">{{boardId}}</span>
-                            <span class="icon"><img src="/images/jelly_icons/노무라입깃.png" alt="해파리 아이콘"></span>
-                            <span class="loc">{{location}}</span>
-                            <span class="jelly-name">{{jelly}}</span>
-                            <span class="report-time">{{formattedTime}}</span>
-                            <span class="informant">{{writer}}</span>
+                            <a href="/board/detail/${boardId}">
+                                <span class="no">{{boardId}}</span>
+                                <span class="icon"><img src="/images/jelly_icons/노무라입깃.png" alt="해파리 아이콘"></span>
+                                <span class="loc">{{location}}</span>
+                                <span class="jelly-name">{{jelly}}</span>
+                                <span class="report-time">{{formattedTime}}</span>
+                                <span class="informant">{{writer}}</span>
+                            </a>
                         </div>
                     {{/boards}}
                 </div>
