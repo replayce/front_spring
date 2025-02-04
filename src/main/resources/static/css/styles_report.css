@@ -1,38 +1,7 @@
-/* 전체 페이지 스타일 */
-body {
-    margin: 0;
-    padding: 0;
-    background-image: url('jelly_back_img_01.jpg'); /* 배경 이미지 */
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-/* 네비게이션 바 (완전 투명) */
-.navbar {
-    width: 100%;
-    height: 80px;
-    background-color: transparent;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10;
-}
-
-/* 전체 반투명 오버레이 (투명도 30%) */
-.overlay {
-    position: absolute;
-    top: 80px;
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 80px);
-    background-color: rgba(255, 255, 255, 0.3);
+.center-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 20px;
 }
 
 /* 상단 버튼 & 제목 컨테이너 */
@@ -41,7 +10,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
 }
 
 /* 버튼 스타일 */
@@ -91,21 +59,23 @@ body {
     align-items: center; /* 높이 중앙 정렬 */
     justify-content: space-between;
     /*width: 100%;*/
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 .form-group-des {
     display: flex;
-    /*align-items: center; !* 높이 중앙 정렬 *!*/
     justify-content: space-between;
-    /*width: 300px;*/
+    /*align-items: center;*/
+    width: 450px !important;
+
 }
 
 .form-group-btn {
     display: flex;
     align-items: center; /* 높이 중앙 정렬 */
     justify-content: space-between;
+    height: 40px;
     /*width: 100%;*/
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 /* 레이블을 동일한 너비로 설정 */
@@ -134,23 +104,29 @@ body {
 /* 입력창 크기를 통일 */
 .form-control {
     flex-grow: 1; /* 입력창이 동일한 크기를 유지 */
-    max-width: 200px; /* 가로 크기 제한 */
+    /*width: 200px; !* 가로 크기 제한 *!*/
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #95B2B0;
     color: #000000;
     background-color: #95B2B0;
-    height: 40px;
+    height: 40px !important;
+}
+
+#reporter-name {
+    height: 40px !important;
 }
 
 .description {
     padding: 8px;
     background-color: #95B2B0;
     height: 80px;
-    width: 325px;
+    width: 365px !important; /* 강제 고정 */
+    max-width: 365px; /* 최대 너비 제한 */
     resize: none;
+    box-sizing: border-box;
+    border: 0;
     border-radius: 5px;
-    border: 1px solid #ccc;
 }
 
 /* 핸드폰 번호, 비밀번호, 비밀번호 확인 입력창만 가로 길이 줄이고 왼쪽 정렬 유지 */
@@ -168,26 +144,27 @@ body {
 /* 핸드폰 번호, 비밀번호, 비밀번호 확인 + 사진 업로드 정렬 */
 .info-with-photo {
     display: flex;
-    align-items: center;
+    /*align-items: center;*/
     justify-content: space-between;
     width: 100%;
 }
 
 /* 세로형 사진 업로드 박스 */
 .photo-upload {
-    width: 120px;
-    height: 180px;
+    width: 150px;
+    height: 190px;
     background-color: #4A5C99;
     display: flex;
     flex-direction: column; /* 요소들을 세로로 배치 */
     align-items: center;
     justify-content: center;
-    border: 2px dashed white;
+    border: 1px dashed white;
     border-radius: 10px;
     cursor: pointer;
     position: relative;
-    padding: 20px; /* 내부 간격 추가 */
-    margin-bottom: 5px;
+    /*padding: 20px; !* 내부 간격 추가 *!*/
+    /*margin-bottom: 5px;*/
+    box-sizing: border-box;
 }
 
 /* 파일 업로드 입력 숨기기 */
@@ -213,16 +190,56 @@ body {
 /* 목격 시점 입력창 (날짜, 시간, 분을 한 줄로 정렬) */
 .datetime-group {
     /*width: 100%;*/
+    /*max-height: 40px;*/
     display: flex;
     gap: 5px; /* 간격 추가 */
     flex-grow: 1; /* 가로 길이를 맞춤 */
 }
 
+input[type="date"] {
+    height: 40px !important; /* 강제 적용 */
+    line-height: normal;
+    appearance: none; /* 브라우저 기본 스타일 제거 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    box-sizing: border-box; /* border와 padding을 포함한 크기 지정 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input[type="text"] {
+    height: 40px !important; /* 강제 적용 */
+    padding: 8px; /* 패딩 제거 */
+    line-height: normal;
+    appearance: none; /* 브라우저 기본 스타일 제거 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    box-sizing: border-box; /* border와 padding을 포함한 크기 지정 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input[type="password"] {
+    height: 40px !important; /* 강제 적용 */
+    padding: 8px; /* 패딩 제거 */
+    line-height: normal;
+    appearance: none; /* 브라우저 기본 스타일 제거 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    box-sizing: border-box; /* border와 padding을 포함한 크기 지정 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
 /* 시간 및 분 입력창 */
 .time-input {
-    width: 30%; /* 시간, 분 드롭다운 크기 조절 */
+    width: 10%; /* 시간, 분 드롭다운 크기 조절 */
     display: flex;
-
 }
 
 /* 위치 버튼 (목격 위치 입력창 오른쪽에 배치) */
@@ -234,33 +251,25 @@ body {
 .input-wrapper-btn {
     display: flex;
     gap: 10px; /* 입력창과 버튼 간격 조정 */
-    width: 325px;
+    width: 365px;
 }
 
 .find-location, .auto-generate {
     background-color: #FFF275;
     border: none;
     padding: 5px 8px;
-    width: 50%; /* 가로 길이 증가 */
+    width: 30%; /* 가로 길이 증가 */
+    border-radius: 5px;
     text-align: center;
     font-size: 12px;
 }
 
-/*!* 이름 자동 생성 버튼 (제보자 이름 입력창 오른쪽에 배치) *!*/
-/*.auto-generate {*/
-/*    background-color: #FFF275;*/
-/*    border: none;*/
-/*    padding: 5px 8px;*/
-/*    text-align: center;*/
-/*    font-size: 12px;*/
-/*}*/
-
 /* 상세 설명 텍스트 */
 textarea {
-    width: 100%;
-    resize: none;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    /*width: 365px;*/
+    /*resize: none;*/
+    /*border-radius: 5px;*/
+    /*border: 1px solid #ccc;*/
 }
 
 /* 해파리 입력창 스타일 */
