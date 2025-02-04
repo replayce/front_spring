@@ -16,12 +16,17 @@ public interface BoardClient {
     @GetMapping("/board")
     CommonResponse<List<BoardResponse>> getAllBoards();
 
+    //내 글 검색
     @GetMapping("/board/search")
     List<BoardResponse> searchMyBoards(
             @RequestParam String writer,
             @RequestParam String writerNumber,
             @RequestParam String writerPassword
     );
+
+    //query 키워드 통한 검색
+    @GetMapping("/board/search/query")
+    List<BoardResponse> searchBoards(@RequestParam String query);
 
     @GetMapping("/board/{boardId}")
     CommonResponse<BoardResponse> getBoard(@PathVariable Long boardId);

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/main/board")
+@RequestMapping("/board")
 public class BoardController {
 
     private final BoardClient boardClient;
@@ -37,6 +37,14 @@ public class BoardController {
         return ResponseEntity.ok(boards);
     }
 
+    //상세보기
+    @GetMapping("/detail")
+    public String getDetail(Model model, @PathVariable Long boardId) {
+        CommonResponse<BoardResponse> board = boardClient.getBoard(boardId);
+        model.addAttribute("board", board);
+        return "main/board_detail";
+    }
+
     // 내 글 검색
     @GetMapping("/search")
     public String searchMyBoards(
@@ -49,6 +57,15 @@ public class BoardController {
         model.addAttribute("boards", myBoards);
         return "main/board";
     }
+
+    // 검색 기능 (내용, 위치, 해파리 종류, 독성을 모두 포함)
+    @GetMapping("/search/query")
+    public String searchBoards(@RequestParam String query, Model model) {
+        List<BoardResponse> searchResults = boardClient.searchBoards(query);
+        model.addAttribute("boards", searchResults);
+        return "main/board";
+    }
+
 
     @PostMapping
     public ResponseEntity<CommonResponse<BoardResponse>> createBoard(@RequestBody Board board) {

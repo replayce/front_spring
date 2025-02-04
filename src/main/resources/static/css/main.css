@@ -42,6 +42,7 @@
     border-radius: 10px;
     position:relative;
     box-sizing: border-box;
+    border: 5px solid transparent;
 }
 
 .jelly-rate{
@@ -70,6 +71,24 @@
     margin-top: 10px;
 }
 
+.jelly-density {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    top: 5px;
+    right: 5px;
+    box-sizing: border-box;
+}
+
+.jelly-density-high {
+    background-color: #603813;
+}
+
+.jelly-density-low {
+    border: 4px solid #603813;
+}
+
 .board-list {
     height:270px;
     background-color:#95B2B0;
@@ -89,8 +108,53 @@
     height:30px;
     border: 0px;
     border-radius:10px;
-    padding-left:10px;
     background-color :#95B2B0;
+    text-align: center;
+    position:relative;
+}
+
+#icon-help span {
+    font-size: 13px;
+    line-height: 30px;
+}
+
+#help-dropdown {
+    position:absolute;
+    z-index: 1;
+    border-radius:10px;
+    background-color:#95B2B0;
+    padding:10px;
+    right:0px;
+    text-align:left;
+    min-width:120px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+div.help-alert {
+    display:inline-block;
+    width:20px;
+    height:20px;
+    border-radius: 4px;
+    border:4px solid #3AB54B;
+    box-sizing: border-box;
+}
+
+div.help-low {
+    display:inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    border: 4px solid #603813;
+    box-sizing: border-box;
+}
+
+div.help-high {
+    display:inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: #603813;
+    box-sizing: border-box;
 }
 
 /* ============== 드롭다운 이외의 영역 클릭 시 닫기 ============== */

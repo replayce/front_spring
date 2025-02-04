@@ -1,12 +1,48 @@
-// 해파리 아이콘 클릭 시 초록색 테두리 추가/제거
+document.addEventListener("DOMContentLoaded", function () {
+    getAllBoards(); // 페이지 로드 시 전체 게시글을 불러오기
+
+    const searchInput = document.getElementById("searchQuery");
+    if (searchInput) {  // ✅ searchInput이 존재하는지 확인
+        searchInput.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") { // 엔터 키 입력 감지
+                searchBoards();
+            }
+        });
+    }
+});
+
+// 전체 게시글 불러오기 함수
+function getAllBoards() {
+    fetch("http://localhost:8081/api/board")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.result && data.result.length > 0) {
+                updateBoardList(data.result);
+            } else {
+                console.warn("게시글이 없습니다.");
+            }
+        })
+        .catch(error => {
+            console.error("게시글 불러오기 오류:", error);
+        });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const jellyCharacters = document.querySelectorAll(".jelly-character");
 
     jellyCharacters.forEach(jelly => {
-        jelly.addEventListener("click", function () {
-            this.classList.toggle("selected-jelly"); // 클릭 시 테두리 추가/제거
+        jelly.addEventListener("click", function (event) {
+            event.preventDefault(); // 기본 클릭 효과 방지 (검정 테두리 제거)
+            this.blur(); // 기본 포커스 상태 제거
+            this.classList.toggle("selected-jelly"); // 클릭 시 초록색 테두리 추가/제거
         });
     });
+});
 
 // 검색 팝업 열기
 function openSearchPopup() {
@@ -92,6 +128,38 @@ function searchMyBoards() {
         alert('검색 중 오류가 발생했습니다.');
     });
 }
+
+// 검색 기능 (내용, 위치, 해파리 종류, 독성을 모두 포함)
+function searchBoards() {
+    const searchQuery = document.getElementById('searchQuery').value.trim();
+
+    if (!searchQuery) {
+        getAllBoards();  // 검색어가 없으면 전체 게시글 다시 불러오기
+        return;
+    }
+
+    fetch(`http://localhost:8081/api/board/search/query?query=${encodeURIComponent(searchQuery)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.result && data.result.length > 0) {
+                updateBoardList(data.result);
+            } else {
+                alert('검색 결과가 없습니다.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('검색 중 오류가 발생했습니다.');
+        });
+}
+
+// 검색 버튼 클릭 이벤트 추가
+document.querySelector('.search-button').addEventListener('click', searchBoards);
 
 // 게시판 업데이트
 function updateBoardList(boards) {
