@@ -1,6 +1,7 @@
 package com.replayce.front.service;
 
 import com.replayce.front.client.api.AlertClient;
+import com.replayce.front.client.api.BoardClient;
 import com.replayce.front.client.api.JavaClient;
 import com.replayce.front.client.api.OceanInfoClient;
 import com.replayce.front.client.dto.*;
@@ -16,6 +17,7 @@ public class MainService {
     private final JavaClient javaClient;
     private final AlertClient alertClient;
     private final OceanInfoClient oceanInfoClient;
+    private final BoardClient boardClient;
 
     public JavaResponse getJava(Long id, String query) {
         // 에러코드 처리 진행해야 한다.
@@ -30,5 +32,9 @@ public class MainService {
 
     public List<OceanInfoResponse> getAllOceanInfo() {
         return oceanInfoClient.getAllOceanInfo("Y").getResult();
+    }
+
+    public List<BoardResponse> getRecentBoard() {
+        return boardClient.getAllBoards().getResult();
     }
 }

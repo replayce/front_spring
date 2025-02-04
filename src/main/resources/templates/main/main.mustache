@@ -23,19 +23,14 @@
                     {{/oceanInfoList}}
                 </select>
                 <div id="icon-help">
-                    <span>도움말</span>
+                    <span style="margin-right:15px;">도움말</span>
+                    <select style="border: 0px; background-color: #95B2B0; pointer-events: none;"></select>
                     <div id="help-dropdown" style="display:none;">
                         <div><div class="help-alert"></div><span> : 예측된 해파리</span></div>
                         <div><div class="help-low"></div><span> : 저밀도</span></div>
                         <div><div class="help-high"></div><span> : 고밀도</span></div>
                     </div>
                 </div>
-<!--                <select id="icon-help" name="icon-help">-->
-<!--                    <option value="" disabled selected>도움말</option>-->
-<!--                    <option value="">예측된 해파리</option>-->
-<!--                    <option value="">저밀도</option>-->
-<!--                    <option value="">고밀도</option>-->
-<!--                </select>-->
             </div>
             <div class="jelly-list">
                 <div class="jelly-character" data-name="노무라입깃해파리">
@@ -84,8 +79,31 @@
                     <div class="jelly-density"></div>
                 </div>
             </div>
+            <div class="board-recent">
+                <table class="board-table">
+                    <tbody>
+                        <tr>
+                            <td><img src="/images/jelly_icons/노무라입깃.png" alt="노무라입깃해파리"></td>
+                            <td>또잉</td>
+                            <td>해파리 발견</td>
+                            <td>30분 전</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="board-list">
-
+                <table class="board-table">
+                    <tbody>
+                        {{#boardList}}
+                        <tr>
+                            <input type="hidden" name="jelly" value="{{jelly}}">
+                            <td><img src="/images/jelly_icons/노무라입깃.png" alt="노무라입깃해파리"></td>
+                            <td>{{location}}</td>
+                            <td>{{jelly}} 발견</td>
+                        </tr>
+                        {{/boardList}}
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -125,6 +143,16 @@
             }
             else {
                 $('div#help-dropdown').hide();
+            }
+        });
+
+        $('table.board-table > tbody > tr').each(function(){
+            var jelly_name = $(this).find('input[name="jelly"]').val();
+            if ( jelly_name == '노무라입깃해파리' ) {
+                $(this).find('td > img').attr('src', '/images/jelly_icons/노무라입깃.png').attr('alt', '노무라입깃해파리');
+            }
+            else {
+                $(this).find('td > img').attr('src', '/images/jelly_icons/보름달물.png').attr('alt', '보름달물해파리');
             }
         });
     });
