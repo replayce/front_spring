@@ -1,9 +1,6 @@
 package com.replayce.front.client.api;
 
-import com.replayce.front.client.dto.BaseResponse;
-import com.replayce.front.client.dto.Board;
-import com.replayce.front.client.dto.BoardResponse;
-import com.replayce.front.client.dto.CommonResponse;
+import com.replayce.front.client.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +28,8 @@ public interface BoardClient {
     @GetMapping("/board/{boardId}")
     CommonResponse<BoardResponse> getBoard(@PathVariable Long boardId);
 
-    @PostMapping("/board")
-    CommonResponse<BoardResponse> createBoard(@RequestBody Board board);
+    @PostMapping(value = "/board", consumes = "application/json", produces = "application/json")
+    CommonResponse<BoardResponse> createBoard(@RequestBody BoardRequestDto requestDto);
 
     @PatchMapping("/board/{boardId}")
     CommonResponse<BoardResponse> updateBoard(

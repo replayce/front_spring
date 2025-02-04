@@ -53,6 +53,13 @@
 // ----------------------- 해파리 판별 & 이미지 업로드 ---------------------//
 
 document.addEventListener("DOMContentLoaded", function () {
+    // 🟢 "등록하기" 버튼 클릭 이벤트 등록
+    document.querySelector(".submit-btn").addEventListener("click", function (event) {
+        event.preventDefault(); // 기본 폼 제출 방지
+        console.log("🚀 등록 버튼 클릭됨!"); // 테스트 로그 출력
+        submitReport(); // 데이터 서버로 전송
+    });
+
     // 🟢 사용자가 사진 업로드 시 실행
     document.getElementById("jellyfish-photo").addEventListener("change", function (event) {
         const file = event.target.files[0];
@@ -114,12 +121,56 @@ async function fetchJellyfishTypeFromAPI(imageUrl) {
         }
 
         const data = await response.json();
-
-        // 🟢 수정: JSON 객체가 아니라 "jellyfish" 필드만 입력
         document.getElementById("jellyfish-type").value = data.result.jellyfish || "해파리 판별 실패 😢";
     } catch (error) {
         console.error("❌ 해파리 판별 오류:", error);
         document.getElementById("jellyfish-type").value = "해파리 판별 실패 😢";
+    }
+}
+
+// 🟢 (4) 등록하기 요청
+async function submitReport() {
+    let reportData = {
+        content: "", // ✅ content는 빈 값
+        writer: document.getElementById("reporter-name").value,
+        writerNumber: document.querySelector("input[type='text']").value,
+        writerPassword: document.querySelector("input[type='password']").value,
+        imageUrl: document.getElementById("jellyfish-image-url").value,
+        date: document.querySelector("input[type='date']").value,
+        hour: parseInt(document.querySelectorAll(".time-input")[0].value, 10),
+        minute: parseInt(document.querySelectorAll(".time-input")[1].value, 10),
+        location: document.getElementById("location-dropdown").value,
+        jelly: document.getElementById("jellyfish-type").value,
+        description: document.querySelector(".description").value,
+    };
+
+    // ✅ 해파리 독성 자동 설정
+    if (reportData.jelly === "노무라입깃 해파리") {
+        reportData.toxicity = "강독성";
+    } else if (reportData.jelly === "보름달물 해파리") {
+        reportData.toxicity = "약독성";
+    } else {
+        reportData.toxicity = ""; // 기타 경우 빈 값
+    }
+
+    try {
+        const response = await fetch("/main/board", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(reportData), // ✅ JSON 형식으로 변환하여 전송
+        });
+
+        if (!response.ok) {
+            throw new Error(`등록 실패: ${response.status} ${response.statusText}`);
+        }
+
+        alert("등록 성공!");
+        window.location.href = "/main/board"; // ✅ 게시글 목록으로 이동
+    } catch (error) {
+        console.error("❌ 등록 오류:", error);
+        alert("등록에 실패했습니다.");
     }
 }
 
