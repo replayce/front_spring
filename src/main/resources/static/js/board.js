@@ -245,14 +245,16 @@ function updateBoardList(boards) {
 
     boards.forEach(board => {
         const boardRow = `
-            <div class="board-row">
-                <span class="no">${board.boardId}</span>
-                <span class="icon"><img src="/images/jelly_icons/노무라입깃.png" alt="해파리 아이콘"></span>
-                <span class="loc">${board.location}</span>
-                <span class="jelly-name">${board.jelly}</span>
-                <span class="report-time">${board.formattedTime}</span>
-                <span class="informant">${board.writer}</span>
-            </div>
+            <a href="/board/detail/${board.boardId}">
+                <div class="board-row">
+                    <span class="no">${board.boardId}</span>
+                    <span class="icon"><img src="/images/jelly_icons/노무라입깃.png" alt="해파리 아이콘"></span>
+                    <span class="loc">${board.location}</span>
+                    <span class="jelly-name">${board.jelly}</span>
+                    <span class="report-time">${board.formattedTime}</span>
+                    <span class="informant">${board.writer}</span>
+                </div>
+            </a>
         `;
         boardList.insertAdjacentHTML('beforeend', boardRow);
     });

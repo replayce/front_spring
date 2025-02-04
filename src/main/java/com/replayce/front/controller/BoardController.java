@@ -38,7 +38,7 @@ public class BoardController {
     }
 
     //상세보기
-    @GetMapping("/detail")
+    @GetMapping("/detail/{boardId}")
     public String getDetail(Model model, @PathVariable Long boardId) {
         CommonResponse<BoardResponse> board = boardClient.getBoard(boardId);
         model.addAttribute("board", board);
