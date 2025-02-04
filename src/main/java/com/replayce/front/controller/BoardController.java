@@ -71,4 +71,5 @@ public class BoardController {
         ResponseEntity<BaseResponse> response = boardClient.deleteBoard(boardId);
         return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
     }
+
 }

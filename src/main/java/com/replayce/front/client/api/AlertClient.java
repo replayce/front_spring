@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "alertClient", url = "http://localhost:8081/api")
+@FeignClient(name = "alertClient", url = "${java-client.api.host}/api")
 public interface AlertClient {
 
     @GetMapping("/alert")
-    CommonResponse<List<AlertResponse>> getAllAlerts();
+    CommonResponse<List<AlertResponse>> getAllAlerts(@RequestParam("is_recent") int is_recent);
 
     @GetMapping("/alert/{alertId}")
     CommonResponse<AlertResponse> getAlertById(@PathVariable Long alertId);

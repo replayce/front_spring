@@ -65,7 +65,7 @@ a {
     flex-direction: row;
     justify-content: center;
     /*justify-content: space-between;*/
-    /*min-height: calc(100vh - 200px);*/
+    min-height: calc(100vh - 200px);
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     gap: 30px;
@@ -75,7 +75,7 @@ a {
 /* 왼쪽 섹션 */
 .left-section {
     width: 480px;
-    /*max-height: 700px;*/
+    height: 770px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -131,6 +131,8 @@ a {
     align-self: center;
     justify-content: center;
     overflow: hidden;
+
+    flex-shrink: 0;
 }
 
 .slider-wrapper {
@@ -212,6 +214,8 @@ a {
 .jelly-dropdown {
     width: 480px;
     align-self: center;
+
+    flex-shrink: 0;
 }
 
 .jelly-select {
@@ -262,7 +266,6 @@ a {
 /* 선택된 해파리 이미지 */
 .selected-jelly {
     width: 480px;
-    /*height: 90%;*/
     display: flex;
     align-self: center;
     justify-content: center;
@@ -279,7 +282,8 @@ a {
 
 .jelly-description {
     /*width: 500px;*/
-    min-height: 350px;
+    min-height: 200px;
+    max-height: 300px;
     background-color: #95B2B0;
     padding: 20px;
     border-radius: 8px;
@@ -294,7 +298,7 @@ a {
 
 .jelly-countermeasures {
     /*width: 480px;*/
-    min-height: 250px;
+    min-height: 100px;
     background-color: #95B2B0;
     padding: 20px;
     border-radius: 8px;
@@ -335,4 +339,8 @@ a {
         max-width: none;
         margin: 0;
     }
+}
+
+.empty-box{
+    height: 90px;
 }

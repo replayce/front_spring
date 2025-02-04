@@ -1,0 +1,66 @@
+{{>layouts/header}}
+    <title>해파리 상세보기</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles_detail.css">
+
+{{>layouts/header2}}
+
+<!-- 전체 반투명 오버레이 -->
+<div class="overlay">
+    <!-- 상단 버튼 (박스 바깥) -->
+    <div class="header-container">
+        <button class="btn back-btn">뒤로가기</button>
+        <div class="header-actions">
+            <button class="btn delete-btn">삭제</button>
+            <button class="btn edit-btn">수정하기</button>
+        </div>
+    </div>
+
+    <!-- 상세보기 박스 -->
+    <div class="detail-box">
+        <!-- 왼쪽: 해파리 사진 -->
+        <div class="image-container">
+            <img src="nomura.png" alt="해파리 사진" class="jellyfish-image">
+        </div>
+
+        <!-- 오른쪽: 정보 섹션 -->
+        <div class="info-container">
+            <div class="info-top">
+                <div class="info-top-left">
+                    <div class="info-group">
+                        <label class="info-label">해파리</label>
+                        <input type="text" class="form-control short-input" value="노무라입깃 해파리" readonly>
+                    </div>
+
+                    <div class="info-group">
+                        <label class="info-label">목격 위치</label>
+                        <input type="text" class="form-control short-input" value="기억안나 해수욕장" readonly>
+                    </div>
+
+                    <div class="info-group">
+                        <label class="info-label">목격 시점</label>
+                        <input type="text" class="form-control short-input" value="2025-07-23 | 13:00" readonly>
+                    </div>
+
+                    <div class="info-group">
+                        <label class="info-label">제보자 이름</label>
+                        <input type="text" class="form-control short-input" value="고깔모자 해파리" readonly>
+                    </div>
+                </div>
+
+                <div class="jellyfish-icon">
+                    <img src="/images/jelly_icons/노무라입깃.png" alt="해파리 아이콘">
+                    <button class="btn view-map">도감 보기</button>
+                </div>
+            </div>
+
+            <div class="info-group-des">
+                <label class="info-label-des">상세 설명</label>
+                <textarea class="description" readonly>기억안나 해수욕장에서 수영하려고 했는데 모래사장에 올라오다시피 가까이 와있었어요. 너무 커서 순간 외계생물체는 아닐까 생각했어요.</textarea>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{{>layouts/footer}}

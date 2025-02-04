@@ -32,14 +32,6 @@ public class AdminController {
     private final String BACKEND_URL = "http://localhost:8081";
 
 
-     // 메인 페이지
-
-    @GetMapping("/")
-    public String mainPage() {
-        return "main/main";
-    }
-
-
      // 관리자 메인 페이지
 
     @GetMapping("/admin")
@@ -136,7 +128,7 @@ public class AdminController {
             }
         } catch (Exception e) {
             log.error("회원가입 실패: {}", e.getMessage());
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("error", "회원가입 실패. 다시 시도해 주세요.");
         }
 
         // 회원가입 실패 시 다시 회원가입 페이지로
@@ -161,7 +153,7 @@ public class AdminController {
 
         try {
             // FeignClient 호출
-            CommonResponse<List<AlertResponse>> response = alertClient.getAllAlerts();
+            CommonResponse<List<AlertResponse>> response = alertClient.getAllAlerts(0);
             model.addAttribute("alerts", response.getResult());
         } catch (Exception e) {
             System.err.println("Error fetching alerts: " + e.getMessage());

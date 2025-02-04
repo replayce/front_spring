@@ -1,3 +1,13 @@
+// 해파리 아이콘 클릭 시 초록색 테두리 추가/제거
+document.addEventListener("DOMContentLoaded", function () {
+    const jellyCharacters = document.querySelectorAll(".jelly-character");
+
+    jellyCharacters.forEach(jelly => {
+        jelly.addEventListener("click", function () {
+            this.classList.toggle("selected-jelly"); // 클릭 시 테두리 추가/제거
+        });
+    });
+
 // 검색 팝업 열기
 function openSearchPopup() {
     const popupContent = `

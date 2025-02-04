@@ -11,8 +11,6 @@
     <!-- 지도 관련 JavaScript -->
     <script type="text/javascript" src="/js/map.js"></script>
 {{>layouts/header2}}
-
-    <div class="main-contents">
         <div class="left-contents">
             <div id="main-map" style="width:100%;height:100%;"></div>
         </div>
@@ -20,11 +18,9 @@
             <div class="jelly-filter">
                 <select id="alert-location" name="alert-location" required>
                     <option value="" disabled selected>지역을 선택하세요</option>
-                    <option value="부산">부산</option>
-                    <option value="강릉">강릉</option>
-                    <option value="영광">영광</option>
-                    <option value="속초">속초</option>
-                    <option value="통영">통영</option>
+                    {{#oceanInfoList}}
+                    <option value="{{id}}">{{oceanTitle}}</option>
+                    {{/oceanInfoList}}
                 </select>
                 <select id="icon-help" name="icon-help">
                     <option value="" disabled selected>도움말</option>
@@ -35,39 +31,39 @@
             </div>
             <div class="jelly-list">
                 <div class="jelly-character jelly-alert">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="">
+                    <img src="/images/jelly_icons/노무라입깃.png" alt="노무라입깃해파리">
                     <div class="jelly-rate" style="">95%</div>
                 </div>
                 <div class="jelly-character jelly-alert">
-                    <img src="/images/jelly_icons/보름달물.png" alt="">
+                    <img src="/images/jelly_icons/보름달물.png" alt="보름달물해파리">
                     <div class="jelly-rate" style="">9%</div>
                 </div>
                 <div class="jelly-character">
-                    <img src="/images/jelly_icons/커튼원양.png" alt="">
+                    <img src="/images/jelly_icons/커튼원양.png" alt="커튼원양해파리">
                     <div class="jelly-rate" style="display:none;">95%</div>
                 </div>
                 <div class="jelly-character">
-                    <img src="/images/jelly_icons/유령.png" alt="">
+                    <img src="/images/jelly_icons/유령.png" alt="유령해파리">
                     <div class="jelly-rate" style="display:none;">95%</div>
                 </div>
                 <div class="jelly-character">
-                    <img src="/images/jelly_icons/작은상자.png" alt="">
+                    <img src="/images/jelly_icons/작은상자.png" alt="작은상자해파리">
                     <div class="jelly-rate" style="display:none;">95%</div>
                 </div>
                 <div class="jelly-character">
-                    <img src="/images/jelly_icons/두빛보름달.png" alt="">
+                    <img src="/images/jelly_icons/두빛보름달.png" alt="두빛보름달해파리">
                     <div class="jelly-rate" style="display:none;">95%</div>
                 </div>
                 <div class="jelly-character">
-                    <img src="/images/jelly_icons/기수식용(숲뿌리).png" alt="">
+                    <img src="/images/jelly_icons/기수식용(숲뿌리).png" alt="기수식용(숲뿌리)해파리">
                     <div class="jelly-rate" style="display:none;">95%</div>
                 </div>
                 <div class="jelly-character">
-                    <img src="/images/jelly_icons/야광원양.png" alt="">
+                    <img src="/images/jelly_icons/야광원양.png" alt="야광원양해파리">
                     <div class="jelly-rate" style="display:none;">95%</div>
                 </div>
                 <div class="jelly-character">
-                    <img src="/images/jelly_icons/푸른우산관.png" alt="">
+                    <img src="/images/jelly_icons/푸른우산관.png" alt="푸른우산관해파리">
                     <div class="jelly-rate" style="display:none;">95%</div>
                 </div>
             </div>
@@ -75,28 +71,25 @@
 
             </div>
         </div>
-    </div>
-
-
-
-
 
 <!-- 간단한 토글 스크립트 -->
 <script>
-    function toggleDropdown(dropdownId) {
-        const elem = document.getElementById(dropdownId);
-        // 이미 열려있다면 닫고, 닫혀있다면 엽니다.
-        elem.classList.toggle('show');
-    }
+    var alertList = {{{alertListJson}}};
+    var oceanInfoList = {{{oceanInfoJson}}};
+    var oceanInfoObj = {};
+    oceanInfoList.forEach(item => {
+        oceanInfoObj[item.id] = { ...item };
+    });
 
-    // 바깥을 클릭하면 닫히도록 하는 예시(선택사항)
-    window.addEventListener('click', function(e) {
-        // 드롭다운 헤더나 헤더 내부를 클릭한 게 아니라면, 모두 닫기
-        if (!e.target.matches('.dropdown-header') &&
-                !e.target.closest('.dropdown-header')) {
-            const dropdowns = document.querySelectorAll('.dropdown-content');
-            dropdowns.forEach(d => d.classList.remove('show'));
-        }
+    //  .jelly-character에 클릭 이벤트 -> 도감 연결
+    document.querySelectorAll('.jelly-character').forEach(item => {
+        item.addEventListener('click', () => {
+            // 해파리 이름을 alt에서 가져옴
+            const jellyName = item.querySelector('img').alt;
+
+            // detail 페이지로 이동 + URL 파라미터로 해파리 이름 전달
+            location.href = "/main/detail?jelly=" + encodeURIComponent(jellyName);
+        });
     });
 </script>
 
