@@ -97,4 +97,18 @@
                 <button class="report">제보하기</button>
             </a>
         </div>
+        <!-- 게시글 목록 바로 아래에 페이지네이션 컨트롤 추가 -->
+        <div class="pagination">
+            <button onclick="prevPage()">이전</button>
+            <span id="currentPageDisplay">1</span>
+            <button onclick="nextPage()">다음</button>
+
+            <!-- 선택적으로 페이지 사이즈 변경 UI (페이지네이션) -->
+            <select id="pageSizeSelector" onchange="changePageSize(this.value)">
+                <option value="10" selected>10개씩 보기</option>
+                <option value="20">20개씩 보기</option>
+                <option value="50">50개씩 보기</option>
+            </select>
+        </div>
+
 {{>layouts/footer}}

@@ -1,3 +1,8 @@
+// 페이지네이션
+// 전역 변수로 현재 페이지와 페이지 사이즈를 관리 (필요시 전역 상태 관리)
+let currentPage = 1;
+let pageSize = 10; // 기본값, 사용자가 변경할 수 있음
+
 document.addEventListener("DOMContentLoaded", function () {
     getAllBoards(); // 페이지 로드 시 전체 게시글을 불러오기
 
@@ -88,9 +93,14 @@ function applyJellyFilter() {
 }
 
 
-// 전체 게시글 불러오기 함수
-function getAllBoards() {
-    fetch("http://localhost:8081/api/board")
+// 전체 게시글 불러오기 함수 (페이지네이션 적용)
+function getAllBoards(page = currentPage, size = pageSize) {
+    // 현재 페이지와 사이즈 갱신
+    currentPage = page;
+    pageSize = size;
+    const url = `http://localhost:8081/api/board?page=${page}&size=${size}`;
+
+    fetch(url)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -109,6 +119,38 @@ function getAllBoards() {
         });
 }
 
+// 예시로 추가하는 페이지 이동 함수(페이지네이션)
+function nextPage() {
+    currentPage++;
+    getAllBoards(currentPage, pageSize);
+    updateCurrentPageDisplay();
+}
+// 예시로 추가하는 페이지 이동 함수(페이지네이션)
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        getAllBoards(currentPage, pageSize);
+        updateCurrentPageDisplay();
+    }
+}
+
+// 페이지 번호를 화면에 표시하는 함수(페이지네이션)
+function updateCurrentPageDisplay() {
+    const pageDisplay = document.getElementById("currentPageDisplay");
+    if (pageDisplay) {
+        pageDisplay.textContent = currentPage;
+    }
+}
+
+//페이지 사이즈 변경 함수(페이지네이션)
+function changePageSize(newSize) {
+    pageSize = parseInt(newSize);
+    currentPage = 1; // 페이지 사이즈 변경 시 1페이지부터 시작
+    getAllBoards(currentPage, pageSize);
+    updateCurrentPageDisplay();
+}
+
+// 해파리 아이콘 클릭 시 초록 테두리
 document.addEventListener("DOMContentLoaded", function () {
     const jellyCharacters = document.querySelectorAll(".jelly-character");
 
