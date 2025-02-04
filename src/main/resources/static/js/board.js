@@ -170,10 +170,6 @@ function openSearchPopup() {
             <h2>제보 내역 검색</h2>
             <div class="input-container">
                 <div class="input-group">
-                    <label for="writer">제보자 이름</label>
-                    <input type="text" id="writer">
-                </div>
-                <div class="input-group">
                     <label for="writerNumber">핸드폰 번호</label>
                     <input type="text" id="writerNumber">
                 </div>
@@ -192,8 +188,21 @@ function openSearchPopup() {
         </div>
         <div id="popup-overlay" onclick="closePopup()"></div>
     `;
-
     document.body.insertAdjacentHTML('beforeend', popupContent);
+
+    // 엔터키 입력 시 검색 실행 (핸드폰 번호, 비밀번호 input에 이벤트 추가)
+    document.getElementById("writerNumber").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            searchMyBoards();
+            event.stopPropagation();
+            searchMyBoards();
+        }
+    });
+    document.getElementById("writerPassword").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            searchMyBoards();
+        }
+    });
 }
 
 // 팝업 닫기
@@ -218,33 +227,33 @@ function togglePassword() {
 
 // 검색 기능
 function searchMyBoards() {
-    const writer = document.getElementById('writer').value;
     const writerNumber = document.getElementById('writerNumber').value;
     const writerPassword = document.getElementById('writerPassword').value;
 
-    if (!writer || !writerNumber || !writerPassword) {
-        alert("모든 필드를 입력해야 합니다.");
+    if (!writerNumber || !writerPassword) {
+        alert("핸드폰 번호와 비밀번호를 모두 입력해야 합니다.");
         return;
     }
 
-    fetch(`http://localhost:8081/api/board/search?writer=${encodeURIComponent(writer)}&writerNumber=${encodeURIComponent(writerNumber)}&writerPassword=${encodeURIComponent(writerPassword)}`)
-    .then(response => {
+    fetch(`http://localhost:8081/api/board/search?writerNumber=${encodeURIComponent(writerNumber)}&writerPassword=${encodeURIComponent(writerPassword)}`)
+    .then(async response => {
+        const data = await response.json();
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            // 백엔드에서 throw한 에러 메시지(예: "비밀번호를 확인해 주세요.")를 사용
+            throw new Error(data.details || "검색 중 오류가 발생했습니다.");
         }
-        return response.json();
+        return data;
     })
     .then(data => {
         if (data.result && data.result.length > 0) {
             updateBoardList(data.result);
             closePopup();
         } else {
-            alert('게시글을 찾을 수 없습니다.');
+            alert("해당하는 제보 내역이 없습니다.");
         }
     })
     .catch(error => {
-        console.error('Error:', error);
-        alert('검색 중 오류가 발생했습니다.');
+        alert(error.message);
     });
 }
 
