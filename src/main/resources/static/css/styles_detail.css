@@ -1,38 +1,8 @@
-/* 전체 페이지 스타일 */
-body {
-    margin: 0;
-    padding: 0;
-    background-image: url('jelly_back_img_01.jpg'); /* 배경 이미지 */
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-/* 네비게이션 바 */
-.navbar {
-    width: 100%;
-    height: 80px;
-    background-color: transparent;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10;
-}
-
-/* 전체 반투명 오버레이 */
-.overlay {
-    position: absolute;
-    top: 80px;
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 80px);
-    background-color: rgba(255, 255, 255, 0.3);
+.center-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 20px;
+    justify-content: center;
 }
 
 /* 상단 버튼 컨테이너 */
@@ -79,10 +49,10 @@ body {
 /* 상세보기 박스 */
 .detail-box {
     width: 800px;  /* 기존보다 가로로 넓힘 */
-    height: 500px;
+    height: auto;
     background-color: rgba(255, 255, 255, 0.6);
     border-radius: 15px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     display: flex;
     padding: 20px;
     gap: 20px;
@@ -162,13 +132,25 @@ body {
     border-radius: 5px;
     border: 1px solid #95B2B0;
     background-color: #95B2B0;
-    height: 40px;
+    height: 40px !important;
 }
 
 /* 크기 줄인 입력창 */
 .short-input {
     width: 200px;
     flex-grow: 0;
+}
+input[type="text"] {
+    height: 40px !important; /* 강제 적용 */
+    padding: 8px; /* 패딩 제거 */
+    line-height: normal;
+    appearance: none; /* 브라우저 기본 스타일 제거 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    box-sizing: border-box; /* border와 padding을 포함한 크기 지정 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* 해파리 아이콘 및 도감 버튼 */
