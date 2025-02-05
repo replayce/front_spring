@@ -201,6 +201,8 @@ function openSearchPopup() {
     document.getElementById("writerPassword").addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             searchMyBoards();
+            event.stopPropagation();
+            searchMyBoards();
         }
     });
 }
