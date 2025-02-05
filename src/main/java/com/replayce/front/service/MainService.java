@@ -34,7 +34,7 @@ public class MainService {
         return oceanInfoClient.getAllOceanInfo("Y").getResult();
     }
 
-    public List<BoardResponse> getRecentBoard() {
-        return boardClient.getAllBoards().getResult();
+    public List<BoardStatisticsDto> getRecentBoard() {
+        return boardClient.getStatistics().getResult();
     }
 }

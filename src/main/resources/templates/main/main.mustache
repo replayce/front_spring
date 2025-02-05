@@ -99,7 +99,8 @@
                             <input type="hidden" name="jelly" value="{{jelly}}">
                             <td><img src="/images/jelly_icons/노무라입깃.png" alt="노무라입깃해파리"></td>
                             <td>{{location}}</td>
-                            <td>{{jelly}} 발견</td>
+                            <td>{{jelly}}</td>
+                            <td>{{cnt}} 건</td>
                         </tr>
                         {{/boardList}}
                     </tbody>
@@ -149,10 +150,14 @@
         $('table.board-table > tbody > tr').each(function(){
             var jelly_name = $(this).find('input[name="jelly"]').val();
             if ( jelly_name == '노무라입깃해파리' ) {
-                $(this).find('td > img').attr('src', '/images/jelly_icons/노무라입깃.png').attr('alt', '노무라입깃해파리');
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/노무라입깃_noname.png').attr('alt', '노무라입깃해파리');
+            }
+            else if(jelly_name == '보름달물해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/보름달물_noname.png').attr('alt', '보름달물해파리');
             }
             else {
-                $(this).find('td > img').attr('src', '/images/jelly_icons/보름달물.png').attr('alt', '보름달물해파리');
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/외계생물체.png').attr('alt', '미확인해파리');
+                $($(this).find('td')[2]).text('미발견');
             }
         });
     });
