@@ -11,7 +11,7 @@
                 <div class="search">
                     <input type="text" id="searchQuery" placeholder="검색어를 입력하세요">
                 </div>
-                <button class="search-button" onclick="searchBoards()">검색</button>
+                <button class="search-button" onclick="initiateSearch()">검색</button>
                 <button class="my-content" onclick="openSearchPopup()">내 글 보기</button>
             </div>
 
@@ -38,19 +38,9 @@
                 </div>
                 <!-- 게시글 목록 바로 아래에 페이지네이션 컨트롤 추가 -->
                 <div class="pagination">
-                    <button onclick="prevPage()">이전</button>
-                    <span id="currentPageDisplay">1</span>
-                    <button onclick="nextPage()">다음</button>
-
-                    <!-- 선택적으로 페이지 사이즈 변경 UI (페이지네이션) -->
-                    <!--
-                    <select id="pageSizeSelector" onchange="changePageSize(this.value)">
-                        <option value="10" selected>10개씩 보기</option>
-                        <option value="20">20개씩 보기</option>
-                        <option value="50">50개씩 보기</option>
-                    </select>
-                    -->
-
+                    <button onclick="prevPage()">◀</button>
+                    <span id="paginationNumbers"></span>
+                    <button onclick="nextPage()">▶</button>
                 </div>
             </div>
         </div>
@@ -84,27 +74,21 @@
                 </div>
                 <div class="jelly-character">
                     <img src="/images/jelly_icons/유령.png" alt="">
-                    <div class="jelly-rate" style="display:none;">95%</div>
                 </div>
                 <div class="jelly-character">
                     <img src="/images/jelly_icons/작은상자.png" alt="">
-                    <div class="jelly-rate" style="display:none;">95%</div>
                 </div>
                 <div class="jelly-character">
                     <img src="/images/jelly_icons/두빛보름달.png" alt="">
-                    <div class="jelly-rate" style="display:none;">95%</div>
                 </div>
                 <div class="jelly-character">
                     <img src="/images/jelly_icons/기수식용(숲뿌리).png" alt="">
-                    <div class="jelly-rate" style="display:none;">95%</div>
                 </div>
                 <div class="jelly-character">
                     <img src="/images/jelly_icons/야광원양.png" alt="">
-                    <div class="jelly-rate" style="display:none;">95%</div>
                 </div>
                 <div class="jelly-character">
                     <img src="/images/jelly_icons/푸른우산관.png" alt="">
-                    <div class="jelly-rate" style="display:none;">95%</div>
                 </div>
             </div>
             <div class="button-top">
