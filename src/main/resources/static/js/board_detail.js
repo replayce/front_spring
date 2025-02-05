@@ -2,7 +2,7 @@ function editPost() {
     let boardId = "{{boardId}}";
     let content = document.getElementById("content").value;
 
-    fetch(`/main/board/${boardId}`, {
+    fetch(`/board/${boardId}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json"
@@ -25,13 +25,13 @@ function editPost() {
 function deletePost() {
     let boardId = "{{boardId}}";
     if (confirm("정말 삭제하시겠습니까?")) {
-        fetch(`/main/board/${boardId}`, {
+        fetch(`/board/${boardId}`, {
             method: "DELETE"
         })
         .then(response => {
             if (response.ok) {
                 alert("게시글이 삭제되었습니다.");
-                window.location.href = "/main/board";
+                window.location.href = "/board";
             } else {
                 alert("삭제에 실패하였습니다.");
             }

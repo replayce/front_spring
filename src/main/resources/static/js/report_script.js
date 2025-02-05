@@ -105,7 +105,7 @@ async function submitReport() {
     }
 
     try {
-        const response = await fetch("/main/board", {
+        const response = await fetch("/board", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -118,7 +118,7 @@ async function submitReport() {
         }
 
         alert("등록 성공!");
-        window.location.href = "/main/board";
+        window.location.href = "/board";
     } catch (error) {
         console.error("❌ 등록 오류:", error);
         alert("등록에 실패했습니다.");
