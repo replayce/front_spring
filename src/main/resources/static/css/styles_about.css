@@ -1,0 +1,279 @@
+/* 배경 스타일 */
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('jelly_back_img_01.jpg') no-repeat center center/cover;
+    z-index: -2;
+}
+
+/* 투명 레이어 */
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: -1;
+    transition: background 0.5s ease-in-out;
+}
+
+/* 로고 섹션 */
+.logo-container {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 900px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 중앙 로고 */
+.logo-main {
+    max-width: 200px; /* 기본 크기 */
+    height: auto;
+    transition: opacity 0.5s ease-in-out, max-width 0.5s ease-in-out;
+}
+
+/* 양옆 로고 */
+.logo-side {
+    max-width: 130px;
+    height: auto;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* 왼쪽 로고 오른쪽으로 당김 */
+.logo-left {
+    margin-right: -40px;
+    margin-top: 80px;
+}
+
+/* 오른쪽 로고 왼쪽으로 당김 */
+.logo-right {
+    margin-left: -40px;
+    margin-top: 80px;
+}
+
+/* Home 버튼 컨테이너 */
+.home-button-container {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 100px; /* 사용자가 조정 가능 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Home 버튼 */
+.home-button img {
+    max-width: 80px;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.home-button img:hover {
+    transform: scale(1.1);
+}
+
+/* EN 로고 (기본적으로 숨김) */
+#en-logo {
+    max-width: 500px; /* 사용자가 조정 가능 */
+    height: auto;
+    margin-top: 20px; /* 사용자가 조정 가능 */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+
+/* 해파리 아이콘 컨테이너 */
+.jelly-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* 사용자 인터랙션 방지 */
+}
+
+/* 개별 해파리 아이콘 */
+.jelly {
+    position: absolute;
+    width: 80px; /* 기본 크기 (사용자가 조정 가능) */
+    height: auto;
+    opacity: 0; /* 기본적으로 숨김 */
+    transition: opacity 0.5s ease-in-out;
+    animation: floatUpDown 3s infinite ease-in-out alternate; /* 둥둥 떠다니는 효과 */
+}
+
+/* 해파리 둥둥 떠다니는 애니메이션 */
+@keyframes floatUpDown {
+    0% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(20px);
+    }
+}
+
+/* Home 버튼에 마우스를 올리면 해파리 아이콘 표시 */
+.home-button:hover ~ .jelly-container .jelly {
+    opacity: 1;
+}
+
+/* 각 해파리 개별 위치 설정 (사용자가 조정 가능) */
+#jelly-01 { top: 10%; left: 10%; animation-duration: 1.6s; }
+#jelly-02 { top: 30%; left: 80%; animation-duration: 3.2s; }
+#jelly-03 { top: 50%; left: 60%; animation-duration: 4s; }
+#jelly-04 { top: 15%; left: 66%; animation-duration: 2.2s; }
+#jelly-05 { top: 70%; left: 10%; animation-duration: 3.8s; }
+#jelly-06 { top: 85%; left: 70%; animation-duration: 4.2s; }
+#jelly-07 { top: 40%; left: 17%; animation-duration: 3.6s; }
+#jelly-08 { top: 60%; left: 85%; animation-duration: 1.9s; }
+#jelly-09 { top: 25%; left: 24%; animation-duration: 2.7s; }
+
+
+/* ---------------------------------------------------------- */
+
+/* 전체 페이지 기본 설정 */
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: 'Arial', sans-serif;
+}
+
+/* 상단 섹션 (애니메이션 포함 영역) */
+.top-section {
+    height: 100vh;
+    position: relative;
+}
+
+/* 아래 콘텐츠 섹션 (스크롤 후 보이는 부분) */
+.content-section {
+    background-color: white;
+    text-align: center;
+    padding: 0px 0px;
+    min-height: 100vh; /* 기본적으로 한 화면 크기만큼 보이게 설정 */
+    position: relative; /* 배경과 겹치지 않도록 설정 */
+    margin-top: 100vh; /* 기존 화면 아래에서 시작 */
+}
+
+/* 배경 이미지 */
+.about-image {
+    width: 100%;
+    max-width: 1920px;
+    height: auto;
+    margin-bottom: 40px;
+}
+
+/* 텍스트 컨테이너 */
+.text-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.text-container h2 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.text-container p {
+    font-size: 1.2rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* ---------------------------------------------------------- */
+
+
+/* 스크롤 아이콘 */
+.scroll-icon {
+    position: absolute;
+    top: calc(90% + 20px); /* Home 버튼 아래 위치 */
+    transform: translateX(-50%);
+    width: 20px; /* 아이콘 크기 */
+    height: auto;
+    opacity: 0.8;
+    cursor: pointer;
+    animation: blink 1.5s infinite ease-in-out;
+}
+
+/* 깜빡이는 효과 */
+@keyframes blink {
+    0% { opacity: 0.5; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(10px); }
+    100% { opacity: 0.5; transform: translateY(0); }
+}
+
+
+/* ---------------------------- */
+
+/* ON/OFF 스위치 컨테이너 */
+.toggle-animation-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* 스위치 스타일 */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+/* 스위치 내부 체크박스 숨기기 */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* 슬라이더 스타일 */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #95B2B0;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+/* 원형 핸들 */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #FFF275;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+/* ON 상태일 때 스타일 */
+input:checked + .slider {
+    background-color: #464D77;
+}
+
+/* ON 상태일 때 원형 핸들 이동 */
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+
+
+
+
