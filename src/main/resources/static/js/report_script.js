@@ -264,5 +264,12 @@ async function generateJellyfishNameWithOpenAI() {
     }
 }
 
+// 뒤로가기 버튼
+function goBack() {
+    console.log("🔙 뒤로 가기 버튼 클릭됨!");
+    window.history.back(); // 🔴 이전 페이지로 이동
+}
+
+
 // 버튼 클릭 시 실행
 document.getElementById("auto-generate-btn").addEventListener("click", generateJellyfishNameWithOpenAI);
