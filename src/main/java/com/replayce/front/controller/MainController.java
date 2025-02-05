@@ -43,8 +43,8 @@ public class MainController {
             e.printStackTrace();
         }
 
-        List<BoardResponse> boardList = mainService.getRecentBoard();
-        model.addAttribute("boardList", boardList.subList(0, Math.min(6, boardList.size())));
+        List<BoardStatisticsDto> boardList = mainService.getRecentBoard();
+        model.addAttribute("boardList", boardList);
 
         return "main/main";
     }

@@ -20,6 +20,9 @@ public interface BoardClient {
             @RequestParam String writerPassword
     );
 
+    @GetMapping("/board/statistics")
+    CommonResponse<List<BoardStatisticsDto>> getStatistics();
+
     //query 키워드 통한 검색
     @GetMapping("/board/search/query")
     List<BoardResponse> searchBoards(@RequestParam String query);
