@@ -94,6 +94,7 @@
     background-color: #464D77;
     margin-bottom: 10px;
     border-radius:10px;
+    overflow: hidden;
 }
 
 .board-list {
@@ -178,6 +179,42 @@ div.help-high {
     background-color: #603813;
     box-sizing: border-box;
 }
+
+.rolling-out {
+    animation: rollOut 0.3s forwards;
+}
+
+.rolling-in {
+    animation: rollIn 0.3s forwards;
+}
+
+@keyframes rollOut {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-100%); opacity: 1; }
+}
+
+@keyframes rollIn {
+    from { transform: translateY(100%); opacity: 1; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* 화면 너비가 768px 이하일 때 적용되는 스타일 */
+@media (max-width: 768px) {
+    .left-contents {
+        display:inline-block;
+        max-width:830px;
+        width:90vw;
+        height: 90vw;
+        margin-left: 15px;
+        margin-right:15px;
+        background-color: #95B2B0;
+        border-radius: 10px;
+        vertical-align: top;
+
+        margin-bottom:20px;
+    }
+}
+
 
 /* ============== 드롭다운 이외의 영역 클릭 시 닫기 ============== */
 /* (JS로 처리하지만, 필요한 경우 아래와 같이 CSS를 활용한 처리를 추가 가능) */
