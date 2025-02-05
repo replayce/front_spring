@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "boardClient", url = "http://localhost:8081/api")
+@FeignClient(name = "boardClient", url = "${java-client.api.host}/api")
 public interface BoardClient {
 
     @GetMapping("/board")
@@ -19,6 +19,9 @@ public interface BoardClient {
             @RequestParam String writerNumber,
             @RequestParam String writerPassword
     );
+
+    @GetMapping("/board/statistics")
+    CommonResponse<List<BoardStatisticsDto>> getStatistics();
 
     //query 키워드 통한 검색
     @GetMapping("/board/search/query")

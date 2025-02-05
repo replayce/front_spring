@@ -105,7 +105,7 @@ async function submitReport() {
     }
 
     try {
-        const response = await fetch("/main/board", {
+        const response = await fetch("/board", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -118,7 +118,7 @@ async function submitReport() {
         }
 
         alert("등록 성공!");
-        window.location.href = "/main/board";
+        window.location.href = "/board";
     } catch (error) {
         console.error("❌ 등록 오류:", error);
         alert("등록에 실패했습니다.");
@@ -263,6 +263,13 @@ async function generateJellyfishNameWithOpenAI() {
         alert("API 요청 중 오류 발생. 콘솔에서 로그를 확인하세요.");
     }
 }
+
+// 뒤로가기 버튼
+function goBack() {
+    console.log("🔙 뒤로 가기 버튼 클릭됨!");
+    window.history.back(); // 🔴 이전 페이지로 이동
+}
+
 
 // 버튼 클릭 시 실행
 document.getElementById("auto-generate-btn").addEventListener("click", generateJellyfishNameWithOpenAI);

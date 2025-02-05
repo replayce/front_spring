@@ -3,6 +3,7 @@ package com.replayce.front.controller;
 import com.replayce.front.client.api.BoardClient;
 import com.replayce.front.client.dto.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequestMapping("/board")
 public class BoardController {
 
+    private final Environment env;
     private final BoardClient boardClient;
 
     // 게시글 조회
@@ -28,6 +30,9 @@ public class BoardController {
         } catch (Exception e) {
             model.addAttribute("error", "게시글을 불러오는 중 오류가 발생했습니다.");
         }
+
+        model.addAttribute("backend_addr", env.getProperty("java-client.api.host"));
+
         return "main/board";
     }
 

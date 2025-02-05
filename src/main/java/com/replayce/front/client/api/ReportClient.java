@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "reportClient", url = "http://localhost:8081/api")
+@FeignClient(name = "reportClient", url = "${java-client.api.host}/api")
 public interface ReportClient {
     @GetMapping("/board")
     CommonResponse<List<ReportResponse>> getBoards();

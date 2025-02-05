@@ -66,7 +66,7 @@ function applyJellyFilter() {
 
     //  선택된 해파리를 올바르게 인코딩하여 API 요청
     const encodedJellies = encodeURIComponent(selectedJellies.join(","));
-    const requestUrl = `http://localhost:8081/api/board/filter?jellies=${encodedJellies}`;
+    const requestUrl = `${backend_url}/api/board/filter?jellies=${encodedJellies}`;
 
     console.log("🚀 API 요청 URL:", requestUrl); // URL 확인
 
@@ -98,7 +98,7 @@ function getAllBoards(page = currentPage, size = pageSize) {
     // 현재 페이지와 사이즈 갱신
     currentPage = page;
     pageSize = size;
-    const url = `http://localhost:8081/api/board?page=${page}&size=${size}`;
+    const url = `${backend_url}/api/board?page=${page}&size=${size}`;
 
     fetch(url)
         .then(response => {
@@ -237,7 +237,7 @@ function searchMyBoards() {
         return;
     }
 
-    fetch(`http://localhost:8081/api/board/search?writerNumber=${encodeURIComponent(writerNumber)}&writerPassword=${encodeURIComponent(writerPassword)}`)
+    fetch(`${backend_url}/api/board/search?writerNumber=${encodeURIComponent(writerNumber)}&writerPassword=${encodeURIComponent(writerPassword)}`)
     .then(async response => {
         const data = await response.json();
         if (!response.ok) {
@@ -268,7 +268,7 @@ function searchBoards() {
         return;
     }
 
-    fetch(`http://localhost:8081/api/board/search/query?query=${encodeURIComponent(searchQuery)}`)
+    fetch(`${backend_url}/api/board/search/query?query=${encodeURIComponent(searchQuery)}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
