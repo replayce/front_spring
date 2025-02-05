@@ -326,3 +326,25 @@ a {
 .empty-box{
     height: 70px;
 }
+
+@media (max-width: 768px) {
+    .jelly-dropdown {
+        width: 90vw;
+        max-width:480px;
+    }
+
+    .selected-jelly {
+        width:90vw;
+        max-width:480px;
+    }
+
+    .slider-container {
+        width:100vw;
+        max-width:480px;
+    }
+
+    #jelly-description, #jelly-countermeasures {
+        min-height: unset;
+        max-height: unset;
+    }
+}
