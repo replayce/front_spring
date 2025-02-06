@@ -12,6 +12,7 @@ header h1 {
 
 /* 본문 컨테이너 */
 main {
+    text-align: start;
     max-width: 900px;
     margin: 0 auto 20px auto;
     background: white;

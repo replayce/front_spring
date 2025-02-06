@@ -118,6 +118,11 @@ public class MainController {
         return "main/terms";
     }
 
+    @GetMapping("/privacy")
+    public String privacy(Model model) {
+        return "main/privacy";
+    }
+
 }
 
 
