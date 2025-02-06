@@ -201,28 +201,21 @@ function getLocation() {
                 locationField.value = `위도: ${latitude.toFixed(6)}, 경도: ${longitude.toFixed(6)}`;
                 locationField.style.display = "block"; // 위치 정보를 보이게 설정
 
-                // 미리 지정된 지역 목록 (위도, 경도 값 포함)
-                const locations = [
-                    { name: "부산", lat: 35.1796, lon: 129.0756 },
-                    { name: "제주도", lat: 33.4996, lon: 126.5312 },
-                    { name: "강릉", lat: 37.7518, lon: 128.8761 }
-                ];
-
                 // 현재 위치와 가장 가까운 지역 찾기
-                let closestLocation = locations[0];
-                let minDistance = getDistance(latitude, longitude, closestLocation.lat, closestLocation.lon);
+                let closestLocation = oceanInfoList[0];
+                let minDistance = getDistance(latitude, longitude, closestLocation.oceanLat, closestLocation.oceanLon);
 
-                for (let i = 1; i < locations.length; i++) {
-                    const distance = getDistance(latitude, longitude, locations[i].lat, locations[i].lon);
+                for (let i = 1; i < oceanInfoList.length; i++) {
+                    const distance = getDistance(latitude, longitude, oceanInfoList[i].oceanLat, oceanInfoList[i].oceanLon);
                     if (distance < minDistance) {
                         minDistance = distance;
-                        closestLocation = locations[i];
+                        closestLocation = oceanInfoList[i];
                     }
                 }
 
                 // 가장 가까운 지역을 드롭다운에서 자동 선택
                 for (let i = 0; i < locationDropdown.options.length; i++) {
-                    if (locationDropdown.options[i].text === closestLocation.name) {
+                    if (locationDropdown.options[i].text === closestLocation.oceanTitle) {
                         locationDropdown.selectedIndex = i;
                         break;
                     }

@@ -20,10 +20,10 @@
                 <label class="form-label">목격 위치</label>
                 <div class="input-wrapper-btn">
                     <select class="form-control" id="location-dropdown">
-                        <option value="">지역을 선택해 주세요.</option>
-                        <option>부산</option>
-                        <option>제주도</option>
-                        <option>강릉</option>
+                        <option value="" disabled selected>지역을 선택하세요</option>
+                        {{#oceanInfoList}}
+                            <option value="{{id}}">{{oceanTitle}}</option>
+                        {{/oceanInfoList}}
                     </select>
                     <button type="button" class="btn find-location" onclick="getLocation()">위치기반 찾기</button>
                 </div>
@@ -112,4 +112,8 @@
 </div>
 
 <script src="/js/report_script.js"></script>
+
+<script>
+    var oceanInfoList = {{{oceanInfoJson}}};
+</script>
 {{>layouts/footer}}
