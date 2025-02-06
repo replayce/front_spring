@@ -15,6 +15,7 @@
     background-color: #95B2B0;
     border-radius: 10px;
     vertical-align: top;
+    position:relative;
 }
 
 .right-contents {
@@ -198,6 +199,66 @@ div.help-high {
     to { transform: translateY(0); opacity: 1; }
 }
 
+@keyframes floatUpDown {
+    0% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(20px);
+    }
+}
+
+#help-jelly {
+    position: absolute;
+    left:-150px;
+    top:20px;
+    width:80vw;
+    max-width:500px;
+    animation: floatUpDown 3s infinite ease-in-out alternate;
+}
+
+.close-area {
+    display:inline;
+    position:absolute;
+    width:65%;
+    height:74%;
+    top:0px;
+    right:0px;
+}
+
+.help-area {
+    display: inline;
+    position: absolute;
+    width: 17%;
+    height: 10%;
+    top: 59%;
+    right: 3%;
+}
+
+#help-jelly-small {
+    position: absolute;
+    left:10px;
+    top:10px;
+    width:60%;
+}
+
+#help-modal {
+    position:fixed;
+    top:0px;
+    width:100vw;
+    height:100vh;
+    z-index: 110;
+    background-color:black;
+}
+
+#help-modal > img {
+    width:100vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 /* 화면 너비가 768px 이하일 때 적용되는 스타일 */
 @media (max-width: 768px) {
     .left-contents {
@@ -212,6 +273,14 @@ div.help-high {
         vertical-align: top;
 
         margin-bottom:20px;
+    }
+
+    #help-jelly {
+        left:0px;
+    }
+
+    #help-jelly-small {
+        width:85%;
     }
 }
 

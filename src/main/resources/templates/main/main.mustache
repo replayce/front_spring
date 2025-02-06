@@ -13,6 +13,14 @@
 {{>layouts/header2}}
         <div class="left-contents">
             <div id="main-map" style="width:100%;height:100%;"></div>
+            <div id="help-jelly">
+                <img src="/images/main_help.png" alt="도움말" style="width:100%;">
+                <div class="close-area"></div>
+                <div class="help-area"></div>
+            </div>
+            <div id="help-jelly-small" style="display:none;">
+                <img src="/images/main_help_close.png" alt="도움말" style="width:100%;">
+            </div>
         </div>
         <div class="right-contents">
             <div class="jelly-filter">
@@ -109,6 +117,10 @@
             </div>
         </div>
 
+        <div id="help-modal" style="display:none;">
+            <img src="/images/info_images/info_main.png" alt="메인 도움말">
+        </div>
+
 <!-- 간단한 토글 스크립트 -->
 <script>
     var backend_url = "{{backend_addr}}";
@@ -140,13 +152,34 @@
     });
 
     $(document).ready(function() {
+        $('.close-area').on('click', function() {
+            $('#help-jelly').hide();
+            $('#help-jelly-small').show();
+        });
+
+        $('.help-area').on('click', function() {
+            $('#help-modal').show();
+        });
+
+        $('#help-jelly-small').on('click', function() {
+            $('#help-jelly-small').hide();
+            $('#help-jelly').show();
+        });
+
+        $('#help-modal').on('click', function() {
+            $('#help-modal').hide();
+        });
+
         $('div#icon-help').on('click', function() {
+            $('#help-modal').show();
+            /*
             if ($('div#help-dropdown').css('display') == 'none') {
                 $('div#help-dropdown').show();
             }
             else {
                 $('div#help-dropdown').hide();
             }
+            */
         });
 
         $('div.board-list > table.board-table > tbody > tr').each(function(){
