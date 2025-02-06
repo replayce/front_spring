@@ -7,7 +7,10 @@ let totalPages = 1;
 
 // 페이지 로드 시 전체 게시글 호출 (초기 상태: 검색어 없음)
 document.addEventListener("DOMContentLoaded", function () {
+    setupJellyFilters();
+    setupResetButton();
     getAllBoards(); // 기본: 1페이지, 12개
+
     const searchInput = document.getElementById("searchQuery");
     if (searchInput) {
         searchInput.addEventListener("keypress", function (event) {
@@ -25,37 +28,63 @@ function setupJellyFilters() {
         jelly.addEventListener("click", function (event) {
             event.preventDefault();
             this.blur();
+            // 토글 클래스로 초록색 테두리 적용
             this.classList.toggle("selected-jelly");
+            console.log("✅ 선택된 해파리:", this.getAttribute("data-name"));
         });
     });
     const filterButton = document.querySelector(".filter");
     if (filterButton) {
         filterButton.addEventListener("click", function () {
+            console.log("🔍 필터 적용 버튼 클릭됨!");
             applyJellyFilter();
         });
     }
 }
-document.addEventListener("DOMContentLoaded", setupJellyFilters);
 
-// 선택된 해파리 필터 적용 함수
+// 선택된 해파리, 지역 필터 적용 함수
 function applyJellyFilter(page = currentPage, size = pageSize) {
     const selectedJellies = [];
-    document.querySelectorAll(".selected-jelly img").forEach(jelly => {
-        const jellyName = jelly.alt.trim();
+    // .selected-jelly가 적용된 요소(즉, <div class="jelly-character selected-jelly">)에서 data-name 값을 읽음
+    document.querySelectorAll(".selected-jelly").forEach(jellyElem => {
+        let jellyName = jellyElem.getAttribute("data-name") || "";
+        // 만약 키워드에 불필요한 문자열(예: "해파리")가 붙어 있다면 제거
+        jellyName = jellyName.replace("해파리", "").trim();
         if (jellyName) {
             selectedJellies.push(jellyName);
         }
     });
-    if (selectedJellies.length === 0) {
-        // 검색 모드 초기화
-        currentSearchQuery = "";
+    console.log("🔥 선택된 해파리 목록:", selectedJellies);
+
+    // ★ 지역 선택값 읽기
+    const regionElem = document.getElementById("alert-location");
+    const region = regionElem ? regionElem.value.trim() : "";
+
+    // 만약 아무것도 선택되지 않았다면 전체 조회
+    if (selectedJellies.length === 0 && region === "") {
+        console.log("📌 필터 조건이 없으므로 전체 게시글을 불러옵니다.");
         getAllBoards();
         return;
     }
-    // 검색어 모드 초기화 (필터는 별도)
-    currentSearchQuery = "";
-    const encodedJellies = encodeURIComponent(selectedJellies.join(","));
-    const requestUrl = `${backend_url}/api/board/filter?jellies=${encodedJellies}&page=${page}&size=${size}`;
+
+    // jellies 파라미터 (OR 조건) //여러 개 선택된 경우 “|” 로 구분된 정규식 패턴 생성
+    const encodedJellies = selectedJellies.map(encodeURIComponent).join(",");
+
+    // URL 빌드 – 조건에 따라 jellies와 location 파라미터를 추가
+    let requestUrl = `${backend_url}/api/board/filter?`;
+    if (encodedJellies) {
+        requestUrl += `jellies=${encodedJellies}`;
+    }
+    if (region) {
+        // 이미 jellies 파라미터가 있다면 & 추가
+        if (encodedJellies) requestUrl += "&";
+        requestUrl += `location=${encodeURIComponent(region)}`;
+    }
+    // 페이지네이션 파라미터 추가
+    requestUrl += `&page=${page}&size=${size}`;
+
+    console.log("🚀 API 요청 URL:", requestUrl);
+
     fetch(requestUrl)
         .then(response => {
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
@@ -72,6 +101,36 @@ function applyJellyFilter(page = currentPage, size = pageSize) {
             console.error("필터 적용 오류:", error);
             alert("필터 적용 중 오류가 발생했습니다.");
         });
+}
+
+// 해파리 필터 기능 초기화 (이미 setupJellyFilters()에 포함되어 있다면 그 아래에 추가)
+function setupResetButton() {
+    const resetButton = document.querySelector(".reset");
+    if (resetButton) {
+        resetButton.addEventListener("click", function () {
+            // 1. 모든 해파리 아이콘에서 선택 클래스 제거
+            document.querySelectorAll(".jelly-character.selected-jelly").forEach(elem => {
+                elem.classList.remove("selected-jelly");
+            });
+            console.log("✅ 해파리 필터 초기화됨.");
+
+            // 2. 지역 선택 리셋 (기본값: 첫 번째 옵션, "지역을 선택하세요")
+            const regionSelect = document.getElementById("alert-location");
+            if (regionSelect) {
+                regionSelect.selectedIndex = 0;
+                console.log("✅ 지역 필터 초기화됨.");
+            }
+
+            // 3. 검색 입력값 초기화 (있을 경우)
+            const searchInput = document.getElementById("searchQuery");
+            if (searchInput) {
+                searchInput.value = "";
+            }
+
+            // 4. 전체 게시글을 다시 불러오기
+            getAllBoards(1, pageSize);
+        });
+    }
 }
 
 // 전체 게시글 불러오기 함수
