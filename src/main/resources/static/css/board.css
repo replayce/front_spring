@@ -133,7 +133,8 @@ a {
    왼쪽 게시판 리스트
 ------------------------------ */
 .left-bottom {
-    display: flex;
+    display: relative;
+    padding-bottom: 60px;
     height: 90%;
     flex-direction: column;
     background: rgba(255, 255, 255, 0.8);
@@ -141,6 +142,40 @@ a {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+/*페이지네이션 추가*/
+/* pagination 영역을 left-bottom 맨 아래에 고정 */
+.pagination {
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 15px;
+}
+
+#currentPageDisplay {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+/* 이전/다음 버튼 아이콘 변경 */
+.pagination button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+/* 페이지 번호 버튼 스타일 (숫자 버튼 추가) */
+.pagination .page-number {
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+.pagination .page-number.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
 .board-list-title {
     display: flex;
     justify-content: space-around;
