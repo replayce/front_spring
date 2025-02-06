@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
         overlay.style.background = "rgba(255, 255, 255, 0)";
 
         // 중앙 로고 변경 + 크기 조절 가능하게 설정
-        mainLogo.src = "jellymully_logo_img.png";
+        mainLogo.src = "/images/jelly_about_images/jellymully_logo_img.png";
         mainLogo.style.maxWidth = "200px"; // 마우스 올렸을 때 크기
 
         // 좌우 로고 숨기기
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
         overlay.style.background = "rgba(255, 255, 255, 0.7)";
 
         // 중앙 로고 원래대로 + 크기 원래대로
-        mainLogo.src = "jellymully_logo_img_small.png";
+        mainLogo.src = "/images/jelly_about_images/jellymully_logo_img_small.png";
         mainLogo.style.maxWidth = "200px"; // 기본 크기
 
         // 좌우 로고 다시 보이게
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function activateAnimation() {
         overlay.style.background = "rgba(255, 255, 255, 0)";
-        mainLogo.src = "jellymully_logo_img.png";
+        mainLogo.src = "/images/jelly_about_images/jellymully_logo_img.png";
         mainLogo.style.maxWidth = "200px";
         leftLogo.style.opacity = "0";
         rightLogo.style.opacity = "0";
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function deactivateAnimation() {
         overlay.style.background = "rgba(255, 255, 255, 0.7)";
-        mainLogo.src = "jellymully_logo_img_small.png";
+        mainLogo.src = "/images/jelly_about_images/jellymully_logo_img_small.png";
         mainLogo.style.maxWidth = "200px";
         leftLogo.style.opacity = "1";
         rightLogo.style.opacity = "1";
