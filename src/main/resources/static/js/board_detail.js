@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ✅ 해파리 이름을 `_noname.png` 파일명으로 변환하는 함수
     function getJellyfishImageFile(jellyfishName) {
-        if (!jellyfishName) return "외계생명체.png"; // 값이 없으면 기본 이미지 반환
+        if (!jellyfishName) return "외계생물체.png"; // 값이 없으면 기본 이미지 반환
         return jellyfishName.replace(/해파리$/, "").trim() + "_noname.png";
     }
 
@@ -143,14 +143,18 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         })
         .catch(() => {
-            jellyfishImage.src = "/images/jelly_icons_noname/외계생명체.png"; // ❌ 없으면 기본 이미지 사용
-            console.log("기본 이미지(외계생명체) 적용");
+            jellyfishImage.src = "/images/jelly_icons_noname/외계생물체.png"; // ❌ 없으면 기본 이미지 사용
+            console.log("기본 이미지(외계생물체) 적용");
         });
 });
 
 // ✅ 도감 보기 버튼 클릭 가능하도록 전역 함수로 이동
 function viewEncyclopedia(jellyfishName) {
-    const convertedName = jellyfishName.replace(/_noname.png$/, "해파리").trim(); // 파일명 변환 없이 도감용으로만 사용
-    window.location.href = `/detail?jelly=${encodeURIComponent(convertedName)}`;
+    if (!jellyfishName) {
+        console.error('jellyfishName is undefined or empty');
+        return;
+    }
+    window.location.href = `/detail?jelly=${encodeURIComponent(jellyfishName)}`;
 }
+
 
