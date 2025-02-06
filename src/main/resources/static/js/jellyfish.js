@@ -310,6 +310,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 첫 번째 실제 슬라이드 위치로 강제 이동
     sliderImagesContainer.style.transform = `translateX(-166px)`;
 
+    function viewEncyclopedia(jellyfishName) {
+        window.location.href = `/detail?jelly=${encodeURIComponent(jellyfishName)}`;
+    }
+
     // 해파리 데이터가 있다면 첫 번째(0번째) 아이템으로 업데이트
     if (jellyData.length > 0) {
         updateContent();

@@ -161,6 +161,10 @@ input[type="text"] {
     gap: 10px;
     width: 100px;
     justify-content: center;
+    /*width: 100px;*/
+    height: 100px;
+    border-radius: 10px;
+    border: 5px solid #2bb930;
 }
 
 .jellyfish-icon img {
@@ -239,7 +243,7 @@ input[type="text"] {
 
     /* 헤더 컨테이너 너비 조정 */
     .header-container {
-        width: 100%;
+        width: 90%;
         padding: 0 10px;
         justify-content: space-between;
     }

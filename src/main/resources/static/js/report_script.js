@@ -148,6 +148,15 @@ async function submitReport() {
         return; // ❌ 미래 날짜/시간/분이 입력되었으면 등록 중단
     }
 
+    let jellyType = document.getElementById("jellyfish-type").value.trim();
+    let toxicity = "";
+
+    if (jellyType === "노무라입깃해파리") {
+        toxicity = "강독성";
+    } else if (jellyType === "보름달물해파리") {
+        toxicity = "약독성";
+    }
+
     let reportData = {
         content: "",
         writer: document.getElementById("reporter-name").value,
@@ -158,7 +167,9 @@ async function submitReport() {
         hour: parseInt(document.getElementById("hour-input").value, 10),
         minute: parseInt(document.getElementById("minute-input").value, 10),
         location: document.getElementById("location-dropdown").value,
-        jelly: document.getElementById("jellyfish-type").value,
+        // jelly: document.getElementById("jellyfish-type").value,
+        jelly: jellyType,
+        toxicity: toxicity,
         description: document.querySelector(".description").value.trim() || "", // 선택 입력 가능
     };
 
