@@ -90,7 +90,16 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-
+    @GetMapping("/filter")
+    public String filterBoardsByJelly(
+            @RequestParam List<String> jellies,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "12") int size,
+            Model model) {
+        List<BoardResponse> filteredBoards = boardClient.filterBoardsByJelly(jellies, page, size).getResult();
+        model.addAttribute("boards", filteredBoards);
+        return "main/board";
+    }
 
     @PatchMapping("/{boardId}")
     public ResponseEntity<CommonResponse<BoardResponse>> updateBoard(
