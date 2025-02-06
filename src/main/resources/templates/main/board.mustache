@@ -48,11 +48,9 @@
             <div class="jelly-filter">
                 <select id="alert-location" name="alert-location" required>
                     <option value="" disabled selected>지역을 선택하세요</option>
-                    <option value="부산">부산</option>
-                    <option value="강릉">강릉</option>
-                    <option value="영광">영광</option>
-                    <option value="속초">속초</option>
-                    <option value="통영">통영</option>
+                    {{#oceanInfoList}}
+                        <option value="{{id}}">{{oceanTitle}}</option>
+                    {{/oceanInfoList}}
                 </select>
                 <select id="icon-help" name="icon-help">
                     <option value="" disabled selected>도움말</option>

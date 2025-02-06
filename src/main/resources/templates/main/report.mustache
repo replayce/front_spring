@@ -22,7 +22,7 @@
                     <select class="form-control" id="location-dropdown">
                         <option value="" disabled selected>지역을 선택하세요</option>
                         {{#oceanInfoList}}
-                            <option value="{{id}}">{{oceanTitle}}</option>
+                            <option value="{{oceanTitle}}">{{oceanTitle}}</option>
                         {{/oceanInfoList}}
                     </select>
                     {{#is_edit}}
@@ -41,7 +41,11 @@
                 <label class="form-label">목격 시점</label>
                 <div class="datetime-group">
                     <input type="date" class="form-control" id="date-input">
-
+                    {{#is_edit}}
+                        <script>
+                            document.getElementById("date-input").value = "{{board.date}}";
+                        </script>
+                    {{/is_edit}}
                     <select class="form-control time-input" id="hour-input">
                         <option value="">시간</option>
                         <script>

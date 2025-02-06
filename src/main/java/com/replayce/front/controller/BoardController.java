@@ -1,7 +1,10 @@
 package com.replayce.front.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.replayce.front.client.api.BoardClient;
 import com.replayce.front.client.dto.*;
+import com.replayce.front.service.MainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,7 @@ public class BoardController {
 
     private final Environment env;
     private final BoardClient boardClient;
+    private final MainService mainService;
 
     // 게시글 조회
     @GetMapping
@@ -29,6 +33,17 @@ public class BoardController {
             model.addAttribute("boards", boards);
         } catch (Exception e) {
             model.addAttribute("error", "게시글을 불러오는 중 오류가 발생했습니다.");
+        }
+
+        List<OceanInfoResponse> oceanInfoList = mainService.getAllOceanInfo();
+        model.addAttribute("oceanInfoList", oceanInfoList);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String json = objectMapper.writeValueAsString(oceanInfoList);
+            model.addAttribute("oceanInfoJson", json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
 
         model.addAttribute("backend_addr", env.getProperty("java-client.api.host"));

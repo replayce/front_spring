@@ -106,6 +106,18 @@ public class MainController {
     //내 글 수정하기
     @GetMapping("/report/{boardId}")
     public String report(Model model, @PathVariable Long boardId) {
+
+        List<OceanInfoResponse> oceanInfoList = mainService.getAllOceanInfo();
+        model.addAttribute("oceanInfoList", oceanInfoList);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String json = objectMapper.writeValueAsString(oceanInfoList);
+            model.addAttribute("oceanInfoJson", json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
         CommonResponse<BoardResponse> response = mainService.getBoard(boardId);
         BoardResponse board = response.getResult();
         model.addAttribute("board", board);
