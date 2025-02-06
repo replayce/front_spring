@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>JellyMully - Admin</title>
@@ -15,7 +15,7 @@
 
     <!-- Fonts and icons -->
     <script src="/assets/js/plugin/webfont/webfont.min.js"></script>
-    <script src="/js/AdminCheck.js" defer></script>
+<!--    <script src="/js/AdminCheck.js" defer></script>-->
     <script>
         WebFont.load({
           google: { families: ["Public Sans:300,400,500,600,700"] },
@@ -40,14 +40,15 @@
     <link rel="stylesheet" href="/assets/css/kaiadmin.min.css" />
     
 </head>
-<body onload = "checkAdminAuth()">
+<!--<body onload = "checkAdminAuth()">-->
+<body>
 <div class="wrapper">
     <!-- Sidebar -->
     <div class="sidebar" data-background-color="dark">
         <div class="sidebar-logo">
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="dark">
-                <a href="/main/map" class="logo">
+                <a href="/" class="logo">
                     <img
                             src="/images/sample_logo.png"
                             alt="navbar brand"
