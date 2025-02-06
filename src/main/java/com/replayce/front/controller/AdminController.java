@@ -33,11 +33,35 @@ public class AdminController {
     private final AdminClient adminClient;
     private final AuthClient authClient;
 
+    private final ObjectMapper objectMapper;
+
 
      // 관리자 메인 페이지
 
     @GetMapping("/admin")
-    public String main() {
+    public String main(Model model) {
+        try {
+            // 알림 데이터
+            CommonResponse<List<AlertResponse>> response = alertClient.getAllAlerts(0);
+            List<AlertResponse> alerts = response.getResult();
+            model.addAttribute("alerts", alerts);
+            String alertsJson = objectMapper.writeValueAsString(alerts);
+            model.addAttribute("alertsJson", alertsJson);
+
+            // 제보 데이터
+            CommonResponse<List<ReportResponse>> reportResponse = reportClient.getBoards();
+            List<ReportResponse> reports = reportResponse.getResult();
+            model.addAttribute("reports", reports);
+            String reportsJson = objectMapper.writeValueAsString(reports);
+            model.addAttribute("reportsJson", reportsJson);
+        } catch(Exception e) {
+            log.error("Error fetching data: {}", e.getMessage());
+            model.addAttribute("alerts", List.of());
+            model.addAttribute("reports", List.of());
+            model.addAttribute("error", "Failed to fetch data from backend.");
+            model.addAttribute("alertsJson", "[]");
+            model.addAttribute("reportsJson", "[]");
+        }
         return "admin/admin_main";
     }
 
@@ -49,48 +73,6 @@ public class AdminController {
         return "admin/admin_login";
     }
 
-
-     // 로그인 처리
-
-//    @PostMapping("/admin_login")
-//    public String login(@ModelAttribute LoginRequest loginRequest, HttpSession session, Model model) {
-//        try {
-//            // x-www-form-urlencoded 형식 데이터 생성
-//            String loginData = "username=" + loginRequest.getUsername() + "&password=" + loginRequest.getPassword();
-//
-//            // HTTP 요청 헤더 설정
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-//
-//            // HTTP 요청 엔티티 생성
-//            HttpEntity<String> entity = new HttpEntity<>(loginData, headers);
-//
-//            // 백엔드 API 호출
-//            String url = "http://localhost:8081/api/auth/login";
-//            ResponseEntity<Map> response = restTemplate.postForEntity(url, entity, Map.class);
-//
-//            // 로그인 성공 처리
-//            if (response.getStatusCode().is2xxSuccessful()) {
-//                Map<String, Object> body = response.getBody();
-//                if (body != null && body.containsKey("result")) {
-//                    Map<String, String> result = (Map<String, String>) body.get("result");
-//                    String token = result.get("token");
-//
-//                    // 세션에 토큰 저장
-//                    session.setAttribute("token", token);
-//
-//                    // 성공 시 관리자 페이지로 리다이렉트
-//                    return "redirect:/admin";
-//                }
-//            }
-//        } catch (Exception e) {
-//            log.error("로그인 실패: {}", e.getMessage());
-//            model.addAttribute("error", "아이디 또는 비밀번호가 잘못되었습니다.");
-//        }
-//
-//        // 로그인 실패 시 다시 로그인 페이지로
-//        return "admin/admin_login";
-//    }
 
     // 로그인 처리
 
@@ -121,45 +103,6 @@ public class AdminController {
     public String registerPage() {
         return "admin/admin_signup";
     }
-
-
-     // 회원가입 처리
-
-
-//    @PostMapping("/admin_signup")
-//    public String register(@ModelAttribute RegisterRequest registerRequest, Model model) {
-//        try {
-//            // x-www-form-urlencoded 형식 데이터 생성
-//            String registerData = "username=" + registerRequest.getUsername() +
-//                    "&email=" + registerRequest.getEmail() +
-//                    "&phoneNumber=" + registerRequest.getPhoneNumber() +
-//                    "&password=" + registerRequest.getPassword();
-//
-//            // HTTP 요청 헤더 설정
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-//
-//            // HTTP 요청 엔티티 생성
-//            HttpEntity<String> entity = new HttpEntity<>(registerData, headers);
-//
-//            // 백엔드 API 호출
-//            String url = "http://localhost:8081/api/auth/register";
-//            ResponseEntity<Map> response = restTemplate.postForEntity(url, entity, Map.class);
-//            // 회원가입 성공 처리
-//            if (response.getStatusCode() == HttpStatus.CREATED) {
-//                model.addAttribute("message", "회원가입이 완료되었습니다. 관리자 승인을 대기해주세요.");
-//                return "admin/admin_login";
-//            }
-//        } catch (Exception e) {
-//            log.error("회원가입 실패: {}", e.getMessage());
-//            model.addAttribute("error", "회원가입 실패. 다시 시도해 주세요.");
-//        }
-//
-//        // 회원가입 실패 시 다시 회원가입 페이지로
-//        return "admin/admin_signup";
-//    }
-
-    // 회원가입 처리
 
 
     @PostMapping("/admin_signup")
@@ -259,4 +202,33 @@ public class AdminController {
     public String account() {
         return "admin/admin_account";
     }
+
+    // 계정 정보 수정 POST 요청 처리 (예시)
+    @PostMapping("/admin/admin_account")
+    public String updateAccount(@RequestParam String username,
+                                @RequestParam(required = false) String email,
+                                @RequestParam(required = false) String phoneNumber,
+                                @RequestParam(required = false) String newPassword,
+                                Model model,
+                                HttpSession session) {
+        try {
+            // 예: 백엔드 Auth API의 updateAccount 엔드포인트 호출 (FeignClient 또는 다른 방법 사용)
+            CommonResponse<String> response = authClient.updateAccount(
+                    username, email, phoneNumber, newPassword
+            );
+
+            // 백엔드 응답에 따른 메시지 처리
+            if (response.getMessage().contains("업데이트 성공")) {
+                model.addAttribute("message", "계정 정보가 성공적으로 업데이트되었습니다.");
+            } else {
+                model.addAttribute("error", response.getMessage());
+            }
+        } catch (Exception e) {
+            log.error("계정 업데이트 실패: {}", e.getMessage());
+            model.addAttribute("error", "계정 정보 업데이트 중 오류가 발생했습니다.");
+        }
+
+        return "admin/admin_account";
+    }
+
 }
