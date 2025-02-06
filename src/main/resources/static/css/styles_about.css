@@ -85,6 +85,7 @@
 /* EN 로고 (기본적으로 숨김) */
 #en-logo {
     max-width: 500px; /* 사용자가 조정 가능 */
+    width: 90vw;
     height: auto;
     margin-top: 20px; /* 사용자가 조정 가능 */
     opacity: 0;
