@@ -151,5 +151,7 @@ a {
 
     .footer-text {
         margin-bottom : 8px;
+        font-size: 12px;
+        line-height: 10px;
     }
 }
