@@ -20,7 +20,7 @@
                 <label class="form-label">목격 위치</label>
                 <div class="input-wrapper-btn">
                     <select class="form-control" id="location-dropdown">
-                        <option selected>지역을 선택해 주세요.</option>
+                        <option value="">지역을 선택해 주세요.</option>
                         <option>부산</option>
                         <option>제주도</option>
                         <option>강릉</option>
@@ -35,20 +35,20 @@
             <div class="form-group">
                 <label class="form-label">목격 시점</label>
                 <div class="datetime-group">
-                    <input type="date" class="form-control">
-                    <select class="form-control time-input">
-                        <option selected>시간</option>
+                    <input type="date" class="form-control" id="date-input">
+                    <select class="form-control time-input" id="hour-input">
+                        <option value="">시간</option>
                         <script>
                             for (let i = 0; i < 24; i++) {
-                                document.write(`<option value="${i.toString().padStart(2, '0')}">${i}시</option>`);
+                                document.write(`<option value="${i}">${i}시</option>`);
                             }
                         </script>
                     </select>
-                    <select class="form-control time-input">
-                        <option selected>분</option>
+                    <select class="form-control time-input" id="minute-input">
+                        <option value="">분</option>
                         <script>
                             for (let i = 0; i < 60; i += 5) {
-                                document.write(`<option value="${i.toString().padStart(2, '0')}">${i}분</option>`);
+                                document.write(`<option value="${i}">${i}분</option>`);
                             }
                         </script>
                     </select>
@@ -70,17 +70,17 @@
                 <div class="info-fields">
                     <div class="form-group">
                         <label class="form-label">핸드폰 번호</label>
-                        <input type="text" class="form-control short-input">
+                        <input type="text" id="phone-number" class="form-control short-input">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">비밀번호</label>
-                        <input type="password" class="form-control short-input">
+                        <input type="password" id="password" class="form-control short-input">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">비밀번호 확인</label>
-                        <input type="password" class="form-control short-input">
+                        <input type="password" id="confirm-password" class="form-control short-input">
                     </div>
 
                     <!-- 해파리 입력창 -->
@@ -90,7 +90,7 @@
                             <input type="text" id="jellyfish-type" class="form-control short-input" placeholder="사진을 등록해주세요." readonly>
                         </div>
                     </div>
-                    <!-- 🟢 추가: 숨겨진 이미지 URL 저장 필드 -->
+                    <!-- 숨겨진 이미지 URL 저장 필드 -->
                     <input type="hidden" id="jellyfish-image-url" name="imageUrl">
                 </div>
 

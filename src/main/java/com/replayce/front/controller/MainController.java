@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.replayce.front.client.dto.*;
 import com.replayce.front.service.MainService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequestMapping
 public class MainController {
 
+    private final Environment env;
     private final MainService mainService;
     private final RestTemplate restTemplate;
 
@@ -45,6 +47,8 @@ public class MainController {
 
         List<BoardStatisticsDto> boardList = mainService.getRecentBoard();
         model.addAttribute("boardList", boardList);
+
+        model.addAttribute("backend_addr", env.getProperty("java-client.api.host"));
 
         return "main/main";
     }
@@ -79,6 +83,11 @@ public class MainController {
     public String report(Model model) {
         model.addAttribute("sample", "Replayce");
         return "main/report";
+    }
+
+    @GetMapping("/about")
+    public String about(Model model) {
+        return "main/about";
     }
 
 }
