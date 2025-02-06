@@ -191,6 +191,7 @@ a {
 }
 .board-row {
     display: flex;
+    flex-direction: row;
     align-content: flex-end;
     justify-content: space-around;
     padding: 10px;
@@ -201,8 +202,32 @@ a {
     width: 25px;
     height: 25px;
 }
+/*.board-row:nth-child(even) {*/
+/*    background: rgba(0, 0, 0, 0.05);*/
+/*}*/
+
 .board-row:nth-child(even) {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.1);
+}
+.board-row:nth-child(odd) {
+    background: transparent;
+}
+
+/* 혹시 nth-child가 잘 안 먹을 경우를 대비해서 우선순위가 높은 클래스도 지정 */
+.even-row {
+    background: rgba(0, 0, 0, 0.1) !important;
+}
+.odd-row {
+    background: transparent !important;
+}
+
+
+.board-row a {
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 /* 각 컬럼 폭 */

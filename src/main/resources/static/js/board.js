@@ -353,12 +353,23 @@ function togglePassword() {
 function updateBoardList(boards) {
     const boardList = document.querySelector('.board-content-list');
     boardList.innerHTML = '';
-    boards.forEach(board => {
+
+    boards.forEach((board, index) => {
+        // 1-based 인덱스로 홀짝 구분 (번갈아 배경색)
+        const rowNumber = index + 1;
+        const rowClass = (rowNumber % 2 === 0) ? 'even-row' : 'odd-row';
+
+        // 해파리 이름 → 아이콘 경로
+        const iconPath = getJellyIconPath(board.jelly);
+
         const boardRow = `
             <a href="/board/detail/${board.boardId}">
-                <div class="board-row">
+                <div class="board-row ${rowClass}">
                     <span class="no">${board.boardId}</span>
-                    <span class="icon"><img src="/images/jelly_icons/노무라입깃.png" alt="해파리 아이콘"></span>
+                    <!-- 여기서 동적으로 아이콘 경로를 주입 -->
+                    <span class="icon">
+                        <img src="${iconPath}" alt="해파리 아이콘">
+                    </span>
                     <span class="loc">${board.location}</span>
                     <span class="jelly-name">${board.jelly}</span>
                     <span class="report-time">${board.formattedTime}</span>
@@ -368,4 +379,21 @@ function updateBoardList(boards) {
         `;
         boardList.insertAdjacentHTML('beforeend', boardRow);
     });
+}
+
+
+/**
+ * 해파리 이름을 받아서 해당 아이콘의 경로를 리턴하는 함수
+ * 필요하면 여기서 "해파리"라는 단어 제거 등 전처리를 할 수 있음
+ */
+function getJellyIconPath(jellyName) {
+    if (!jellyName) {
+        // 이름이 비어있을 경우, 기본 대체 이미지를 적용
+        return "/images/jelly_icons_noname/외계생물체.png";
+    }
+    // 예: "노무라입깃" 뒤에 "해파리"가 붙어 있는 경우 제거
+    let cleanName = jellyName.replace(/해파리$/, '').trim();
+    // 실제 서버/폴더에 해당 이미지가 있는지 확인이 필요
+    // 기본적으로 /images/jelly_icons/ 폴더에 "노무라입깃.png" 이런 식으로 정리돼 있어야 함
+    return `/images/jelly_icons_noname/${cleanName}_noname.png`;
 }
