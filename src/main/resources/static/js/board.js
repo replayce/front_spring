@@ -7,6 +7,7 @@ let totalPages = 1;
 
 // 페이지 로드 시 전체 게시글 호출 (초기 상태: 검색어 없음)
 document.addEventListener("DOMContentLoaded", function () {
+    setupJellyFilters();
     getAllBoards(); // 기본: 1페이지, 12개
     const searchInput = document.getElementById("searchQuery");
     if (searchInput) {
@@ -25,37 +26,45 @@ function setupJellyFilters() {
         jelly.addEventListener("click", function (event) {
             event.preventDefault();
             this.blur();
+            // 토글 클래스로 초록색 테두리 적용
             this.classList.toggle("selected-jelly");
+            console.log("✅ 선택된 해파리:", this.getAttribute("data-name"));
         });
     });
     const filterButton = document.querySelector(".filter");
     if (filterButton) {
         filterButton.addEventListener("click", function () {
+            console.log("🔍 필터 적용 버튼 클릭됨!");
             applyJellyFilter();
         });
     }
 }
-document.addEventListener("DOMContentLoaded", setupJellyFilters);
 
 // 선택된 해파리 필터 적용 함수
 function applyJellyFilter(page = currentPage, size = pageSize) {
     const selectedJellies = [];
-    document.querySelectorAll(".selected-jelly img").forEach(jelly => {
-        const jellyName = jelly.alt.trim();
+    // .selected-jelly가 적용된 요소(즉, <div class="jelly-character selected-jelly">)에서 data-name 값을 읽음
+    document.querySelectorAll(".selected-jelly").forEach(jellyElem => {
+        let jellyName = jellyElem.getAttribute("data-name") || "";
+        // 만약 키워드에 불필요한 문자열(예: "해파리")가 붙어 있다면 제거
+        jellyName = jellyName.replace("해파리", "").trim();
         if (jellyName) {
             selectedJellies.push(jellyName);
         }
     });
+    console.log("🔥 선택된 해파리 목록:", selectedJellies);
+
     if (selectedJellies.length === 0) {
-        // 검색 모드 초기화
-        currentSearchQuery = "";
+        console.log("📌 선택된 해파리가 없으므로 전체 게시글을 불러옵니다.");
         getAllBoards();
         return;
     }
-    // 검색어 모드 초기화 (필터는 별도)
-    currentSearchQuery = "";
-    const encodedJellies = encodeURIComponent(selectedJellies.join(","));
+    // 여러 개 선택된 경우 “|” 로 구분된 정규식 패턴 생성
+    const encodedJellies = selectedJellies.map(encodeURIComponent).join(",");
+    // 만약 백엔드에서 page와 size를 받도록 했다면 URL에 추가 (예시)
     const requestUrl = `${backend_url}/api/board/filter?jellies=${encodedJellies}&page=${page}&size=${size}`;
+    console.log("🚀 API 요청 URL:", requestUrl);
+
     fetch(requestUrl)
         .then(response => {
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
