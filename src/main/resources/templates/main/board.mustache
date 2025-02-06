@@ -6,103 +6,104 @@
     var backend_url = `{{backend_addr}}`;
 </script>
 {{>layouts/header2}}
-        <div class="left-contents">
-            <div class="left-top">
-                <div class="search">
-                    <input type="text" id="searchQuery" placeholder="검색어를 입력하세요">
-                </div>
-                <button class="search-button" onclick="initiateSearch()">검색</button>
-                <button class="my-content" onclick="openSearchPopup()">내 글 보기</button>
-            </div>
+<div class="left-contents">
+    <div class="left-top">
+        <div class="search">
+            <input type="text" id="searchQuery" placeholder="검색어를 입력하세요">
+        </div>
+        <button class="search-button" onclick="initiateSearch()">검색</button>
+        <button class="my-content" onclick="openSearchPopup()">내 글 보기</button>
+    </div>
 
-            <div class="left-bottom">
-                <div class="board-list-title">
-                    <span class="no">No</span>
-                    <span class="icon">아이콘</span>
-                    <span class="loc">위치</span>
-                    <span class="jelly-name">해파리</span>
-                    <span class="report-time">제보일시</span>
-                    <span class="informant">제보자</span>
-                </div>
-                <div class="board-content-list">
-                    {{#boards}}
-                        <a href="/board/detail/{{boardId}}">
-                            <div class="board-row">
-                                <span class="no">{{boardId}}</span>
-                                <span class="icon">
-                                <img class="jelly-icon"
-                                     data-jelly="{{jelly}}"
-                                     src="/images/jelly_icons_noname/외계생물체.png"
-                                     alt="해파리 아이콘">
-                            </span>
-                                <span class="loc">{{location}}</span>
-                                <span class="jelly-name">{{jelly}}</span>
-                                <span class="report-time">{{formattedTime}}</span>
-                                <span class="informant">{{writer}}</span>
-                            </div>
-                        </a>
-                    {{/boards}}
-                </div>
-                <!-- 게시글 목록 바로 아래에 페이지네이션 컨트롤 추가 -->
-                <div class="pagination">
-                    <button onclick="prevPage()">◀</button>
-                    <span id="paginationNumbers"></span>
-                    <button onclick="nextPage()">▶</button>
-                </div>
-            </div>
+    <div class="left-bottom">
+        <div class="board-list-title">
+            <span class="no">No</span>
+            <span class="icon">아이콘</span>
+            <span class="loc">위치</span>
+            <span class="jelly-name">해파리</span>
+            <span class="report-time">제보일시</span>
+            <span class="informant">제보자</span>
         </div>
-        <div class="right-contents">
-            <div class="jelly-filter">
-                <select id="alert-location" name="alert-location" required>
-                    <option value="" disabled selected>지역을 선택하세요</option>
-                    {{#oceanInfoList}}
-                        <option value="{{id}}">{{oceanTitle}}</option>
-                    {{/oceanInfoList}}
-                </select>
-                <select id="icon-help" name="icon-help">
-                    <option value="" disabled selected>도움말</option>
-                    <option value="">예측된 해파리</option>
-                    <option value="">저밀도</option>
-                    <option value="">고밀도</option>
-                </select>
-            </div>
-            <div class="jelly-list">
-                <div class="jelly-character" data-name="노무라입깃">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="노무라입깃">
-                </div>
-                <div class="jelly-character" data-name="보름달물">
-                    <img src="/images/jelly_icons/보름달물.png" alt="보름달물">
-                </div>
-                <div class="jelly-character" data-name="커튼원양">
-                    <img src="/images/jelly_icons/커튼원양.png" alt="커튼원양">
-                </div>
-                <div class="jelly-character" data-name="유령">
-                    <img src="/images/jelly_icons/유령.png" alt="유령">
-                </div>
-                <div class="jelly-character" data-name="작은상자">
-                    <img src="/images/jelly_icons/작은상자.png" alt="작은상자">
-                </div>
-                <div class="jelly-character" data-name="두빛보름달">
-                    <img src="/images/jelly_icons/두빛보름달.png" alt="두빛보름달">
-                </div>
-                <div class="jelly-character" data-name="기수식용(숲뿌리)">
-                    <img src="/images/jelly_icons/기수식용(숲뿌리).png" alt="기수식용(숲뿌리)">
-                </div>
-                <div class="jelly-character" data-name="야광원양">
-                    <img src="/images/jelly_icons/야광원양.png" alt="야광원양">
-                </div>
-                <div class="jelly-character" data-name="푸른우산관">
-                    <img src="/images/jelly_icons/푸른우산관.png" alt="푸른우산관">
-                </div>
-            </div>
-            <div class="button-top">
-                <button class="filter">필터 적용</button>
-                <button class="reset">초기화</button>
-            </div>
-            <a href="/report">
-                <button class="report">제보하기</button>
-            </a>
+        <div class="board-content-list">
+            {{#boards}}
+                <a href="/board/detail/{{boardId}}">
+                    <div class="board-row">
+                        <span class="no">{{boardId}}</span>
+                        <span class="icon">
+                        <!-- 해파리 아이콘 부분 -->
+                            <img class="jelly-icon" data-jelly="{{jelly}}"
+                                 src="/images/jelly_icons_noname/외계생물체.png"
+                                 alt="해파리 아이콘" />
+                        </span>
+                        <span class="loc">{{location}}</span>    <!-- 여기서 location 표시 -->
+                        <span class="jelly-name">{{jelly}}</span>
+                        <span class="report-time">{{formattedTime}}</span>
+                        <span class="informant">{{writer}}</span>
+                    </div>
+                </a>
+            {{/boards}}
         </div>
+        <!-- 게시글 목록 바로 아래에 페이지네이션 컨트롤 추가 -->
+        <div class="pagination">
+            <button onclick="prevPage()">◀</button>
+            <span id="paginationNumbers"></span>
+            <button onclick="nextPage()">▶</button>
+        </div>
+    </div>
+</div>
+<div class="right-contents">
+    <div class="jelly-filter">
+        <select id="alert-location" name="alert-location" required>
+            <option value="" disabled selected>지역을 선택하세요</option>
+            {{#oceanInfoList}}
+                <option value="{{oceanTitle}}">{{oceanTitle}}</option>
+            {{/oceanInfoList}}
+        </select>
+
+        <select id="icon-help" name="icon-help">
+            <option value="" disabled selected>도움말</option>
+            <option value="">예측된 해파리</option>
+            <option value="">저밀도</option>
+            <option value="">고밀도</option>
+        </select>
+    </div>
+    <div class="jelly-list">
+        <div class="jelly-character" data-name="노무라입깃">
+            <img src="/images/jelly_icons/노무라입깃.png" alt="노무라입깃">
+        </div>
+        <div class="jelly-character" data-name="보름달물">
+            <img src="/images/jelly_icons/보름달물.png" alt="보름달물">
+        </div>
+        <div class="jelly-character" data-name="커튼원양">
+            <img src="/images/jelly_icons/커튼원양.png" alt="커튼원양">
+        </div>
+        <div class="jelly-character" data-name="유령">
+            <img src="/images/jelly_icons/유령.png" alt="유령">
+        </div>
+        <div class="jelly-character" data-name="작은상자">
+            <img src="/images/jelly_icons/작은상자.png" alt="작은상자">
+        </div>
+        <div class="jelly-character" data-name="두빛보름달">
+            <img src="/images/jelly_icons/두빛보름달.png" alt="두빛보름달">
+        </div>
+        <div class="jelly-character" data-name="기수식용(숲뿌리)">
+            <img src="/images/jelly_icons/기수식용(숲뿌리).png" alt="기수식용(숲뿌리)">
+        </div>
+        <div class="jelly-character" data-name="야광원양">
+            <img src="/images/jelly_icons/야광원양.png" alt="야광원양">
+        </div>
+        <div class="jelly-character" data-name="푸른우산관">
+            <img src="/images/jelly_icons/푸른우산관.png" alt="푸른우산관">
+        </div>
+    </div>
+    <div class="button-top">
+        <button class="filter">필터 적용</button>
+        <button class="reset">초기화</button>
+    </div>
+    <a href="/report">
+        <button class="report">제보하기</button>
+    </a>
+</div>
 
 
 {{>layouts/footer}}

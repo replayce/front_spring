@@ -58,7 +58,8 @@ function applyJellyFilter(page = currentPage, size = pageSize) {
 
     // ★ 지역 선택값 읽기
     const regionElem = document.getElementById("alert-location");
-    const region = regionElem ? regionElem.value.trim() : "";
+    const region = regionElem.value.trim();
+
 
     // 만약 아무것도 선택되지 않았다면 전체 조회
     if (selectedJellies.length === 0 && region === "") {
@@ -67,19 +68,15 @@ function applyJellyFilter(page = currentPage, size = pageSize) {
         return;
     }
 
-    // jellies 파라미터 (OR 조건) //여러 개 선택된 경우 “|” 로 구분된 정규식 패턴 생성
+    // 선택된 해파리가 없으면 encodedJellies는 빈 문자열("")가 됨
     const encodedJellies = selectedJellies.map(encodeURIComponent).join(",");
-
-    // URL 빌드 – 조건에 따라 jellies와 location 파라미터를 추가
-    let requestUrl = `${backend_url}/api/board/filter?`;
-    if (encodedJellies) {
-        requestUrl += `jellies=${encodedJellies}`;
-    }
+// jellies 파라미터를 항상 포함시킵니다.
+    let requestUrl = `${backend_url}/api/board/filter?jellies=${encodedJellies}`;
     if (region) {
-        // 이미 jellies 파라미터가 있다면 & 추가
-        if (encodedJellies) requestUrl += "&";
-        requestUrl += `location=${encodeURIComponent(region)}`;
+        requestUrl += `&location=${encodeURIComponent(region)}`;
     }
+    requestUrl += `&page=${page}&size=${size}`;
+
     // 페이지네이션 파라미터 추가
     requestUrl += `&page=${page}&size=${size}`;
 
@@ -366,11 +363,10 @@ function updateBoardList(boards) {
             <a href="/board/detail/${board.boardId}">
                 <div class="board-row ${rowClass}">
                     <span class="no">${board.boardId}</span>
-                    <!-- 여기서 동적으로 아이콘 경로를 주입 -->
                     <span class="icon">
                         <img src="${iconPath}" alt="해파리 아이콘">
                     </span>
-                    <span class="loc">${board.location}</span>
+                    <span class="loc">${board.location}</span> <!-- location 표시 -->
                     <span class="jelly-name">${board.jelly}</span>
                     <span class="report-time">${board.formattedTime}</span>
                     <span class="informant">${board.writer}</span>
@@ -387,13 +383,10 @@ function updateBoardList(boards) {
  * 필요하면 여기서 "해파리"라는 단어 제거 등 전처리를 할 수 있음
  */
 function getJellyIconPath(jellyName) {
-    if (!jellyName) {
-        // 이름이 비어있을 경우, 기본 대체 이미지를 적용
+    if (!jellyName || jellyName === '해파리 판별 실패 😢') {
         return "/images/jelly_icons_noname/외계생물체.png";
     }
     // 예: "노무라입깃" 뒤에 "해파리"가 붙어 있는 경우 제거
     let cleanName = jellyName.replace(/해파리$/, '').trim();
-    // 실제 서버/폴더에 해당 이미지가 있는지 확인이 필요
-    // 기본적으로 /images/jelly_icons/ 폴더에 "노무라입깃.png" 이런 식으로 정리돼 있어야 함
     return `/images/jelly_icons_noname/${cleanName}_noname.png`;
 }

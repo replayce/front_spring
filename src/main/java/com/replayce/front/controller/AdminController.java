@@ -204,31 +204,31 @@ public class AdminController {
     }
 
     // 계정 정보 수정 POST 요청 처리 (예시)
-    @PostMapping("/admin/admin_account")
-    public String updateAccount(@RequestParam String username,
-                                @RequestParam(required = false) String email,
-                                @RequestParam(required = false) String phoneNumber,
-                                @RequestParam(required = false) String newPassword,
-                                Model model,
-                                HttpSession session) {
-        try {
-            // 예: 백엔드 Auth API의 updateAccount 엔드포인트 호출 (FeignClient 또는 다른 방법 사용)
-            CommonResponse<String> response = authClient.updateAccount(
-                    username, email, phoneNumber, newPassword
-            );
-
-            // 백엔드 응답에 따른 메시지 처리
-            if (response.getMessage().contains("업데이트 성공")) {
-                model.addAttribute("message", "계정 정보가 성공적으로 업데이트되었습니다.");
-            } else {
-                model.addAttribute("error", response.getMessage());
-            }
-        } catch (Exception e) {
-            log.error("계정 업데이트 실패: {}", e.getMessage());
-            model.addAttribute("error", "계정 정보 업데이트 중 오류가 발생했습니다.");
-        }
-
-        return "admin/admin_account";
-    }
+//    @PostMapping("/admin/admin_account")
+//    public String updateAccount(@RequestParam String username,
+//                                @RequestParam(required = false) String email,
+//                                @RequestParam(required = false) String phoneNumber,
+//                                @RequestParam(required = false) String newPassword,
+//                                Model model,
+//                                HttpSession session) {
+//        try {
+//            // 예: 백엔드 Auth API의 updateAccount 엔드포인트 호출 (FeignClient 또는 다른 방법 사용)
+//            CommonResponse<String> response = authClient.updateAccount(
+//                    username, email, phoneNumber, newPassword
+//            );
+//
+//            // 백엔드 응답에 따른 메시지 처리
+//            if (response.getMessage().contains("업데이트 성공")) {
+//                model.addAttribute("message", "계정 정보가 성공적으로 업데이트되었습니다.");
+//            } else {
+//                model.addAttribute("error", response.getMessage());
+//            }
+//        } catch (Exception e) {
+//            log.error("계정 업데이트 실패: {}", e.getMessage());
+//            model.addAttribute("error", "계정 정보 업데이트 중 오류가 발생했습니다.");
+//        }
+//
+//        return "admin/admin_account";
+//    }
 
 }
