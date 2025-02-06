@@ -27,6 +27,13 @@ public interface BoardClient {
     @GetMapping("/board/search/query")
     List<BoardResponse> searchBoards(@RequestParam String query);
 
+    //해파리 아이콘 필터링
+    @GetMapping("/board/filter")
+    CommonResponse<List<BoardResponse>> filterBoardsByJelly(
+            @RequestParam List<String> jellies,
+            @RequestParam int page,
+            @RequestParam int size);
+
     @GetMapping("/board/{boardId}")
     CommonResponse<BoardResponse> getBoard(@PathVariable Long boardId);
 

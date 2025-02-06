@@ -48,8 +48,10 @@
                 </div>
 
                 <div class="jellyfish-icon">
-                    <img src="/images/jelly_icons/노무라입깃.png" alt="해파리 아이콘">
-                    <button class="btn view-map">도감 보기</button>
+                    <span id="jellyfish-name" style="display: none;">{{board.jelly}}</span>
+                    <img id="jellyfish-icon" class="jellyfish-image" src="" alt="해파리 아이콘">
+                    <button class="btn view-map" onclick="viewEncyclopedia('{{board.jelly}}')">도감 보기</button>
+
                 </div>
             </div>
 

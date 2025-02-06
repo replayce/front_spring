@@ -82,9 +82,25 @@ public class MainController {
 
     @GetMapping("/report")
     public String report(Model model) {
-        model.addAttribute("sample", "Replayce");
+
+        List<OceanInfoResponse> oceanInfoList = mainService.getAllOceanInfo();
+        model.addAttribute("oceanInfoList", oceanInfoList);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String json = objectMapper.writeValueAsString(oceanInfoList);
+            model.addAttribute("oceanInfoJson", json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
         model.addAttribute("is_edit", false);
         return "main/report";
+    }
+
+    @GetMapping("/about")
+    public String about(Model model) {
+        return "main/about";
     }
 
     //내 글 수정하기
@@ -96,8 +112,6 @@ public class MainController {
         model.addAttribute("is_edit", true);
         return "main/report";
     }
-
-
 
 }
 

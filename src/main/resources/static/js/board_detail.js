@@ -111,3 +111,50 @@ function togglePassword() {
         toggleIcon.textContent = "👁️"; // 눈 뜬 아이콘
     }
 }
+
+// 해파리 이름 맞춰 이미지 매핑
+document.addEventListener("DOMContentLoaded", function () {
+    const jellyfishNameRaw = document.getElementById("jellyfish-name").textContent.trim(); // ✅ 올바르게 board.jelly 값 가져오기
+    const jellyfishImage = document.getElementById("jellyfish-icon");
+
+    console.log("board.jelly 값:", jellyfishNameRaw); // ✅ Mustache 변수가 정상적으로 가져오는지 확인
+
+    // ✅ 해파리 이름을 `_noname.png` 파일명으로 변환하는 함수
+    function getJellyfishImageFile(jellyfishName) {
+        if (!jellyfishName) return "외계생물체.png"; // 값이 없으면 기본 이미지 반환
+        return jellyfishName.replace(/해파리$/, "").trim() + "_noname.png";
+    }
+
+    // ✅ 변환된 이미지 파일명 설정
+    const imageFileName = getJellyfishImageFile(jellyfishNameRaw);
+    const imagePath = `/images/jelly_icons_noname/${imageFileName}`;
+
+    console.log("변환된 이미지 파일명:", imageFileName); // ✅ 디버깅
+    console.log("예상되는 이미지 경로:", imagePath); // ✅ 디버깅
+
+    // ✅ 이미지가 존재하는지 확인 후 설정
+    fetch(imagePath, { method: 'HEAD' })
+        .then(response => {
+            if (response.ok) {
+                jellyfishImage.src = imagePath; // ✅ 이미지가 존재하면 해당 이미지 사용
+                console.log("이미지 로드 성공:", imagePath);
+            } else {
+                throw new Error("이미지 없음");
+            }
+        })
+        .catch(() => {
+            jellyfishImage.src = "/images/jelly_icons_noname/외계생물체.png"; // ❌ 없으면 기본 이미지 사용
+            console.log("기본 이미지(외계생물체) 적용");
+        });
+});
+
+// ✅ 도감 보기 버튼 클릭 가능하도록 전역 함수로 이동
+function viewEncyclopedia(jellyfishName) {
+    if (!jellyfishName) {
+        console.error('jellyfishName is undefined or empty');
+        return;
+    }
+    window.location.href = `/detail?jelly=${encodeURIComponent(jellyfishName)}`;
+}
+
+

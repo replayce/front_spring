@@ -239,7 +239,7 @@ input[type="text"] {
 
     /* 헤더 컨테이너 너비 조정 */
     .header-container {
-        width: 100%;
+        width: 90%;
         padding: 0 10px;
         justify-content: space-between;
     }
