@@ -8,7 +8,9 @@ let totalPages = 1;
 // 페이지 로드 시 전체 게시글 호출 (초기 상태: 검색어 없음)
 document.addEventListener("DOMContentLoaded", function () {
     setupJellyFilters();
+    setupResetButton();
     getAllBoards(); // 기본: 1페이지, 12개
+
     const searchInput = document.getElementById("searchQuery");
     if (searchInput) {
         searchInput.addEventListener("keypress", function (event) {
@@ -99,6 +101,36 @@ function applyJellyFilter(page = currentPage, size = pageSize) {
             console.error("필터 적용 오류:", error);
             alert("필터 적용 중 오류가 발생했습니다.");
         });
+}
+
+// 해파리 필터 기능 초기화 (이미 setupJellyFilters()에 포함되어 있다면 그 아래에 추가)
+function setupResetButton() {
+    const resetButton = document.querySelector(".reset");
+    if (resetButton) {
+        resetButton.addEventListener("click", function () {
+            // 1. 모든 해파리 아이콘에서 선택 클래스 제거
+            document.querySelectorAll(".jelly-character.selected-jelly").forEach(elem => {
+                elem.classList.remove("selected-jelly");
+            });
+            console.log("✅ 해파리 필터 초기화됨.");
+
+            // 2. 지역 선택 리셋 (기본값: 첫 번째 옵션, "지역을 선택하세요")
+            const regionSelect = document.getElementById("alert-location");
+            if (regionSelect) {
+                regionSelect.selectedIndex = 0;
+                console.log("✅ 지역 필터 초기화됨.");
+            }
+
+            // 3. 검색 입력값 초기화 (있을 경우)
+            const searchInput = document.getElementById("searchQuery");
+            if (searchInput) {
+                searchInput.value = "";
+            }
+
+            // 4. 전체 게시글을 다시 불러오기
+            getAllBoards(1, pageSize);
+        });
+    }
 }
 
 // 전체 게시글 불러오기 함수

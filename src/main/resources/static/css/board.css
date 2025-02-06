@@ -312,6 +312,27 @@ a {
     border: 0;
     background-color: #464D77;
     color: white;
+    cursor: pointer;
+}
+
+/* 새로 추가할 .reset 스타일 */
+.reset {
+    width: 50%;  /* 필터 적용 버튼의 1/2 너비 */
+    height: 90px; /* 필터 적용 버튼과 동일한 높이 */
+    border-radius: 10px;
+    font-size: 25px;
+    border: 0;
+    background-color: rgba(255, 255, 255, 0.8) !important; /* 원하는 색상으로 설정 (예시) */
+    color: #000000 !important;
+    cursor: pointer;
+    margin-left: 10px; /* 약간의 여백 추가 */
+}
+
+.reset:hover {
+    color: #000000 !important; /* 글씨 유지 */
+    background-color: rgba(255, 255, 255, 1) !important; /* 호버 시 완전 흰색 */
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.3);
+    background-color: #91ABA8; /* 약간 어두운 톤 */
 }
 
 .filter-search {
@@ -321,7 +342,6 @@ a {
     font-size: 25px;
     border: 0;
     background-color: #464D77;
-    color: white;
 }
 
 .report {
