@@ -85,6 +85,11 @@ public class MainController {
         return "main/report";
     }
 
+    @GetMapping("/about")
+    public String about(Model model) {
+        return "main/about";
+    }
+
 }
 
 
