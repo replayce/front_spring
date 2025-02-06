@@ -9,6 +9,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
@@ -82,8 +83,21 @@ public class MainController {
     @GetMapping("/report")
     public String report(Model model) {
         model.addAttribute("sample", "Replayce");
+        model.addAttribute("is_edit", false);
         return "main/report";
     }
+
+    //내 글 수정하기
+    @GetMapping("/report/{boardId}")
+    public String report(Model model, @PathVariable Long boardId) {
+        CommonResponse<BoardResponse> response = mainService.getBoard(boardId);
+        BoardResponse board = response.getResult();
+        model.addAttribute("board", board);
+        model.addAttribute("is_edit", true);
+        return "main/report";
+    }
+
+
 
 }
 

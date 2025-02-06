@@ -37,4 +37,8 @@ public class MainService {
     public List<BoardStatisticsDto> getRecentBoard() {
         return boardClient.getStatistics().getResult();
     }
+
+    public CommonResponse<BoardResponse> getBoard(Long boardId) {
+        return boardClient.getBoard(boardId);
+    }
 }
