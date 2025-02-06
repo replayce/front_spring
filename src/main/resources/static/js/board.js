@@ -40,7 +40,7 @@ function setupJellyFilters() {
     }
 }
 
-// 선택된 해파리 필터 적용 함수
+// 선택된 해파리, 지역 필터 적용 함수
 function applyJellyFilter(page = currentPage, size = pageSize) {
     const selectedJellies = [];
     // .selected-jelly가 적용된 요소(즉, <div class="jelly-character selected-jelly">)에서 data-name 값을 읽음
@@ -54,15 +54,33 @@ function applyJellyFilter(page = currentPage, size = pageSize) {
     });
     console.log("🔥 선택된 해파리 목록:", selectedJellies);
 
-    if (selectedJellies.length === 0) {
-        console.log("📌 선택된 해파리가 없으므로 전체 게시글을 불러옵니다.");
+    // ★ 지역 선택값 읽기
+    const regionElem = document.getElementById("alert-location");
+    const region = regionElem ? regionElem.value.trim() : "";
+
+    // 만약 아무것도 선택되지 않았다면 전체 조회
+    if (selectedJellies.length === 0 && region === "") {
+        console.log("📌 필터 조건이 없으므로 전체 게시글을 불러옵니다.");
         getAllBoards();
         return;
     }
-    // 여러 개 선택된 경우 “|” 로 구분된 정규식 패턴 생성
+
+    // jellies 파라미터 (OR 조건) //여러 개 선택된 경우 “|” 로 구분된 정규식 패턴 생성
     const encodedJellies = selectedJellies.map(encodeURIComponent).join(",");
-    // 만약 백엔드에서 page와 size를 받도록 했다면 URL에 추가 (예시)
-    const requestUrl = `${backend_url}/api/board/filter?jellies=${encodedJellies}&page=${page}&size=${size}`;
+
+    // URL 빌드 – 조건에 따라 jellies와 location 파라미터를 추가
+    let requestUrl = `${backend_url}/api/board/filter?`;
+    if (encodedJellies) {
+        requestUrl += `jellies=${encodedJellies}`;
+    }
+    if (region) {
+        // 이미 jellies 파라미터가 있다면 & 추가
+        if (encodedJellies) requestUrl += "&";
+        requestUrl += `location=${encodeURIComponent(region)}`;
+    }
+    // 페이지네이션 파라미터 추가
+    requestUrl += `&page=${page}&size=${size}`;
+
     console.log("🚀 API 요청 URL:", requestUrl);
 
     fetch(requestUrl)
