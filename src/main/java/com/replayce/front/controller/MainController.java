@@ -113,6 +113,11 @@ public class MainController {
         return "main/report";
     }
 
+    @GetMapping("/terms")
+    public String terms(Model model) {
+        return "main/terms";
+    }
+
 }
 
 
