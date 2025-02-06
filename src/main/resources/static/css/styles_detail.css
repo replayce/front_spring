@@ -161,10 +161,6 @@ input[type="text"] {
     gap: 10px;
     width: 100px;
     justify-content: center;
-    /*width: 100px;*/
-    height: 100px;
-    border-radius: 10px;
-    border: 5px solid #2bb930;
 }
 
 .jellyfish-icon img {
