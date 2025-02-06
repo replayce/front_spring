@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jelly Mully - About</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles_about.css">
+</head>
+<body>
+
+    <!-- 배경 -->
+    <div class="background">
+        <div class="overlay"></div>
+    </div>
+
+    <!-- 로고 섹션 -->
+    <div class="container text-center logo-container">
+        <img src="jellymully_logo_left.png" alt="Logo Left" class="logo-side logo-left">
+        <img id="main-logo" src="jellymully_logo_img_small.png" alt="Main Logo" class="logo-main">
+        <img src="jellymully_logo_right.png" alt="Logo Right" class="logo-side logo-right">
+    </div>
+
+    <!-- Home 버튼 -->
+    <div class="home-button-container">
+        <div class="home-button" id="home-button">
+            <a href="main.html">
+                <img src="home_icon.png" alt="Home Button">
+            </a>
+        </div>
+
+        <!-- ON/OFF 토글 스위치 -->
+        <div class="toggle-animation-container">
+            <label class="switch">
+                <input type="checkbox" id="toggle-animation-btn">
+            <span class="slider round"></span>
+            </label>
+        </div>
+
+        <!-- 새로운 EN 로고 추가 -->
+        <img id="en-logo" src="jellymully_logo_EN2.png" alt="EN Logo">
+
+         <!-- 스크롤 아이콘 추가 -->
+        <img src="scroll_icon.png" alt="Scroll Down" class="scroll-icon" id="scroll-icon">
+
+    </div>
+
+
+    <!-- 상단 이동하기 버튼 -->
+    <div style="position:fixed; bottom:35px; right:30px; z-index:99;"> 
+        <a href="#">
+            <img src="scroll_top_icon.png" style="width:20px">
+        </a>
+    </div>
+
+    <!-- 해파리 아이콘들 -->
+    <div class="jelly-container">
+        <img src="jelly_01.png" alt="Jellyfish 1" class="jelly" id="jelly-01">
+        <img src="jelly_02.png" alt="Jellyfish 2" class="jelly" id="jelly-02">
+        <img src="jelly_03.png" alt="Jellyfish 3" class="jelly" id="jelly-03">
+        <img src="jelly_04.png" alt="Jellyfish 4" class="jelly" id="jelly-04">
+        <img src="jelly_05.png" alt="Jellyfish 5" class="jelly" id="jelly-05">
+        <img src="jelly_06.png" alt="Jellyfish 6" class="jelly" id="jelly-06">
+        <img src="jelly_07.png" alt="Jellyfish 7" class="jelly" id="jelly-07">
+        <img src="jelly_08.png" alt="Jellyfish 8" class="jelly" id="jelly-08">
+        <img src="jelly_09.png" alt="Jellyfish 9" class="jelly" id="jelly-09">
+    </div>
+
+    <!-- 새로운 콘텐츠 섹션 -->
+    <section class="content-section">
+        <img src="jelly_aboutpage_01.png" alt="Jelly About Page" class="about-image">
+        
+    </section>
+
+    <!-- JavaScript 파일 연결 -->
+    <script src="about_script.js"></script>
+
+</body>
+</html>

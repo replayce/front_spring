@@ -83,10 +83,11 @@
                 <table class="board-table">
                     <tbody>
                         <tr>
-                            <td><img src="/images/jelly_icons/노무라입깃.png" alt="노무라입깃해파리"></td>
-                            <td>또잉</td>
-                            <td>해파리 발견</td>
-                            <td>30분 전</td>
+                            <input type="hidden" name="boardId" value="0">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
@@ -99,7 +100,8 @@
                             <input type="hidden" name="jelly" value="{{jelly}}">
                             <td><img src="/images/jelly_icons/노무라입깃.png" alt="노무라입깃해파리"></td>
                             <td>{{location}}</td>
-                            <td>{{jelly}} 발견</td>
+                            <td>{{jelly}}</td>
+                            <td>{{cnt}} 건</td>
                         </tr>
                         {{/boardList}}
                     </tbody>
@@ -109,6 +111,7 @@
 
 <!-- 간단한 토글 스크립트 -->
 <script>
+    var backend_url = "{{backend_addr}}";
     var oceanInfoList = {{{oceanInfoJson}}};
     var oceanInfoObj = {};
     oceanInfoList.forEach(item => {
@@ -146,17 +149,82 @@
             }
         });
 
-        $('table.board-table > tbody > tr').each(function(){
+        $('div.board-list > table.board-table > tbody > tr').each(function(){
             var jelly_name = $(this).find('input[name="jelly"]').val();
             if ( jelly_name == '노무라입깃해파리' ) {
-                $(this).find('td > img').attr('src', '/images/jelly_icons/노무라입깃.png').attr('alt', '노무라입깃해파리');
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/노무라입깃_noname.png').attr('alt', '노무라입깃해파리');
+            }
+            else if(jelly_name == '보름달물해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/보름달물_noname.png').attr('alt', '보름달물해파리');
             }
             else {
-                $(this).find('td > img').attr('src', '/images/jelly_icons/보름달물.png').attr('alt', '보름달물해파리');
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/외계생물체.png').attr('alt', '미확인해파리');
+                $($(this).find('td')[2]).text('미발견');
             }
         });
+
+        getRecentBoardInterval();
+        setInterval(getRecentBoardInterval, 5000);
     });
 
+    function getRecentBoardInterval() {
+        $.ajax({
+            url: `${backend_url}/api/board`,
+            type: 'GET',
+            data: {
+                page: 1,
+                size: 1
+            },
+            success: function(response) {
+                var now_board_id = $('div.board-recent > table.board-table tr > input[name="boardId"]').val();
+                if (response['result'][0]['boardId'] == parseInt(now_board_id)) {
+                    return;
+                }
+
+                var img_tag = `<img src="/images/jelly_icons_noname/외계생물체.png" alt="미확인해파리">`;
+                var jelly_name = response['result'][0]['jelly'];
+                if ( jelly_name == '노무라입깃해파리' ) {
+                    img_tag = `<img src="/images/jelly_icons_noname/노무라입깃_noname.png" alt="노무라입깃해파리">`;
+                }
+                else if(jelly_name == '보름달물해파리') {
+                    img_tag = `<img src="/images/jelly_icons_noname/보름달물_noname.png" alt="보름달물해파리">`;
+                }
+
+                var time_str = timeAgo(response['result'][0]['createDate']);
+
+                // image-class 초기화
+                $('div.board-recent > table.board-table tr').removeClass('rolling-in');
+
+                var newRow = `<tr class="rolling-in"><input type="hidden" name="boardId" value="${response['result'][0]['boardId']}"><td>${img_tag}</td><td>${response['result'][0]['location']}</td><td>${response['result'][0]['jelly']}</td><td>${time_str}</td></tr>`;
+                $('div.board-recent > table.board-table tr').addClass('rolling-out').one('animationend', function() {
+                    $(this).replaceWith(newRow);
+                });
+            }
+        });
+    }
+
+    function timeAgo(dateString) {
+        const now = new Date();
+        const date = new Date(dateString);
+        const diff = Math.floor((now - date) / 1000); // 초 단위 차이
+
+        const units = [
+            { name: '년', limit: 31536000, inSeconds: 31536000 },
+            { name: '개월', limit: 2592000, inSeconds: 2592000 },
+            { name: '일', limit: 86400, inSeconds: 86400 },
+            { name: '시간', limit: 3600, inSeconds: 3600 },
+            { name: '분', limit: 60, inSeconds: 60 },
+        ];
+
+        for (const unit of units) {
+            if (diff >= unit.limit) {
+                const value = Math.floor(diff / unit.inSeconds);
+                return `${value}${unit.name} 전`;
+            }
+        }
+
+        return '방금 전';
+    }
 
 </script>
 

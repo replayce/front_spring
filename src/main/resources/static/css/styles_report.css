@@ -121,7 +121,7 @@
     padding: 8px;
     background-color: #95B2B0;
     height: 80px;
-    width: 365px !important; /* 강제 고정 */
+    width: 365px; /* 강제 고정 */
     max-width: 365px; /* 최대 너비 제한 */
     resize: none;
     box-sizing: border-box;
@@ -280,4 +280,63 @@ textarea {
     font-weight: bold;
     text-align: center;
     font-size: 14px;
+}
+
+@media (max-width: 490px) {
+    .header-container{
+        width: 100vw;
+        max-width: 332px;
+    }
+
+    .center-box {
+        width: calc(100vw - 40px);
+    }
+
+    .form-group-btn {
+        display:unset;
+    }
+
+    .form-group {
+        display:unset;
+    }
+
+    .form-group-des {
+        display:unset;
+    }
+
+    .info-fields {
+        display:unset;
+    }
+
+    .info-with-photo {
+        gap:10px;
+    }
+
+    .photo-upload {
+        margin-top:24px;
+        width:100%;
+        height:232px;
+    }
+
+    .form-label {
+        height:unset;
+        line-height: 24px;
+    }
+
+    .input-wrapper-btn {
+        width:unset;
+    }
+
+    .description {
+        width:100%;
+        max-width:unset;
+    }
+
+    .short-input {
+        width:187px;
+    }
+
+    .find-location, .auto-generate {
+        padding: 5px 0px;
+    }
 }

@@ -144,7 +144,7 @@ public class AdminController {
 
         try {
             // FeignClient 호출
-            CommonResponse<List<AlertResponse>> response = alertClient.getAllAlerts(0);
+            CommonResponse<List<AlertResponse>> response = alertClient.getAllAlerts(2);
             model.addAttribute("alerts", response.getResult());
         } catch (Exception e) {
             System.err.println("Error fetching alerts: " + e.getMessage());

@@ -79,33 +79,102 @@ async function fetchJellyfishTypeFromAPI(imageUrl) {
     }
 }
 
+// 미래 시간 선택 불가능
+function validateDateTime() {
+    const dateInput = document.getElementById("date-input").value;
+    const hourInput = parseInt(document.getElementById("hour-input").value, 10);
+    const minuteInput = parseInt(document.getElementById("minute-input").value, 10);
+
+    // 현재 시간 가져오기
+    const now = new Date();
+    const selectedDate = new Date(dateInput);
+
+    // 선택한 날짜의 시간과 분 설정
+    selectedDate.setHours(hourInput);
+    selectedDate.setMinutes(minuteInput);
+
+    // 🔴 미래 시간이면 등록 불가능
+    if (selectedDate > now) {
+        alert("❌ 미래 날짜 및 시간은 선택할 수 없습니다.");
+        return false;
+    }
+
+    return true;
+}
+
+
+// 빈값 있으면 등록 불가능
+function validateForm() {
+    let requiredFields = [
+        { id: "location-dropdown", name: "목격 위치" },
+        { id: "date-input", name: "목격 날짜" },
+        { id: "hour-input", name: "목격 시간" },
+        { id: "minute-input", name: "목격 분" },
+        { id: "reporter-name", name: "제보자 이름" },
+        { id: "phone-number", name: "핸드폰 번호" },
+        { id: "password", name: "비밀번호" },
+        { id: "confirm-password", name: "비밀번호 확인" },
+        { id: "jellyfish-type", name: "해파리" }
+    ];
+
+    for (let field of requiredFields) {
+        let element = document.getElementById(field.id);
+        let value = element?.value?.trim();
+
+        if (!value) {
+            alert(`❌ 입력되지 않은 값이 있습니다: ${field.name}`);
+            return false;
+        }
+    }
+
+    // 🔴 비밀번호 확인
+    let password = document.getElementById("password").value.trim();
+    let confirmPassword = document.getElementById("confirm-password").value.trim();
+    if (password !== confirmPassword) {
+        alert("❌ 비밀번호가 일치하지 않습니다.");
+        return false;
+    }
+
+    return true;
+}
+
 // 🟢 (4) 등록하기 요청
 async function submitReport() {
+    if (!validateForm()) {
+        return; // ❌ 유효성 검사 실패 시 등록 중단
+    }
+
+    if (!validateDateTime()) {
+        return; // ❌ 미래 날짜/시간/분이 입력되었으면 등록 중단
+    }
+
+    let jellyType = document.getElementById("jellyfish-type").value.trim();
+    let toxicity = "";
+
+    if (jellyType === "노무라입깃해파리") {
+        toxicity = "강독성";
+    } else if (jellyType === "보름달물해파리") {
+        toxicity = "약독성";
+    }
+
     let reportData = {
         content: "",
         writer: document.getElementById("reporter-name").value,
-        writerNumber: document.querySelector("input[type='text']").value,
-        writerPassword: document.querySelector("input[type='password']").value,
+        writerNumber: document.getElementById("phone-number").value,
+        writerPassword: document.getElementById("password").value,
         imageUrl: document.getElementById("jellyfish-image-url").value,
-        date: document.querySelector("input[type='date']").value,
-        hour: parseInt(document.querySelectorAll(".time-input")[0].value, 10),
-        minute: parseInt(document.querySelectorAll(".time-input")[1].value, 10),
+        date: document.getElementById("date-input").value,
+        hour: parseInt(document.getElementById("hour-input").value, 10),
+        minute: parseInt(document.getElementById("minute-input").value, 10),
         location: document.getElementById("location-dropdown").value,
-        jelly: document.getElementById("jellyfish-type").value,
-        description: document.querySelector(".description").value,
+        // jelly: document.getElementById("jellyfish-type").value,
+        jelly: jellyType,
+        toxicity: toxicity,
+        description: document.querySelector(".description").value.trim() || "", // 선택 입력 가능
     };
 
-    // ✅ 해파리 독성 자동 설정
-    if (reportData.jelly === "노무라입깃 해파리") {
-        reportData.toxicity = "강독성";
-    } else if (reportData.jelly === "보름달물 해파리") {
-        reportData.toxicity = "약독성";
-    } else {
-        reportData.toxicity = "";
-    }
-
     try {
-        const response = await fetch("/main/board", {
+        const response = await fetch("/board", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -118,12 +187,13 @@ async function submitReport() {
         }
 
         alert("등록 성공!");
-        window.location.href = "/main/board";
+        window.location.href = "/board";
     } catch (error) {
         console.error("❌ 등록 오류:", error);
         alert("등록에 실패했습니다.");
     }
 }
+
 // ------------------ 해파리 판별 & 이미지 업로드 -------------------- //
 
 
@@ -211,7 +281,6 @@ function toRadians(degrees) {
 
 // ------------------- 위치 기반 버튼 ----------------------//
 
-
 // ----------------- 이름 자동 생성 --------------------//
 
 async function generateJellyfishNameWithOpenAI() {
@@ -231,9 +300,15 @@ async function generateJellyfishNameWithOpenAI() {
                 model: "gpt-3.5-turbo",
                 messages: [
                     { role: "system", content: "너는 해파리 이름을 만드는 AI야." },
-                    { role: "user", content: "귀여운 해파리의 별명을 만들어줘. 형식: '노란 모자 해파리' 또는 '파란 리본 해파리'." }
+                    { role: "user", content: "귀여운 해파리의 별명을 만들어줘. 아래 예시 중 '한 가지' 형식을 무작위로 선택해서 만들되, 반드시 '해파리'로 끝나야 하며 문장은 15자 이내로 짧고 자연스러워야 해.: " +
+                            "\n\n1. '노란 모자 해파리' 같은 패션 스타일 " +
+                            "\n2. '춤추는 파란 해파리' 같은 동작 기반 " +
+                            "\n3. '빛나는 해파리' 같은 자연현상 기반 " +
+                            "\n4. '바다의 요정 해파리' 같은 판타지 스타일 " +
+                            "\n5. '핑크 솜사탕 해파리' 같은 색상과 질감 기반"
+                    }
                 ],
-                max_tokens: 10,
+                max_tokens: 15,
                 temperature: 0.7
             })
         });
@@ -251,8 +326,21 @@ async function generateJellyfishNameWithOpenAI() {
         console.log("🟡 API 응답 데이터:", data);
 
         if (data.choices && data.choices[0] && data.choices[0].message) {
-            // ✅ 따옴표 및 공백 제거
-            reporterInput.value = data.choices[0].message.content.trim().replace(/["']/g, "");
+            // ✅ 불필요한 중복 제거
+            let name = data.choices[0].message.content.trim().replace(/["']/g, "");
+
+            // 🔴 "해" 또는 "해파"로 끝나면 "해파리"로 변환
+            if (name.endsWith("해")) {
+                name = name.replace(/해$/, "해파리");
+            } else if (name.endsWith("해파")) {
+                name = name.replace(/해파$/, "해파리");
+            }
+
+            // 🔴 "해 해파리" 같은 중복 방지
+            name = name.replace(/해\s?해파리$/, "해파리");
+            name = name.replace(/해파\s?해파리$/, "해파리");
+
+            reporterInput.value = name;
             console.log("✅ 입력창 업데이트 완료:", reporterInput.value);
         } else {
             console.error("❌ API 응답이 비어 있음:", data);
@@ -263,6 +351,13 @@ async function generateJellyfishNameWithOpenAI() {
         alert("API 요청 중 오류 발생. 콘솔에서 로그를 확인하세요.");
     }
 }
+
+// 뒤로가기 버튼
+function goBack() {
+    console.log("🔙 뒤로 가기 버튼 클릭됨!");
+    window.history.back(); // 🔴 이전 페이지로 이동
+}
+
 
 // 버튼 클릭 시 실행
 document.getElementById("auto-generate-btn").addEventListener("click", generateJellyfishNameWithOpenAI);

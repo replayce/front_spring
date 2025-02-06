@@ -6,7 +6,8 @@
 <div class="center-container">
     <!-- 상단 버튼 및 제목 -->
     <div class="header-container">
-        <button class="btn back-btn">뒤로가기</button>
+        <!-- 기존 뒤로가기 버튼 -->
+        <button class="btn back-btn" onclick="goBack()">뒤로가기</button>
         <h2 class="title">해파리 제보하기</h2>
         <button class="btn submit-btn">등록하기</button>
     </div>
@@ -19,11 +20,17 @@
                 <label class="form-label">목격 위치</label>
                 <div class="input-wrapper-btn">
                     <select class="form-control" id="location-dropdown">
-                        <option selected>지역을 선택해 주세요.</option>
-                        <option>부산</option>
-                        <option>제주도</option>
-                        <option>강릉</option>
+                        <option value="">지역을 선택해 주세요.</option>
+                        <option value="부산">부산</option>
+                        <option value="제주도">제주도</option>
+                        <option value="강릉">강릉</option>
+                        <option value="서해바다">서해바다</option>
                     </select>
+                    {{#is_edit}}
+                        <script>
+                            document.getElementById("location-dropdown").value = "{{board.location}}";
+                        </script>
+                    {{/is_edit}}
                     <button type="button" class="btn find-location" onclick="getLocation()">위치기반 찾기</button>
                 </div>
                 <!-- 위도·경도 자동 입력을 위한 숨겨진 필드 -->
@@ -34,23 +41,34 @@
             <div class="form-group">
                 <label class="form-label">목격 시점</label>
                 <div class="datetime-group">
-                    <input type="date" class="form-control">
-                    <select class="form-control time-input">
-                        <option selected>시간</option>
+                    <input type="date" class="form-control" id="date-input">
+                    
+                    <select class="form-control time-input" id="hour-input">
+                        <option value="">시간</option>
                         <script>
                             for (let i = 0; i < 24; i++) {
-                                document.write(`<option value="${i.toString().padStart(2, '0')}">${i}시</option>`);
+                                document.write(`<option value="${i}">${i}시</option>`);
                             }
                         </script>
                     </select>
-                    <select class="form-control time-input">
-                        <option selected>분</option>
+                    {{#is_edit}}
+                        <script>
+                            document.getElementById("hour-input").value = "{{board.hour}}";
+                        </script>
+                    {{/is_edit}}
+                    <select class="form-control time-input" id="minute-input">
+                        <option value="">분</option>
                         <script>
                             for (let i = 0; i < 60; i += 5) {
-                                document.write(`<option value="${i.toString().padStart(2, '0')}">${i}분</option>`);
+                                document.write(`<option value="${i}">${i}분</option>`);
                             }
                         </script>
                     </select>
+                    {{#is_edit}}
+                        <script>
+                            document.getElementById("minute-input").value = "{{board.minute}}";
+                        </script>
+                    {{/is_edit}}
                 </div>
             </div>
 
@@ -58,7 +76,7 @@
             <div class="form-group-btn">
                 <label class="form-label">제보자 이름</label>
                 <div class="input-wrapper-btn">
-                    <input type="text" id="reporter-name" class="form-control" placeholder="ex) 노란 모자 해파리">
+                    <input type="text" id="reporter-name" class="form-control" {{#is_edit}}value="{{board.writer}}"{{/is_edit}} placeholder="ex) 노란 모자 해파리">
                     <button type="button" class="btn auto-generate" id="auto-generate-btn">이름 자동 생성</button>
                 </div>
             </div>
@@ -69,27 +87,27 @@
                 <div class="info-fields">
                     <div class="form-group">
                         <label class="form-label">핸드폰 번호</label>
-                        <input type="text" class="form-control short-input">
+                        <input type="text" id="phone-number" {{#is_edit}}value="{{board.writerNumber}}"{{/is_edit}} class="form-control short-input">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">비밀번호</label>
-                        <input type="password" class="form-control short-input">
+                        <input type="password" id="password" {{#is_edit}}value="{{board.writerPassword}}"{{/is_edit}} class="form-control short-input">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">비밀번호 확인</label>
-                        <input type="password" class="form-control short-input">
+                        <input type="password" id="confirm-password" {{#is_edit}}value="{{board.writerPassword}}"{{/is_edit}} class="form-control short-input">
                     </div>
 
                     <!-- 해파리 입력창 -->
                     <div class="form-group">
                         <label class="form-label">해파리</label>
                         <div class="input-wrapper">
-                            <input type="text" id="jellyfish-type" class="form-control short-input" placeholder="사진을 등록해주세요." readonly>
+                            <input type="text" id="jellyfish-type" class="form-control short-input" {{#is_edit}}value="{{board.jelly}}"{{/is_edit}} placeholder="사진을 등록해주세요." readonly>
                         </div>
                     </div>
-                    <!-- 🟢 추가: 숨겨진 이미지 URL 저장 필드 -->
+                    <!-- 숨겨진 이미지 URL 저장 필드 -->
                     <input type="hidden" id="jellyfish-image-url" name="imageUrl">
                 </div>
 
@@ -97,14 +115,14 @@
                 <div class="photo-upload" onclick="document.getElementById('jellyfish-photo').click();">
                     <input type="file" id="jellyfish-photo" class="file-input" accept="image/*">
                     <span class="upload-text">사진 등록</span>
-                    <img id="preview-image" src="" alt="사진 미리보기">
+                    <img id="preview-image" {{#is_edit}}src="{{board.imageUrl}}"{{/is_edit}} alt="사진 미리보기">
                 </div>
             </div>
 
             <!-- 상세 설명 -->
             <div class="form-group-des">
                 <label class="form-label-des">상세 설명</label>
-                <textarea class="description" rows="3" placeholder="목격한 위치와 시간을 작성해 주세요."></textarea>
+                <textarea class="description" rows="3" placeholder="목격한 위치와 시간을 작성해 주세요.">{{#is_edit}}{{board.description}}{{/is_edit}}</textarea>
             </div>
         </form>
     </div>
