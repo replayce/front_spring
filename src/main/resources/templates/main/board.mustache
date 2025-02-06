@@ -26,14 +26,21 @@
                 </div>
                 <div class="board-content-list">
                     {{#boards}}
-                        <div class="board-row">
-                            <span class="no">{{boardId}}</span>
-                            <span class="icon"><img src="/images/jelly_icons/노무라입깃.png" alt="해파리 아이콘"></span>
-                            <span class="loc">{{location}}</span>
-                            <span class="jelly-name">{{jelly}}</span>
-                            <span class="report-time">{{formattedTime}}</span>
-                            <span class="informant">{{writer}}</span>
-                        </div>
+                        <a href="/board/detail/{{boardId}}">
+                            <div class="board-row">
+                                <span class="no">{{boardId}}</span>
+                                <span class="icon">
+                                <img class="jelly-icon"
+                                     data-jelly="{{jelly}}"
+                                     src="/images/jelly_icons_noname/외계생물체.png"
+                                     alt="해파리 아이콘">
+                            </span>
+                                <span class="loc">{{location}}</span>
+                                <span class="jelly-name">{{jelly}}</span>
+                                <span class="report-time">{{formattedTime}}</span>
+                                <span class="informant">{{writer}}</span>
+                            </div>
+                        </a>
                     {{/boards}}
                 </div>
                 <!-- 게시글 목록 바로 아래에 페이지네이션 컨트롤 추가 -->
