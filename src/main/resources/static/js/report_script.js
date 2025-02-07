@@ -2,11 +2,22 @@
 
 document.addEventListener("DOMContentLoaded", function () {
     // 🟢 "등록하기" 버튼 클릭 이벤트 등록
-    document.querySelector(".submit-btn").addEventListener("click", function (event) {
-        event.preventDefault(); // 기본 폼 제출 방지
-        console.log("🚀 등록 버튼 클릭됨!");
-        submitReport();
-    });
+    var submit_btn = document.querySelector(".submit-btn");
+    if (submit_btn) {
+        document.querySelector(".submit-btn").addEventListener("click", function (event) {
+            event.preventDefault(); // 기본 폼 제출 방지
+            console.log("🚀 등록 버튼 클릭됨!");
+            submitReport();
+        });
+    }
+    else {
+    // 🟢 "수정하기" 버튼 클릭 이벤트 등록
+        document.querySelector(".edit-btn").addEventListener("click", function (event) {
+            event.preventDefault(); // 기본 폼 제출 방지
+            console.log("🚀 등록 버튼 클릭됨!");
+            submitEdit(document.getElementById("boardId").value);
+        });
+    }
 
     // 🟢 사진 업로드 시 실행 (해파리 판별 API 호출)
     document.getElementById("jellyfish-photo").addEventListener("change", function(event) {
@@ -193,6 +204,64 @@ async function submitReport() {
         alert("등록에 실패했습니다.");
     }
 }
+
+// 🟢 (5) 수정하기 요청
+async function submitEdit(boardId) {
+
+    if (!validateForm()) {
+        return; // ❌ 유효성 검사 실패 시 등록 중단
+    }
+
+    if (!validateDateTime()) {
+        return; // ❌ 미래 날짜/시간/분이 입력되었으면 등록 중단
+    }
+
+    let jellyType = document.getElementById("jellyfish-type").value.trim();
+    let toxicity = "";
+
+    if (jellyType === "노무라입깃해파리") {
+        toxicity = "강독성";
+    } else if (jellyType === "보름달물해파리") {
+        toxicity = "약독성";
+    }
+
+    let reportData = {
+        content: "",
+        writer: document.getElementById("reporter-name").value,
+        writerNumber: document.getElementById("phone-number").value,
+        writerPassword: document.getElementById("password").value,
+        imageUrl: document.getElementById("jellyfish-image-url").value,
+        date: document.getElementById("date-input").value,
+        hour: parseInt(document.getElementById("hour-input").value, 10),
+        minute: parseInt(document.getElementById("minute-input").value, 10),
+        location: document.getElementById("location-dropdown").value,
+        // jelly: document.getElementById("jellyfish-type").value,
+        jelly: jellyType,
+        toxicity: toxicity,
+        description: document.querySelector(".description").value.trim() || "", // 선택 입력 가능
+    };
+
+    try {
+        const response = await fetch(`/board/${boardId}`, {
+            method: 'PATCH',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(reportData),
+        });
+
+        if (!response.ok) {
+            throw new Error(`등록 실패: ${response.status} ${response.statusText}`);
+        }
+
+        alert("등록 성공!");
+        window.location.href = "/board";
+    } catch (error) {
+        console.error("❌ 등록 오류:", error);
+        alert(`등록에 실패했습니다.${boardId}`);
+    }
+}
+
 
 // ------------------ 해파리 판별 & 이미지 업로드 -------------------- //
 
