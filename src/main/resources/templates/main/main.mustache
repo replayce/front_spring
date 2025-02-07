@@ -228,12 +228,18 @@
                 // image-class 초기화
                 $('div.board-recent > table.board-table tr').removeClass('rolling-in');
 
-                var newRow = `<tr class="rolling-in"><input type="hidden" name="boardId" value="${response['result'][0]['boardId']}"><td>${img_tag}</td><td>${response['result'][0]['location']}</td><td>${response['result'][0]['jelly']}</td><td>${time_str}</td></tr>`;
+                var newRow = `<tr class="rolling-in" onClick="clickRecentBoard()"><input type="hidden" name="boardId" value="${response['result'][0]['boardId']}"><td>${img_tag}</td><td>${response['result'][0]['location']}</td><td>${response['result'][0]['jelly']}</td><td>${time_str}</td></tr>`;
                 $('div.board-recent > table.board-table tr').addClass('rolling-out').one('animationend', function() {
                     $(this).replaceWith(newRow);
                 });
+
             }
         });
+    }
+
+    function clickRecentBoard() {
+        var board_id = $('div.board-recent > table.board-table tr > input[name="boardId"]').val();
+        window.location.href = `/board/detail/${board_id}`;
     }
 
     function timeAgo(dateString) {
