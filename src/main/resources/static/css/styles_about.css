@@ -274,7 +274,12 @@ input:checked + .slider:before {
     transform: translateX(24px);
 }
 
-
+@media (max-width: 768px) {
+    #jelly-08, #jelly-02 {
+        right:0px;
+        left:unset;
+    }
+}
 
 
 
