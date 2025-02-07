@@ -27,7 +27,7 @@
         let chatbox = document.getElementById("chatbox");
         chatbox.innerHTML += `<p><strong>사용자:</strong> ${userInput}</p>`;
 
-        fetch('/api/chat?question=' + encodeURIComponent(userInput))
+        fetch('http://localhost:8081/api/chat?question=' + encodeURIComponent(userInput))
                 .then(response => response.text())
                 .then(answer => {
                     chatbox.innerHTML += `<p><strong>챗봇:</strong> ${answer}</p>`;
