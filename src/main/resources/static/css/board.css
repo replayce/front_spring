@@ -413,12 +413,39 @@ a {
     background-color: #95B2B0;
 }
 #icon-help {
-    width: 120px;
-    height: 30px;
-    border: 0;
-    border-radius: 10px;
-    padding-left: 10px;
-    background-color: #95B2B0;
+    width:120px;
+    height:30px;
+    border: 0px;
+    border-radius:10px;
+    background-color :#95B2B0;
+    text-align: center;
+    position:relative;
+}
+
+#icon-help:hover {
+    box-shadow:5px 5px 5px rgba(0,0,0,0.3);
+}
+
+#icon-help span {
+    font-size: 13px;
+    line-height: 30px;
+}
+
+#help-modal {
+    position:fixed;
+    top:0px;
+    width:100vw;
+    height:100vh;
+    z-index: 110;
+    background-color:black;
+}
+
+#help-modal > img {
+    width:100vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* ------------------------------

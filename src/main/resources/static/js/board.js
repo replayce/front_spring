@@ -19,6 +19,13 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+    $('div#icon-help').on('click', function() {
+        $('#help-modal').show();
+    });
+    $('#help-modal').on('click', function() {
+        $('#help-modal').hide();
+    });
 });
 
 // 해파리 필터 기능 초기화

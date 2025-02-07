@@ -59,13 +59,9 @@
                 <option value="{{oceanTitle}}">{{oceanTitle}}</option>
             {{/oceanInfoList}}
         </select>
-
-        <select id="icon-help" name="icon-help">
-            <option value="" disabled selected>도움말</option>
-            <option value="">예측된 해파리</option>
-            <option value="">저밀도</option>
-            <option value="">고밀도</option>
-        </select>
+        <div id="icon-help">
+            <span style="">도움말</span>
+        </div>
     </div>
     <div class="jelly-list">
         <div class="jelly-character" data-name="노무라입깃">
@@ -103,6 +99,10 @@
     <a href="/report">
         <button class="report">제보하기</button>
     </a>
+</div>
+
+<div id="help-modal" style="display:none;">
+    <img src="/images/info_images/info_report_board.png" alt="제보 게시판 도움말">
 </div>
 
 
