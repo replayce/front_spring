@@ -14,7 +14,7 @@ function changeJellyAlert(beach_id) {
     alertObj[beach_id].forEach( item => {
         var jellyDiv = $(`div.jelly-list > div.jelly-character[data-name="${item["jelly"]}"]`);
         jellyDiv.addClass("jelly-alert");
-        jellyDiv.find("div.jelly-rate").text(parseInt(item["percentLoc"]) + "%").show();
+        jellyDiv.find("div.jelly-rate").text(`예측 출현율\n${parseInt(item["percentLoc"])}%`).show();
         if (item['densityPred'] == 1) {
             jellyDiv.find("div.jelly-density").addClass("jelly-density-low");
         }
