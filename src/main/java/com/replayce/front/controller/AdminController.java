@@ -29,14 +29,14 @@ public class AdminController {
 //    private final RestTemplate restTemplate = new RestTemplate();
     private final AlertClient alertClient;
     private final ReportClient reportClient;
-//    private final String BACKEND_URL = "http://localhost:8081";
+    //    private final String BACKEND_URL = "http://localhost:8081";
     private final AdminClient adminClient;
     private final AuthClient authClient;
 
     private final ObjectMapper objectMapper;
 
 
-     // 관리자 메인 페이지
+    // 관리자 메인 페이지
 
     @GetMapping("/admin")
     public String main(Model model) {
@@ -54,7 +54,7 @@ public class AdminController {
             model.addAttribute("reports", reports);
             String reportsJson = objectMapper.writeValueAsString(reports);
             model.addAttribute("reportsJson", reportsJson);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error fetching data: {}", e.getMessage());
             model.addAttribute("alerts", List.of());
             model.addAttribute("reports", List.of());
@@ -66,7 +66,7 @@ public class AdminController {
     }
 
 
-     // 로그인 페이지
+    // 로그인 페이지
 
     @GetMapping("/admin_login")
     public String loginPage() {
@@ -85,6 +85,8 @@ public class AdminController {
             if (response.getResult() != null) {
                 String token = response.getResult().getToken();
                 session.setAttribute("token", token);
+                // 이후 정보 수정 위해서 유저네임 저장
+                session.setAttribute("username",loginRequest.getUsername());
                 return "redirect:/admin";
             }
         } catch (Exception e) {
@@ -97,7 +99,7 @@ public class AdminController {
     }
 
 
-     // 회원가입 페이지
+    // 회원가입 페이지
 
     @GetMapping("/admin_signup")
     public String registerPage() {
@@ -128,7 +130,7 @@ public class AdminController {
     }
 
 
-     // 로그아웃 기능
+    // 로그아웃 기능
 
     @GetMapping("/admin/admin_logout")
     public String logout(HttpSession session) {
@@ -137,7 +139,7 @@ public class AdminController {
     }
 
 
-     // 경보 관리
+    // 경보 관리
 
     @GetMapping("/admin/admin_alerts")
     public String alerts(Model model) {
@@ -172,7 +174,7 @@ public class AdminController {
     }
 
 
-     // 관리자 승인 여부 페이지
+    // 관리자 승인 여부 페이지
     @GetMapping("/admin/admin_setting")
     public String setting(Model model, HttpSession session) {
         try {
@@ -180,7 +182,7 @@ public class AdminController {
             if (response.getResult() != null) {
                 model.addAttribute("pendingAdmins", response.getResult());
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("승인 대기 중인 관리자 목록 조회 실패: {}", e.getMessage());
             model.addAttribute("error", "승인 대기 중인 관리자 목록을 가져오는데 실패했습니다.");
         }
@@ -188,7 +190,7 @@ public class AdminController {
     }
 
 
-     // 보고서 수정 페이지
+    // 보고서 수정 페이지
 
     @GetMapping("/admin/admin_edit_reports")
     public String editReports() {
@@ -196,30 +198,25 @@ public class AdminController {
     }
 
 
-     // 계정 페이지
+    // 계정 페이지
 
     @GetMapping("/admin/admin_account")
     public String account() {
         return "admin/admin_account";
     }
 
-    // 계정 정보 수정 POST 요청 처리 (예시)
-    @PostMapping("/admin/admin_account")
-    public String updateAccount(@RequestParam String username,
-                                @RequestParam(required = false) String email,
-                                @RequestParam(required = false) String phoneNumber,
-                                @RequestParam(required = false) String newPassword,
-                                Model model,
-                                HttpSession session) {
+    @PostMapping("/admin/admin_account_update")
+    public String updateAccount(
+            @RequestParam String username,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String phoneNumber,
+            @RequestParam(required = false) String newPassword,
+            Model model,
+            HttpSession session) {
         try {
-            // 예: 백엔드 Auth API의 updateAccount 엔드포인트 호출 (FeignClient 또는 다른 방법 사용)
-            CommonResponse<String> response = authClient.updateAccount(
-                    username, email, phoneNumber, newPassword
-            );
-
-            // 백엔드 응답에 따른 메시지 처리
+            CommonResponse<String> response = authClient.updateAccount(username, email, phoneNumber, newPassword);
             if (response.getMessage().contains("업데이트 성공")) {
-                model.addAttribute("message", "계정 정보가 성공적으로 업데이트되었습니다.");
+                model.addAttribute("message", "계정 정보가 성공적으로 업데이트 되었습니다.");
             } else {
                 model.addAttribute("error", response.getMessage());
             }
@@ -228,7 +225,76 @@ public class AdminController {
             model.addAttribute("error", "계정 정보 업데이트 중 오류가 발생했습니다.");
         }
 
-        return "admin/admin_account";
-    }
+        // 업데이트 후, 계정 정보 조회 (현재 로그인한 사용자의 정보를 authClient를 통해 조회)
+        try {
+            CommonResponse<List<AdminResponse>> accountResponse = authClient.getAdminsDetails(username);
+            List<AdminResponse> adminList = accountResponse.getResult();
+            if (adminList != null && !adminList.isEmpty()) {
+                model.addAttribute("account", adminList.get(0));
+            } else {
+                model.addAttribute("error", "업데이트 후 계정 정보를 가져오는데 실패했습니다.");
+            }
+        } catch (Exception e) {
+            log.error("업데이트 후 계정 정보 조회 실패: {}", e.getMessage());
+            model.addAttribute("error", "업데이트 후 계정 정보를 가져오는데 오류가 발생했습니다.");
+        }
 
+        return "admin/admin_account_update";
+    }
+    //            @RequestParam String username,
+//                                @RequestParam(required = false) String email,
+//                                @RequestParam(required = false) String phoneNumber,
+//                                @RequestParam(required = false) String newPassword,
+//                                Model model,
+//                                HttpSession session) {
+//        try {
+//            // 예: 백엔드 Auth API의 updateAccount 엔드포인트 호출 (FeignClient 또는 다른 방법 사용)
+//            CommonResponse<String> response = authClient.updateAccount(
+//                    username, email, phoneNumber, newPassword
+//            );
+//
+//            // 백엔드 응답에 따른 메시지 처리
+//            if (response.getMessage().contains("업데이트 성공")) {
+//                model.addAttribute("message", "계정 정보가 성공적으로 업데이트되었습니다.");
+//            } else {
+//                model.addAttribute("error", response.getMessage());
+//            }
+//        } catch (Exception e) {
+//            log.error("계정 업데이트 실패: {}", e.getMessage());
+//            model.addAttribute("error", "계정 정보 업데이트 중 오류가 발생했습니다.");
+//        }
+//
+//        return "admin/admin_account";
+//    }
+//
+//}
+
+
+
+    // 계정 정보 수정 POST 요청 처리
+    @PostMapping("/admin/admin_account")
+    public String confirmAccount(Model model, HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        log.info("confirmAccount: username from session = '{}'", username);
+        if (username == null || username.trim().isEmpty()) {
+            // username이 없다면 로그인 페이지로 리다이렉트
+            return "redirect:/admin_login";
+        }
+        try {
+            CommonResponse<List<AdminResponse>> response = authClient.getAdminsDetails(username);
+            List<AdminResponse> adminList = response.getResult();
+            if (adminList != null && !adminList.isEmpty()) {
+                // 리스트의 첫 번째 요소를 account로 전달
+                model.addAttribute("account", adminList.get(0));
+            } else {
+                model.addAttribute("error", "계정 정보를 가져오는데 실패했습니다.");
+            }
+        } catch (Exception e) {
+            log.error("계정 정보 조회 실패: {}", e.getMessage());
+            model.addAttribute("error", "계정 정보를 가져오는데 오류가 발생했습니다.");
+        }
+        return "admin/admin_account_update";
+    }
 }
+
+

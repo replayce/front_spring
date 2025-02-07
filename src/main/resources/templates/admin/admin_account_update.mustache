@@ -1,0 +1,81 @@
+{{>admin/layouts/header}}
+
+{{#message}}
+    <script>
+        alert("{{message}}");
+    </script>
+{{/message}}
+
+    <div class="container">
+        <div class="page-inner">
+            <div class="page-header">
+                <h4 class="page-title">계정 정보 수정</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="icon-home"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="icon-arrow-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Pages</a>
+                    </li>
+                    <li class="separator">
+                        <i class="icon-arrow-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Starter Page</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="page-category">
+                <div>
+                    <div class="col-md-5">
+                        <form id="accountUpdateForm" method="POST" action="/admin/admin_account_update" style="margin-top:20px;">
+                            <!-- 아이디는 수정 불가: 모델의 account 객체에서 username 값을 가져옴 -->
+                            <input type="hidden" name="username" value="{{account.username}}">
+
+                            <div class="form-group" style="margin-bottom:15px;">
+                                <label for="email">이메일</label>
+                                <input type="email" id="email" name="email" class="form-control" value="{{account.email}}" required>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:15px;">
+                                <label for="phoneNumber">폰번호</label>
+                                <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" value="{{account.phoneNumber}}" required>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:15px;">
+                                <label for="newPassword">새 비밀번호 (선택 사항)</label>
+                                <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="변경하지 않으려면 비워두세요">
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:15px;">
+                                <label for="confirmNewPassword">새 비밀번호 확인</label>
+                                <input type="password" id="confirmNewPassword" name="confirmNewPassword" class="form-control" placeholder="새 비밀번호 확인">
+                            </div>
+
+                            <button type="submit" class="btn btn-success">정보 수정</button>
+                            <button type="button" class="btn btn-danger" onclick="window.location.href='/admin';">취소</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // 계정 수정 폼 제출 시, 새 비밀번호와 확인 비밀번호가 일치하는지 검증합니다.
+    document.getElementById("accountUpdateForm").addEventListener("submit", function(e) {
+        var newPassword = document.getElementById("newPassword").value;
+        var confirmNewPassword = document.getElementById("confirmNewPassword").value;
+        if (newPassword && newPassword !== confirmNewPassword) {
+            e.preventDefault();
+            alert("새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+        }
+    });
+</script>
+
+{{>admin/layouts/footer}}
