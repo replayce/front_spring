@@ -214,11 +214,12 @@
         }
     });
 
-    // ===== 해변별 제보 건 수 집계 (Reports) =====
-    const uniqueBeachesReports = new Set(reports.map(report => report.beach));
+    // ===== 해파리 모니터링 주간보고 - 해변별 제보 건 수 집계 (Reports) =====
+    // ReportResponse에서는 해변 이름이 'location'으로 저장됩니다.
+    const uniqueBeachesReports = new Set(reports.map(report => report.location));
     const beachReportCounts = {};
-    uniqueBeachesReports.forEach(beach => {
-        beachReportCounts[beach] = 0;
+    uniqueBeachesReports.forEach(location => {
+        beachReportCounts[location] = 0;
     });
     reports.forEach(report => {
         const rawDateStr = report.createDate || report.time;
@@ -229,12 +230,12 @@
         }
         const reportDateStr = parsedDate.toISOString().substring(0, 10);
         if (last7Days.includes(reportDateStr)) {
-            beachReportCounts[report.beach]++;
+            beachReportCounts[report.location]++;
         }
     });
     const reportLabels = Object.keys(beachReportCounts);
-    const reportDataValues = reportLabels.map(beach => beachReportCounts[beach]);
-    const reportBackgroundColors = reportLabels.map((beach, index) => colors[index % colors.length]);
+    const reportDataValues = reportLabels.map(location => beachReportCounts[location]);
+    const reportBackgroundColors = reportLabels.map((location, index) => colors[index % colors.length]);
 
     // Chart.js Bar Chart for 해변별 제보 건 수
     const ctxReports = document.getElementById('reportsChart').getContext('2d');
@@ -264,7 +265,6 @@
             }
         }
     });
-
     // ===== 해파리 종류별 제보 비율 집계 (Jelly Types) =====
     const jellyTypes = [
         "노무라입깃해파리", "보름달물해파리", "커튼원양해파리",
