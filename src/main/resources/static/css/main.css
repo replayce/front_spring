@@ -55,7 +55,8 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     color:white;
-
+    white-space: pre-wrap;
+    font-size:12px;
 }
 
 .jelly-character:hover {
