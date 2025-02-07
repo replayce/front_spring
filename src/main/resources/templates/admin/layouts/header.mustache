@@ -1,5 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<style>
+    .top-background-logo {
+        height: 30px;
+        padding-bottom: 4px;
+    }
+
+    /* 왼쪽 상단 아이콘 */
+    .left-icon {
+        height: 40px;
+
+    }
+</style>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>JellyMully - Admin</title>
@@ -44,19 +56,14 @@
 <body>
 <div class="wrapper">
     <!-- Sidebar -->
-    <div class="sidebar" data-background-color="dark">
+    <div class="sidebar" style="background-color: #75B8BF;">
         <div class="sidebar-logo">
             <!-- Logo Header -->
-            <div class="logo-header" data-background-color="dark">
-                <a href="/" class="logo">
-                    <img
-                            src="/images/sample_logo.png"
-                            alt="navbar brand"
-                            class="navbar-brand"
-                            height="40"
-                    />
-                </a>
-                <div class="nav-toggle">
+            <div class="logo-header" style="background-color: #75B8BF;">
+                <a href="/">
+                    <img class="left-icon" src="/images/jellymully_logo_01.png" alt="Side Icon">
+                    <img class="top-background-logo" src="/images/jellymully_logo_EN 1.png" alt="Logo">
+                <div class="nav-toggle" style="margin-right: 15px">
                     <button class="btn btn-toggle toggle-sidebar">
                         <i class="gg-menu-right"></i>
                     </button>
