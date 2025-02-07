@@ -24,13 +24,13 @@ public class BoardController {
     private final BoardClient boardClient;
     private final MainService mainService;
 
-    // 게시글 조회
+    // 📌 ✅ 기존 getAllBoards()를 수정하여 페이지네이션 지원
     @GetMapping
-    public String getAllBoards(Model model) {
+    public String getBoardPage(@RequestParam(defaultValue = "1") int page, Model model) {
         try {
-            CommonResponse<List<BoardResponse>> response = boardClient.getAllBoards();
-            List<BoardResponse> boards = response.getResult();
-            model.addAttribute("boards", boards);
+            CommonResponse<PageResponseDto<BoardResponse>> response = boardClient.getBoardPage(page, 12);
+            model.addAttribute("boards", response.getResult().getContent());
+            model.addAttribute("totalPages", response.getResult().getTotalPages());  // ✅ totalPages 추가
         } catch (Exception e) {
             model.addAttribute("error", "게시글을 불러오는 중 오류가 발생했습니다.");
         }
@@ -51,13 +51,20 @@ public class BoardController {
         return "main/board";
     }
 
+    // 📌 ✅ BoardClient의 getBoardPage() 호출을 위한 API 추가
+    @GetMapping("/page")
+    public ResponseEntity<CommonResponse<PageResponseDto<BoardResponse>>> getBoardPageData(
+            @RequestParam(defaultValue = "1") int page) {
+        return ResponseEntity.ok(boardClient.getBoardPage(page, 12));
+    }
+
     @GetMapping("/{boardId}")
     public ResponseEntity<CommonResponse<BoardResponse>> getBoard(@PathVariable Long boardId) {
         CommonResponse<BoardResponse> boards = boardClient.getBoard(boardId);
         return ResponseEntity.ok(boards);
     }
 
-    //상세보기
+    // 상세보기
     @GetMapping("/detail/{boardId}")
     public String getDetail(Model model, @PathVariable Long boardId) {
         CommonResponse<BoardResponse> response = boardClient.getBoard(boardId);
@@ -71,8 +78,7 @@ public class BoardController {
     public String searchMyBoards(
             @RequestParam String writerNumber,
             @RequestParam String writerPassword,
-            Model model
-    ) {
+            Model model) {
         List<BoardResponse> myBoards = boardClient.searchMyBoards(writerNumber, writerPassword);
         model.addAttribute("boards", myBoards);
         return "main/board";
@@ -86,41 +92,16 @@ public class BoardController {
         return "main/board";
     }
 
-
     @PostMapping
     public ResponseEntity<CommonResponse<BoardResponse>> createBoard(@RequestBody BoardRequestDto requestDto) {
-        if (requestDto.getToxicity() == null || requestDto.getToxicity().isEmpty()) {
-            if ("노무라입깃 해파리".equals(requestDto.getJelly())) {
-                requestDto.setToxicity("강독성");
-            } else if ("보름달물 해파리".equals(requestDto.getJelly())) {
-                requestDto.setToxicity("약독성");
-            }
-        }
-
-        if (requestDto.getContent() == null) {
-            requestDto.setContent("");
-        }
-
         CommonResponse<BoardResponse> response = boardClient.createBoard(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
-    @GetMapping("/filter")
-    public String filterBoardsByJelly(
-            @RequestParam List<String> jellies,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "12") int size,
-            Model model) {
-        List<BoardResponse> filteredBoards = boardClient.filterBoardsByJelly(jellies, page, size).getResult();
-        model.addAttribute("boards", filteredBoards);
-        return "main/board";
     }
 
     @PatchMapping("/{boardId}")
     public ResponseEntity<CommonResponse<BoardResponse>> updateBoard(
             @PathVariable Long boardId,
-            @RequestBody Board boardDetails
-    ) {
+            @RequestBody Board boardDetails) {
         CommonResponse<BoardResponse> response = boardClient.updateBoard(boardId, boardDetails);
         return ResponseEntity.ok(response);
     }
@@ -130,5 +111,4 @@ public class BoardController {
         ResponseEntity<BaseResponse> response = boardClient.deleteBoard(boardId);
         return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
     }
-
 }

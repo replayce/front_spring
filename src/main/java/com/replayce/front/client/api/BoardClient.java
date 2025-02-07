@@ -13,6 +13,12 @@ public interface BoardClient {
     @GetMapping("/board")
     CommonResponse<List<BoardResponse>> getAllBoards();
 
+    @GetMapping("/board/page")
+    CommonResponse<PageResponseDto<BoardResponse>> getBoardPage(
+            @RequestParam int page,
+            @RequestParam int size
+    );
+
     //내 글 검색
     @GetMapping("/board/search")
     List<BoardResponse> searchMyBoards(

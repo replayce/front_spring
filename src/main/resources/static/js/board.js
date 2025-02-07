@@ -43,44 +43,83 @@ function setupJellyFilters() {
 }
 
 // 선택된 해파리, 지역 필터 적용 함수
-function applyJellyFilter(page = currentPage, size = pageSize) {
+// function applyJellyFilter(page = currentPage, size = pageSize) {
+//     const selectedJellies = [];
+//     // .selected-jelly가 적용된 요소(즉, <div class="jelly-character selected-jelly">)에서 data-name 값을 읽음
+//     document.querySelectorAll(".selected-jelly").forEach(jellyElem => {
+//         let jellyName = jellyElem.getAttribute("data-name") || "";
+//         // 만약 키워드에 불필요한 문자열(예: "해파리")가 붙어 있다면 제거
+//         jellyName = jellyName.replace("해파리", "").trim();
+//         if (jellyName) {
+//             selectedJellies.push(jellyName);
+//         }
+//     });
+//     console.log("🔥 선택된 해파리 목록:", selectedJellies);
+//
+//     // ★ 지역 선택값 읽기
+//     const regionElem = document.getElementById("alert-location");
+//     const region = regionElem.value.trim();
+//
+//
+//     // 만약 아무것도 선택되지 않았다면 전체 조회
+//     if (selectedJellies.length === 0 && region === "") {
+//         console.log("📌 필터 조건이 없으므로 전체 게시글을 불러옵니다.");
+//         getAllBoards();
+//         return;
+//     }
+//
+//     // 선택된 해파리가 없으면 encodedJellies는 빈 문자열("")가 됨
+//     const encodedJellies = selectedJellies.map(encodeURIComponent).join(",");
+// // jellies 파라미터를 항상 포함시킵니다.
+//     let requestUrl = `${backend_url}/api/board/filter?jellies=${encodedJellies}`;
+//     if (region) {
+//         requestUrl += `&location=${encodeURIComponent(region)}`;
+//     }
+//     requestUrl += `&page=${page}&size=${size}`;
+//
+//     // 페이지네이션 파라미터 추가
+//     requestUrl += `&page=${page}&size=${size}`;
+//
+//     console.log("🚀 API 요청 URL:", requestUrl);
+//
+//     fetch(requestUrl)
+//         .then(response => {
+//             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+//             return response.json();
+//         })
+//         .then(data => {
+//             if (data.result && data.result.length > 0) {
+//                 updateBoardList(data.result);
+//             } else {
+//                 alert("필터에 해당하는 게시글이 없습니다.");
+//             }
+//         })
+//         .catch(error => {
+//             console.error("필터 적용 오류:", error);
+//             alert("필터 적용 중 오류가 발생했습니다.");
+//         });
+// }
+function applyJellyFilter(page = 1, size = pageSize) {
     const selectedJellies = [];
-    // .selected-jelly가 적용된 요소(즉, <div class="jelly-character selected-jelly">)에서 data-name 값을 읽음
     document.querySelectorAll(".selected-jelly").forEach(jellyElem => {
         let jellyName = jellyElem.getAttribute("data-name") || "";
-        // 만약 키워드에 불필요한 문자열(예: "해파리")가 붙어 있다면 제거
         jellyName = jellyName.replace("해파리", "").trim();
-        if (jellyName) {
-            selectedJellies.push(jellyName);
-        }
+        if (jellyName) selectedJellies.push(jellyName);
     });
-    console.log("🔥 선택된 해파리 목록:", selectedJellies);
 
-    // ★ 지역 선택값 읽기
     const regionElem = document.getElementById("alert-location");
     const region = regionElem.value.trim();
 
-
-    // 만약 아무것도 선택되지 않았다면 전체 조회
     if (selectedJellies.length === 0 && region === "") {
-        console.log("📌 필터 조건이 없으므로 전체 게시글을 불러옵니다.");
-        getAllBoards();
+        getAllBoards();  // ✅ 필터 없으면 전체 조회
         return;
     }
 
-    // 선택된 해파리가 없으면 encodedJellies는 빈 문자열("")가 됨
     const encodedJellies = selectedJellies.map(encodeURIComponent).join(",");
-// jellies 파라미터를 항상 포함시킵니다.
-    let requestUrl = `${backend_url}/api/board/filter?jellies=${encodedJellies}`;
-    if (region) {
-        requestUrl += `&location=${encodeURIComponent(region)}`;
-    }
-    requestUrl += `&page=${page}&size=${size}`;
+    let requestUrl = `${backend_url}/api/board/filter?jellies=${encodedJellies}&page=${page}&size=${size}`;
+    if (region) requestUrl += `&location=${encodeURIComponent(region)}`;
 
-    // 페이지네이션 파라미터 추가
-    requestUrl += `&page=${page}&size=${size}`;
-
-    console.log("🚀 API 요청 URL:", requestUrl);
+    console.log("🚀 필터 적용 API 요청 URL:", requestUrl);
 
     fetch(requestUrl)
         .then(response => {
@@ -90,8 +129,16 @@ function applyJellyFilter(page = currentPage, size = pageSize) {
         .then(data => {
             if (data.result && data.result.length > 0) {
                 updateBoardList(data.result);
+
+                // 🔥 totalPages 값이 정상적으로 업데이트되는지 확인
+                console.log("📌 필터링된 totalPages 값:", data.totalPages);
+
+                totalPages = data.totalPages || 1;  // ✅ 필터링된 데이터가 있을 때만 업데이트
+                renderPagination(totalPages); // ✅ 필터링된 페이지네이션 적용
             } else {
                 alert("필터에 해당하는 게시글이 없습니다.");
+                totalPages = 1; // ✅ 필터 결과가 없으면 1페이지로 고정
+                renderPagination(totalPages);
             }
         })
         .catch(error => {
@@ -99,6 +146,8 @@ function applyJellyFilter(page = currentPage, size = pageSize) {
             alert("필터 적용 중 오류가 발생했습니다.");
         });
 }
+
+
 
 // 해파리 필터 기능 초기화 (이미 setupJellyFilters()에 포함되어 있다면 그 아래에 추가)
 function setupResetButton() {
@@ -132,29 +181,24 @@ function setupResetButton() {
 
 // 전체 게시글 불러오기 함수
 function getAllBoards(page = currentPage, size = pageSize) {
-    currentSearchQuery = ""; // 전체 조회 모드
-    currentPage = page;
-    pageSize = size;
-    const url = `${backend_url}/api/board?page=${page}&size=${size}`;
+    const url = `${backend_url}/api/board/page?page=${page}&size=${size}`;
+
     fetch(url)
         .then(response => {
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             return response.json();
         })
         .then(data => {
-            // 만약 totalPages 정보가 포함되어 있다면 업데이트
-            if (data.totalPages !== undefined) {
-                totalPages = data.totalPages;
-                renderPagination(totalPages);
-            }
-            if (data.result && data.result.length > 0) {
-                updateBoardList(data.result);
+            if (data.result && data.result.content.length > 0) {
+                updateBoardList(data.result.content);
+                totalPages = data.result.totalPages;  // ✅ totalPages 업데이트
+                renderPagination(totalPages);  // ✅ 페이지네이션 업데이트
             } else {
                 if (page > 1) {
                     alert("마지막 페이지입니다.");
-                    currentPage = page - 1; // 이전 페이지로 복귀
+                    currentPage = page - 1;  // ✅ 이전 페이지로 이동
                 } else {
-                    updateBoardList([]); // 1페이지에서 결과 없으면 빈 목록 표시
+                    updateBoardList([]);  // ✅ 데이터 없으면 빈 목록
                 }
             }
         })
@@ -267,29 +311,76 @@ function updateCurrentPageDisplay() {
 // --- 추가: 페이지 번호 버튼 렌더링 (총 페이지 수를 받아서 최대 5개 번호 버튼 표시) ---
 function renderPagination(totalPages) {
     const paginationContainer = document.getElementById("paginationNumbers");
-    paginationContainer.innerHTML = ""; // 기존 내용 삭제
-    // 최대 5개 버튼 표시
-    const maxDisplay = Math.min(totalPages, 5);
-    for (let i = 1; i <= maxDisplay; i++) {
-        const span = document.createElement("span");
+    paginationContainer.innerHTML = "";
+
+    console.log("✅ 렌더링할 totalPages 값:", totalPages); // 🔥 디버깅용 로그 추가
+
+    if (totalPages < 1) totalPages = 1; // ✅ 최소 1페이지는 표시해야 함
+
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + 4);
+
+    if (currentPage > 1) {
+        let prev = document.createElement("span");
+        prev.innerHTML = "◀";
+        prev.classList.add("page-arrow");
+        prev.onclick = function() {
+            changePage(currentPage - 1);
+        };
+        paginationContainer.appendChild(prev);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        let span = document.createElement("span");
         span.classList.add("page-number");
-        if (i === currentPage) {
-            span.classList.add("active");
-        }
+        if (i === currentPage) span.classList.add("active");
         span.innerText = i;
         span.onclick = function() {
-            currentPage = i;
-            if (currentSearchQuery !== "") {
-                searchBoards(currentPage, pageSize);
-            } else {
-                getAllBoards(currentPage, pageSize);
-            }
-            updateCurrentPageDisplay();
-            renderPagination(totalPages);
-        }
+            changePage(i);
+        };
         paginationContainer.appendChild(span);
     }
+
+    if (currentPage < totalPages) {
+        let next = document.createElement("span");
+        next.innerHTML = "▶";
+        next.classList.add("page-arrow");
+        next.onclick = function() {
+            changePage(currentPage + 1);
+        };
+        paginationContainer.appendChild(next);
+    }
 }
+
+function changePage(page) {
+    currentPage = page;
+    console.log(`📌 현재 페이지 변경됨: ${currentPage}`);
+
+    // 🔥 필터가 적용된 상태인지 체크 후 유지
+    const selectedJellies = document.querySelectorAll(".selected-jelly").length > 0;
+    const selectedLocation = document.getElementById("alert-location").value.trim() !== "";
+
+    if (currentSearchQuery !== "") {
+        searchBoards(currentPage, pageSize);
+    } else if (selectedJellies || selectedLocation) {
+        console.log("✅ 필터 유지하며 페이지 변경");
+        applyJellyFilter(currentPage, pageSize);
+    } else {
+        console.log("📌 필터 없이 전체 게시글 불러오기");
+        getAllBoards(currentPage, pageSize);
+    }
+    updateCurrentPageDisplay();
+}
+
+
+function updatePageData() {
+    if (currentSearchQuery !== "") {
+        searchBoards(currentPage, pageSize);
+    } else {
+        getAllBoards(currentPage, pageSize);
+    }
+}
+
 
 // 검색 팝업 관련 (동일)
 function openSearchPopup() {
