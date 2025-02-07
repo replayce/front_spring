@@ -133,8 +133,12 @@ table.board-table img {
     border: 0px;
     border-radius:10px;
     background-color :#95B2B0;
-    text-align: right;
+    text-align: center;
     position:relative;
+}
+
+#icon-help:hover {
+    box-shadow:5px 5px 5px rgba(0,0,0,0.3);
 }
 
 #icon-help span {
