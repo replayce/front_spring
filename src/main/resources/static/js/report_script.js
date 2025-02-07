@@ -61,10 +61,20 @@ async function uploadImageToServer(file) {
 }
 
 // 🟢 (3) Python 서버에 이미지 판별 요청
+async function getApiHost() {
+    const response = await fetch("/api/config/python-api-host");
+    return response.text();
+}
+
 async function fetchJellyfishTypeFromAPI(imageUrl) {
     try {
-        const response = await fetch(`http://localhost:8082/image/predict?imageUrl=${encodeURIComponent(imageUrl)}`, {
-            method: "GET"
+        const requestUrl = `/api/proxy/image/predict?imageUrl=${imageUrl}`;
+
+        const response = await fetch(requestUrl, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
         });
 
         if (!response.ok) {
@@ -72,12 +82,13 @@ async function fetchJellyfishTypeFromAPI(imageUrl) {
         }
 
         const data = await response.json();
-        document.getElementById("jellyfish-type").value = data.result.jellyfish || "해파리 판별 실패 😢";
+        document.getElementById("jellyfish-type").value = data.result?.jellyfish || "해파리 판별 실패 😢";
     } catch (error) {
         console.error("❌ 해파리 판별 오류:", error);
         document.getElementById("jellyfish-type").value = "해파리 판별 실패 😢";
     }
 }
+
 
 // 미래 시간 선택 불가능
 function validateDateTime() {

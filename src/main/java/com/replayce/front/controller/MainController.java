@@ -95,6 +95,14 @@ public class MainController {
         }
 
         model.addAttribute("is_edit", false);
+
+        String pythonApiHost = env.getProperty("python-client.api.host");
+
+        if (pythonApiHost == null || pythonApiHost.isEmpty()) {
+            System.out.println("❌ pythonApiHost 값이 없습니다! application.yaml을 확인하세요.");
+        }
+
+        model.addAttribute("pythonApiHost", pythonApiHost);
         return "main/report";
     }
 

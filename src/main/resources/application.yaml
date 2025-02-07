@@ -27,7 +27,7 @@ java-client:
 
 python-client:
   api:
-    host: http://localhost:8082
+    host: https://jellymully-back-python-bhfucmfhghgkg6an.koreacentral-01.azurewebsites.net/
 
 feign:
   httpclient:
