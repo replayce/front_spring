@@ -1,10 +1,114 @@
 {{>admin/layouts/header}}
 
 
+<!--<div class="container">-->
+<!--    <h2>내 계정 관리</h2>-->
+<!--    &lt;!&ndash; POST 방식으로 컨트롤러의 매핑 URL과 일치하도록 설정 &ndash;&gt;-->
+<!--    <form id="accountForm" method="POST" action="/admin/admin_account">-->
+
+<!--        &lt;!&ndash; 아이디: 텍스트로 표시 (변경 불가) &ndash;&gt;-->
+<!--        <div>-->
+<!--            <label>아이디:</label>-->
+<!--            <span th:text="${account.username}">username</span>-->
+<!--            &lt;!&ndash; 서버 전송을 위해 hidden 필드에 담음 &ndash;&gt;-->
+<!--            <input type="hidden" name="username" th:value="${account.username}" />-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; 이메일: 초기엔 텍스트로 표시, 수정 버튼 클릭 시 입력 필드 등장 &ndash;&gt;-->
+<!--        <div>-->
+<!--            <label>이메일:</label>-->
+<!--            <span id="emailDisplay" th:text="${account.email}">email@example.com</span>-->
+<!--            <button type="button" onclick="toggleEmailEdit()">수정</button>-->
+<!--            <div id="emailEdit" style="display:none;">-->
+<!--                <input type="email" name="email" placeholder="새 이메일 입력" />-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; 폰번호: 초기엔 텍스트로 표시, 수정 버튼 클릭 시 입력 필드 등장 &ndash;&gt;-->
+<!--        <div>-->
+<!--            <label>폰번호:</label>-->
+<!--            <span id="phoneDisplay" th:text="${account.phoneNumber}">010-0000-0000</span>-->
+<!--            <button type="button" onclick="togglePhoneEdit()">수정</button>-->
+<!--            <div id="phoneEdit" style="display:none;">-->
+<!--                <input type="text" name="phoneNumber" placeholder="새 폰번호 입력" />-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; 비밀번호: 기존 정보는 보여주지 않고, 새 비밀번호와 확인 입력 필드 제공 &ndash;&gt;-->
+<!--        <div>-->
+<!--            <label>비밀번호:</label>-->
+<!--            <span>********</span>-->
+<!--            <button type="button" onclick="togglePasswordEdit()">수정</button>-->
+<!--            <div id="passwordEdit" style="display:none;">-->
+<!--                <input type="password" name="newPassword" placeholder="새 비밀번호 입력" />-->
+<!--                <input type="password" id="confirmPassword" placeholder="비밀번호 확인" />-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div>-->
+<!--            <input type="submit" value="계정 정보 수정" />-->
+<!--        </div>-->
+<!--    </form>-->
+<!--</div>-->
+
+<script>
+    // // 이메일 수정 영역 토글
+    // function toggleEmailEdit() {
+    //     var emailEditDiv = document.getElementById("emailEdit");
+    //     var emailDisplay = document.getElementById("emailDisplay");
+    //     if (emailEditDiv.style.display === "none") {
+    //         emailEditDiv.style.display = "block";
+    //         emailDisplay.style.display = "none";
+    //     } else {
+    //         emailEditDiv.style.display = "none";
+    //         emailDisplay.style.display = "inline";
+    //     }
+    // }
+
+    // // 폰번호 수정 영역 토글
+    // function togglePhoneEdit() {
+    //     var phoneEditDiv = document.getElementById("phoneEdit");
+    //     var phoneDisplay = document.getElementById("phoneDisplay");
+    //     if (phoneEditDiv.style.display === "none") {
+    //         phoneEditDiv.style.display = "block";
+    //         phoneDisplay.style.display = "none";
+    //     } else {
+    //         phoneEditDiv.style.display = "none";
+    //         phoneDisplay.style.display = "inline";
+    //     }
+    // }
+
+    // // 비밀번호 수정 영역 토글
+    // function togglePasswordEdit() {
+    //     var passwordEditDiv = document.getElementById("passwordEdit");
+    //     if (passwordEditDiv.style.display === "none") {
+    //         passwordEditDiv.style.display = "block";
+    //     } else {
+    //         passwordEditDiv.style.display = "none";
+    //     }
+    // }
+
+    // // 폼 제출 시 새 비밀번호와 확인 비밀번호 일치 검증
+    // document.getElementById("accountForm").addEventListener("submit", function(e) {
+    //     var newPassword = document.querySelector('input[name="newPassword"]').value;
+    //     var confirmPassword = document.getElementById("confirmPassword").value;
+    //     if (newPassword && newPassword !== confirmPassword) {
+    //         e.preventDefault();
+    //         alert("새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+    //         return false;
+    //     }
+    // });
+</script>
+
+
+
+
+
+
 <div class="container">
     <div class="page-inner">
         <div class="page-header">
-            <h4 class="page-title">Dashboard</h4>
+            <h4 class="page-title">내 계정 관리</h4>
             <ul class="breadcrumbs">
                 <li class="nav-home">
                     <a href="#">
@@ -32,24 +136,18 @@
                     <div class="card card-stats card-round" style="padding: 10px 10px">
                         <div class="card-header">
                             <div class="card-head-row">
-                                <div class="card-title">내 계정 관리</div>
+                                <div class="card-title">현재 비밀번호 입력</div>
                             </div>
                         </div>
-                        <form onsubmit="return validateLogin()" style="margin: 10px 5px" action="/account" method="POST">
-                            <div>
-                                <input class="form-control" style="margin: 5px 5px" type="text" placeholder="아이디" id="username" name="username" required>
-                            </div>
-                            <div>
+<!--                        <form onsubmit="return validateLogin()" style="margin: 10px 5px" action="/admin/admin_account_update" method="POST">-->
+                            <form style="margin: 10px 5px" action="/admin/admin_account" method="POST">
+
+                        <div>
                                 <input class="form-control" style="margin: 5px 5px" type="password" placeholder="비밀번호" id="password" name="password" required>
                             </div>
+
                             <div>
-                                <input class="form-control" style="margin: 5px 5px" type="email" placeholder="이메일" id="email" name="email" required>
-                            </div>
-                            <div>
-                                <input class="form-control" style="margin: 5px 5px" type="tel" placeholder="전화번호" id="phone" name="phone" required>
-                            </div>
-                            <div>
-                                <input class="btn btn-warning" style="margin: 5px 5px" type="submit" value="계정 정보 수정">
+                                <input class="btn btn-warning" style="margin: 5px 5px" type="submit" value="내 정보 수정하기">
                                 <input class="btn btn-danger" style="margin: 5px 5px" type="button" value="취소">
                             </div>
                         </form>
@@ -67,25 +165,18 @@
         var password = document.getElementById("password").value;
 
         // 사용자명과 비밀번호가 빈 값인지 확인
-        if (username === "" || password === "") {
-            alert("사용자명과 비밀번호를 모두 입력해주세요.");
+        if (password === "") {
+            alert("비밀번호를 입력해주세요.");
             return false;
         }
 
-        // 사용자명과 비밀번호가 최소 5자 이상인지 확인
-        if (username.length < 5) {
-            alert("사용자명은 최소 5자 이상이어야 합니다.");
-            return false;
-        }
         if (password.length < 6) {
             alert("비밀번호는 최소 6자 이상이어야 합니다.");
             return false;
         }
-
-        // 로그인 성공 메시지
-        alert("로그인 성공!");
         return true; // 폼 제출 허용
     }
 </script>
 
 {{>admin/layouts/footer}}
+
