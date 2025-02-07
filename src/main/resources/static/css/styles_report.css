@@ -10,6 +10,38 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position:relative;
+}
+
+#icon-help {
+    position:absolute;
+    width:35px;
+    height:35px;
+    background-color: #95B2B0;
+    border-radius:5px;
+    line-height:35px;
+    right:-51px;
+}
+
+#icon-help:hover {
+    box-shadow:5px 5px 5px rgba(0,0,0,0.3);
+}
+
+#help-modal {
+    position:fixed;
+    top:0px;
+    width:100vw;
+    height:100vh;
+    z-index: 110;
+    background-color:black;
+}
+
+#help-modal > img {
+    width:100vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* 버튼 스타일 */
@@ -338,5 +370,10 @@ textarea {
 
     .find-location, .auto-generate {
         padding: 5px 0px;
+    }
+
+    #icon-help {
+        right:0px;
+        top:-26px;
     }
 }

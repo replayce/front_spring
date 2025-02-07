@@ -19,6 +19,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 🟢 "이름 자동 생성" 버튼 클릭 시 실행 (랜덤 해파리 이름 생성)
     document.getElementById("auto-generate-btn").addEventListener("click", generateJellyfishNameWithOpenAI);
+
+    $('div#icon-help').on('click', function() {
+        $('#help-modal').show();
+    });
+    $('#help-modal').on('click', function() {
+        $('#help-modal').hide();
+    });
 });
 
 // 🟢 (1) 이미지 미리보기 함수
