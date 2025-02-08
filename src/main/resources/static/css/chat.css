@@ -15,8 +15,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px; /* 메시지 간격 */
-    scrollbar-width: thin; /* 기본 스크롤바 얇게 */
-    scrollbar-color: #777 transparent;
+    scrollbar-width: none;
 }
 
 /* 사용자 메시지 */
@@ -43,7 +42,7 @@ body {
     border-radius: 15px;
     max-width: 60%;
     word-wrap: break-word;
-    margin-left: 8px; /* 해파리 아이콘과의 간격 */
+    margin-left: 10px; /* 해파리 아이콘과의 간격 */
 }
 
 /* 해파리 아이콘 */
@@ -61,7 +60,7 @@ body {
     background-color: #e5e7eb;
 }
 
-/* 입력 필드 */
+/* 입력창 스타일 */
 #userInput {
     flex: 1;
     padding: 10px;
@@ -69,7 +68,12 @@ body {
     border-radius: 8px;
     outline: none;
     background-color: #e5e7eb;
+    resize: none; /* ✅ 사용자가 크기 조정 못하도록 설정 */
+    overflow-y: hidden; /* ✅ 세로 스크롤 안 보이게 설정 */
+    min-height: 40px; /* ✅ 최소 높이 */
+    max-height: 100px; /* ✅ 최대 높이 (원하는 값으로 조정 가능) */
 }
+
 
 /* 전송 버튼 */
 #sendBtn {
@@ -86,16 +90,15 @@ body {
     background-color: #2563eb;
 }
 
-/* 스크롤바 스타일 - '|' 모양 */
-#chatbox::-webkit-scrollbar {
-    width: 6px; /* 얇은 막대 */
+/* ✅ 챗봇 로딩 애니메이션 스타일 */
+.typing-animation {
+    font-style: italic;
+    color: #6b7280;
+    animation: blink 1.5s infinite;
 }
 
-#chatbox::-webkit-scrollbar-thumb {
-    background-color: #777;
-    border-radius: 10px;
-}
-
-#chatbox::-webkit-scrollbar-track {
-    background-color: transparent;
+@keyframes blink {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
 }
