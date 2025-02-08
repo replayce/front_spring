@@ -151,7 +151,8 @@
     var API_HOST = "{{pythonApiHost}}";
 </script>
 
-
+{{#is_edit}}
 <input type="hidden" id="boardId" value={{board.boardId}}>
+{{/is_edit}}
 
 {{>layouts/footer}}
