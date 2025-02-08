@@ -3,45 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/chat.css">
     <title>해파리 챗봇</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        #chatbox { width: 100%; height: 400px; border: 1px solid #ccc; padding: 10px; overflow-y: auto; margin-bottom: 10px; }
-        #userInput { width: 80%; padding: 10px; }
-        #sendBtn { padding: 10px; }
-    </style>
 </head>
 <body>
 
-<h2>해파리 챗봇</h2>
-<div id="chatbox"></div>
+<div id="chatbox">
+    <div class="bot-message-container">
+        <img src="/images/jelly_icons_noname/보름달물_noname.png" class="bot-message-icon">
+        <div class="bot-message">
+            <div>안녕하세요! 저는 젤파리예요! 🤖💙</div>
+            <div>사실... 기억력이 조금 부족해서, 방금 한 말도 잘 기억하지 못해요! 🙈💦</div>
+            <div>그러니까 한 번에 하나씩 질문해 주세요~ 그래야 가장 똑똑한 대답을 해드릴 수 있어요! 😊✨</div>
+        </div>
+    </div>
+</div>
 
-<input type="text" id="userInput" placeholder="질문을 입력하세요..." />
-<button id="sendBtn">보내기</button>
+<div class="chat-input">
+    <input type="text" id="userInput" placeholder="젤파리에게 물어보세요!">
+    <button id="sendBtn">전송</button>
+</div>
 
-<script>
-    document.getElementById("sendBtn").addEventListener("click", function() {
-        let userInput = document.getElementById("userInput").value.trim();
-        if (userInput === "") return;
-
-        let chatbox = document.getElementById("chatbox");
-        chatbox.innerHTML += `<p><strong>사용자:</strong> ${userInput}</p>`;
-
-        fetch('http://localhost:8081/api/chat?question=' + encodeURIComponent(userInput))
-                .then(response => response.text())
-                .then(answer => {
-                    chatbox.innerHTML += `<p><strong>챗봇:</strong> ${answer}</p>`;
-                    chatbox.scrollTop = chatbox.scrollHeight;
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    chatbox.innerHTML += `<p><strong>챗봇:</strong> 오류가 발생했습니다.</p>`;
-                });
-
-        document.getElementById("userInput").value = "";
-    });
-
-</script>
-
+<script src="/js/chat.js"></script> <!-- ✅ JS 파일을 별도로 분리 -->
 </body>
 </html>
