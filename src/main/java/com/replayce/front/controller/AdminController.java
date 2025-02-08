@@ -297,6 +297,7 @@ public class AdminController {
             if (adminList != null && !adminList.isEmpty()) {
                 // 리스트의 첫 번째 요소를 account로 전달
                 model.addAttribute("account", adminList.get(0));
+                model.addAttribute("username", username);
             } else {
                 model.addAttribute("error", "계정 정보를 가져오는데 실패했습니다.");
             }
