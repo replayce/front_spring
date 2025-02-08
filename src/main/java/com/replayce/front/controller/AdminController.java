@@ -8,6 +8,7 @@ import com.replayce.front.client.dto.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.replayce.front.dto.LoginRequest;
 import com.replayce.front.dto.RegisterRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
@@ -39,7 +40,7 @@ public class AdminController {
     // 관리자 메인 페이지
 
     @GetMapping("/admin")
-    public String main(Model model) {
+    public String main(HttpServletRequest request, Model model) {
         try {
             // 알림 데이터
             CommonResponse<List<AlertResponse>> response = alertClient.getAllAlerts(0);
@@ -62,6 +63,8 @@ public class AdminController {
             model.addAttribute("alertsJson", "[]");
             model.addAttribute("reportsJson", "[]");
         }
+
+        model.addAttribute("username", request.getAttribute("username"));
         return "admin/admin_main";
     }
 
@@ -145,7 +148,7 @@ public class AdminController {
     // 경보 관리
 
     @GetMapping("/admin/admin_alerts")
-    public String alerts(Model model) {
+    public String alerts(HttpServletRequest request, Model model) {
 
         try {
             // FeignClient 호출
@@ -156,13 +159,15 @@ public class AdminController {
             model.addAttribute("alerts", List.of());
             model.addAttribute("error", "Failed to fetch alerts from backend.");
         }
+
+        model.addAttribute("username", request.getAttribute("username"));
         return "admin/admin_alerts";
     }
 
     // 제보 관리
 
     @GetMapping("/admin/admin_reports")
-    public String reports(Model model) {
+    public String reports(HttpServletRequest request, Model model) {
         try {
             // FeignClient 호출
             CommonResponse<List<ReportResponse>> response = reportClient.getBoards();
@@ -172,14 +177,14 @@ public class AdminController {
             model.addAttribute("reports", List.of());
             model.addAttribute("error", "Failed to fetch alerts from backend.");
         }
-
+        model.addAttribute("username", request.getAttribute("username"));
         return "admin/admin_reports";
     }
 
 
     // 관리자 승인 여부 페이지
     @GetMapping("/admin/admin_setting")
-    public String setting(Model model, HttpSession session) {
+    public String setting(HttpServletRequest request, Model model, HttpSession session) {
         try {
             CommonResponse<List<AdminResponse>> response = adminClient.getPendingAdmins();
             if (response.getResult() != null) {
@@ -189,6 +194,7 @@ public class AdminController {
             log.error("승인 대기 중인 관리자 목록 조회 실패: {}", e.getMessage());
             model.addAttribute("error", "승인 대기 중인 관리자 목록을 가져오는데 실패했습니다.");
         }
+        model.addAttribute("username", request.getAttribute("username"));
         return "admin/admin_setting";
     }
 
@@ -196,7 +202,8 @@ public class AdminController {
     // 보고서 수정 페이지
 
     @GetMapping("/admin/admin_edit_reports")
-    public String editReports() {
+    public String editReports(HttpServletRequest request, Model model) {
+        model.addAttribute("username", request.getAttribute("username"));
         return "admin/admin_edit_reports";
     }
 
@@ -204,7 +211,8 @@ public class AdminController {
     // 계정 페이지
 
     @GetMapping("/admin/admin_account")
-    public String account() {
+    public String account(HttpServletRequest request, Model model) {
+        model.addAttribute("username", request.getAttribute("username"));
         return "admin/admin_account";
     }
 
