@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let loadingMessage = document.createElement("div");
         loadingMessage.classList.add("bot-message-container");
         loadingMessage.innerHTML = `
-            <img src="/static/images/jelly_icons_noname/보름달물_noname.png" class="bot-message-icon">
+            <img src="/images/jelly_icons_noname/보름달물_noname.png" class="bot-message-icon">
             <div class="bot-message typing-animation">젤파리가 생각 중이에요... 🤔💭</div>
         `;
         chatbox.appendChild(loadingMessage);
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // ✅ 챗봇 메시지 왼쪽에 해파리 아이콘 추가
                 let botMessage = `
                     <div class="bot-message-container">
-                        <img src="/static/images/jelly_icons_noname/보름달물_noname.png" class="bot-message-icon">
+                        <img src="/images/jelly_icons_noname/보름달물_noname.png" class="bot-message-icon">
                         <div class="bot-message">${answer}</div>
                     </div>
                 `;
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 chatbox.removeChild(loadingMessage);
                 let errorMessage = `
                     <div class="bot-message-container">
-                        <img src="/static/images/jelly_icons_noname/보름달물_noname.png" class="bot-message-icon">
+                        <img src="/images/jelly_icons_noname/보름달물_noname.png" class="bot-message-icon">
                         <div class="bot-message">오류가 발생했습니다.</div>
                     </div>
                 `;
