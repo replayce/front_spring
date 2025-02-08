@@ -87,9 +87,12 @@ public class AdminController {
                 session.setAttribute("token", token);
                 return "redirect:/admin";
             }
+            else {
+                model.addAttribute("error_msg", response.getDetails());
+            }
         } catch (Exception e) {
             log.error("로그인 실패: {}", e.getMessage());
-            model.addAttribute("error", "아이디 또는 비밀번호가 잘못되었습니다.");
+            model.addAttribute("error_msg", "아이디 또는 비밀번호가 잘못되었습니다.");
         }
 
         // 로그인 실패 시 다시 로그인 페이지로
