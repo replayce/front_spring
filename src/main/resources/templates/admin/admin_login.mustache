@@ -55,6 +55,11 @@
                             <div>
                                 <input class="form-control" style="margin: 5px 5px" type="password" placeholder="비밀번호" id="password" name="password" required>
                             </div>
+                            {{#error_msg}}
+                            <div class="error-msg">
+                                <span>{{error_msg}}</span>
+                            </div>
+                            {{/error_msg}}
                             <div>
                                 <input class="btn btn-success" style="margin: 5px 5px" type="submit" value="로그인">
                             </div>

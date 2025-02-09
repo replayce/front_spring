@@ -10,6 +10,10 @@
     .left-icon {
         height: 40px;
     }
+
+    .wrapper.sidebar_minimize:not(.sidebar_minimize_hover) .logo-header {
+        display:none;
+    }
 </style>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -55,10 +59,10 @@
 <body>
 <div class="wrapper">
     <!-- Sidebar -->
-    <div class="sidebar" style="background-color: #75B8BF;">
+    <div class="sidebar" data-background-color="custom" custom-color="#75B8BF">
         <div class="sidebar-logo">
             <!-- Logo Header -->
-            <div class="logo-header" style="background-color: #75B8BF;">
+            <div class="logo-header" data-background-color="custom" custom-color="#75B8BF">
                 <a href="/">
                     <img class="left-icon" src="/images/jellymully_logo_01.png" alt="Side Icon">
                     <img class="top-background-logo" src="/images/jellymully_logo_EN 1.png" alt="Logo">
@@ -382,7 +386,7 @@
         <div class="main-header">
             <div class="main-header-logo">
                 <!-- Logo Header -->
-                <div class="logo-header" data-background-color="dark">
+                <div class="logo-header" data-background-color="custom" custom-color="#75B8BF">
                     <a href="index.html" class="logo">
                         <img
                                 src="/assets/img/kaiadmin/logo_light.svg"
@@ -740,10 +744,9 @@
                                                 />
                                             </div>
                                             <div class="u-text">
-                                                <h4>Hizrian</h4>
-                                                <p class="text-muted">hello@example.com</p>
+                                                <h4>{{username}}</h4>
                                                 <a
-                                                        href="profile.html"
+                                                        href="/admin/admin_account"
                                                         class="btn btn-xs btn-secondary btn-sm"
                                                 >Account Setting</a
                                                 >

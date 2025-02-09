@@ -462,7 +462,7 @@ function updateBoardList(boards) {
                 <div class="board-row ${rowClass}">
                     <span class="no">${board.boardId}</span>
                     <span class="icon">
-                        <img src="${iconPath}" alt="해파리 아이콘">
+                        <img src="${iconPath}" alt="해파리 아이콘" onerror="this.onerror=null; this.src='/images/jelly_icons_noname/외계생물체.png';">
                     </span>
                     <span class="loc">${board.location}</span> <!-- location 표시 -->
                     <span class="jelly-name">${board.jelly}</span>
