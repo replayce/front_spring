@@ -115,15 +115,15 @@
                     </tbody>
                 </table>
             </div>
+            <!-- ✅ 챗봇 버튼 추가 -->
+            <button id="chatbotToggle">
+                <img src="/images/jelly_icons_noname/외계생물체.png" alt="챗봇 열기">
+            </button>
+            <!-- ✅ 챗봇 불러오기 -->
+            <div id="chatbotContainer" class="hidden">
+                {{>main/chat}}
+            </div>
         </div>
-<!-- ✅ 챗봇 버튼 추가 -->
-<button id="chatbotToggle">
-    <img src="/images/jelly_icons_noname/외계생물체.png" alt="챗봇 열기">
-</button>
-<!-- ✅ 챗봇 불러오기 -->
-<div id="chatbotContainer" class="hidden">
-    {{>main/chat}}
-</div>
 
         <div id="help-modal" style="display:none;">
             <img src="/images/info_images/info_main.png" alt="메인 도움말">

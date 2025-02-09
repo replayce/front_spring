@@ -1,10 +1,6 @@
 /* 레이아웃을 잡는 예시 CSS 코드입니다.
    프로젝트에 맞춰 자유롭게 수정하세요. */
 
-
-
-
-
 .left-contents {
     display:inline-block;
     max-width:830px;
@@ -300,8 +296,8 @@ div.help-high {
 #chatbotToggle {
     position: fixed;
     right: 10px;
-    bottom: 5%;
-    transform: translateY(-50%);
+    top: 88%;
+    /*transform: translateY(-50%);*/
     background: transparent;
     border: none;
     cursor: pointer;
@@ -318,26 +314,27 @@ div.help-high {
     margin-right: 5px;
 }
 
-/* ✅ 챗봇 창 */
+/* 📌 기본 챗봇 창 스타일 */
 #chatbotContainer {
     position: fixed;
     right: -100%; /* 처음에는 숨김 */
-    bottom: 5%;
+    top: 15%;
     padding: 10px;
-    min-width: 370px;
-    width: 50%;
+    max-width: 600px;
+    width: 40%;
     height: 70vh;
     background-color: #95B2B0;
     border-radius: 15px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    transition: left 0.3s ease-in-out;
+    transition: right 0.3s ease-in-out;
+    z-index: 9999;
 }
 
 /* ✅ 챗봇 창이 열릴 때 */
 #chatbotContainer.active {
-    right: 10%;
+    right: 10px;
 }
 
 /* ✅ 챗봇 내부 스타일 */
@@ -368,3 +365,59 @@ div.help-high {
     cursor: pointer;
 }
 
+/* 📌 💡 화면 너비가 900px 이하일 때, 챗봇이 켜진 경우(active)만 전체 화면 적용 */
+@media screen and (max-width: 900px) {
+    #chatbotContainer.active {
+        width: 50%;
+        height: 70vh;
+        right: 10px;
+        top: 15%;
+        border-radius: 15px;
+    }
+
+    #chatbox {
+        height: calc(100vh - 100px); /* 입력창 제외한 전체 높이 */
+    }
+
+    .chat-input {
+        padding: 15px;
+    }
+
+    #userInput {
+        font-size: 16px;
+    }
+
+    #sendBtn {
+        font-size: 16px;
+        padding: 12px;
+    }
+}
+
+
+/* 📌 💡 화면 너비가 600px 이하일 때, 챗봇이 켜진 경우(active)만 전체 화면 적용 */
+@media screen and (max-width: 600px) {
+    #chatbotContainer.active {
+        width: 90%;
+        height: 70vh;
+        right: 10px;
+        top: 15%;
+        border-radius: 15px;
+    }
+
+    #chatbox {
+        height: calc(100vh - 100px); /* 입력창 제외한 전체 높이 */
+    }
+
+    .chat-input {
+        padding: 15px;
+    }
+
+    #userInput {
+        font-size: 16px;
+    }
+
+    #sendBtn {
+        font-size: 16px;
+        padding: 12px;
+    }
+}

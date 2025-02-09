@@ -1,12 +1,3 @@
-body {
-    background-color: #95B2B0; /* 배경색 */
-    display: flex;
-    flex-direction: column;
-    height: 95vh;
-    padding: 10px;
-    font-family: 'Arial', sans-serif;
-}
-
 /* 채팅 박스 스타일 */
 #chatbox {
     flex: 1;
