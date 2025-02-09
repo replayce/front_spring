@@ -36,6 +36,7 @@ body {
 }
 
 .bot-message {
+    text-align: start;
     background-color: #e5e7eb;
     color: black;
     padding: 12px;
