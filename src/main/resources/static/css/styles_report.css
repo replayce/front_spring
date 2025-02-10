@@ -34,6 +34,7 @@
     height:100vh;
     z-index: 110;
     background-color:black;
+    text-align:right;
 }
 
 #help-modal > img {
