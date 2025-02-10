@@ -86,10 +86,10 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
     const htmlMarker = {
-        content: `<div style="cursor:pointer;width:70px;height:70px;line-height:56px;font-size:26px;color:black;text-align:center;font-weight:bold;background:url(/images/N_alert_01.png);background-size:contain;"></div>`,
-        size: new naver.maps.Size(70, 70),
-        scaledSize: new naver.maps.Size(70, 70),
-        anchor: new naver.maps.Point(35, 35),
+        content: `<div style="cursor:pointer;width:50px;height:50px;line-height:50px;font-size:26px;color:black;text-align:center;font-weight:bold;background:url(/images/N_alert_01.png);background-size:contain;"></div>`,
+        size: new naver.maps.Size(50, 50),
+        scaledSize: new naver.maps.Size(50, 50),
+        anchor: new naver.maps.Point(25, 25),
     };
 
     const markerClustering = new MarkerClustering({
