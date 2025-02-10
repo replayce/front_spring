@@ -378,3 +378,23 @@ textarea {
         top:-26px;
     }
 }
+
+.scroll-box {
+    max-height: 80px; /* 동의 내용 박스 크기 제한 */
+    overflow-y: auto; /* 세로 스크롤 추가 */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f9f9f9;
+    scrollbar-width: thin;
+}
+
+.form-group-agree {
+    text-align: start;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.form-group-agree h3 {
+    margin-top: 0;
+}

@@ -50,46 +50,59 @@ function edit_del_Post(mode,id,num,pass) {
     }
 }
 
-// 검색 팝업 열기
-function openVeriPopup(mode,id,num,pass) {
+// 수정 및 삭제 확인 팝업 열기 (화면 중앙에 표시)
+function openVeriPopup(mode, id, num, pass) {
     const popupContent = `
+        <div id="popup-overlay" onclick="closePopup()"></div>
         <div id="search-popup">
-            <h2 id="title"></h2>
+            <h2 id="title">${mode === "del" ? "삭제" : "수정"} 확인</h2>
+            <p class="popup-description">핸드폰 번호와 비밀번호를 입력하세요.</p>
             <div class="input-container">
                 <div class="input-group">
                     <label for="writerNumber">핸드폰 번호</label>
-                    <input type="text" id="writerNumber">
+                    <input type="text" id="writerNumber" placeholder="전화번호 입력">
                 </div>
                 <div class="input-group">
                     <label for="writerPassword">비밀번호</label>
                     <div class="password-container">
-                        <input type="password" id="writerPassword">
+                        <input type="password" id="writerPassword" placeholder="비밀번호 입력">
                         <span class="toggle-password" onclick="togglePassword()">👁️</span>
                     </div>
                 </div>
             </div>
             <div class="popup-buttons">
-                <button class="search-btn" onclick="searchMyBoards()">검색</button>
+                <button class="confirm-btn" onclick="verifyUser('${mode}', ${id}, '${num}', '${pass}')">확인</button>
                 <button class="close-btn" onclick="closePopup()">닫기</button>
             </div>
         </div>
-        <div id="popup-overlay" onclick="closePopup()"></div>
     `;
     document.body.insertAdjacentHTML('beforeend', popupContent);
 
-    document.getElementById("title").innerHTML = (mode === "del")?"삭제":"수정";
+    // 팝업 띄울 때 포커스 자동 설정
+    document.getElementById("writerNumber").focus();
+}
 
-    // 엔터키 입력 시 삭제 실행 (핸드폰 번호, 비밀번호 input에 이벤트 추가)
-    document.getElementById("writerNumber").addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            edit_del_Post(mode,id,num,pass);
-        }
-    });
-    document.getElementById("writerPassword").addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            edit_del_Post(mode,id,num,pass);
-        }
-    });
+// 사용자 확인 후 수정 페이지 이동 or 삭제 실행
+function verifyUser(mode, id, num, pass) {
+    const writerNumber = document.getElementById("writerNumber").value.trim();
+    const writerPassword = document.getElementById("writerPassword").value.trim();
+
+    if (!writerNumber || !writerPassword) {
+        alert("핸드폰 번호와 비밀번호를 모두 입력해야 합니다.");
+        return;
+    }
+    if (writerNumber !== num || writerPassword !== pass) {
+        alert("핸드폰 번호나 비밀번호가 일치하지 않습니다.");
+        return;
+    }
+
+    closePopup(); // 입력이 맞으면 팝업 닫기
+
+    if (mode === "edit") {
+        window.location.href = `/report/${id}`;
+    } else {
+        edit_del_Post("del", id, num, pass);
+    }
 }
 
 // 팝업 닫기
@@ -111,6 +124,7 @@ function togglePassword() {
         toggleIcon.textContent = "👁️"; // 눈 뜬 아이콘
     }
 }
+
 
 // 해파리 이름 맞춰 이미지 매핑
 document.addEventListener("DOMContentLoaded", function () {
@@ -156,5 +170,3 @@ function viewEncyclopedia(jellyfishName) {
     }
     window.location.href = `/detail?jelly=${encodeURIComponent(jellyfishName)}`;
 }
-
-

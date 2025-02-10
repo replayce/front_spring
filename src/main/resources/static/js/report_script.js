@@ -462,3 +462,28 @@ function goBack() {
 
 // 버튼 클릭 시 실행
 document.getElementById("auto-generate-btn").addEventListener("click", generateJellyfishNameWithOpenAI);
+
+
+// 개인정보 동의
+function toggleAllAgreements() {
+    const allAgreeCheckbox = document.getElementById("agree-all");
+    const personalCheckbox = document.getElementById("agree-personal");
+    const copyrightCheckbox = document.getElementById("agree-copyright");
+
+    const isChecked = allAgreeCheckbox.checked;
+
+    personalCheckbox.checked = isChecked;
+    copyrightCheckbox.checked = isChecked;
+}
+
+function validateForm(event) {
+    const agreePersonal = document.getElementById("agree-personal").checked;
+    const agreeCopyright = document.getElementById("agree-copyright").checked;
+
+    if (!agreePersonal || !agreeCopyright) {
+        alert("📢 개인정보 수집 및 이용, AI 학습을 포함한 저작권 이양 동의에 모두 체크해야 제보할 수 있습니다.");
+        event.preventDefault(); // 제출 막기
+        return false;
+    }
+    return true;
+}
