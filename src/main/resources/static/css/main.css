@@ -402,3 +402,31 @@ div.help-high {
 .shaking-marker {
     animation: shake 0.1s ease-in-out infinite; /* 0.1초마다 반복 */
 }
+
+/* ------------ 예측된 해파리 출현 지역 몇곳인지 ------------ */
+#jelly-alert-container {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#jelly-alert-dropdown {
+    height: 30px;
+    font-size: 14px;
+    border: 1px solid #95B2B0;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+}
+

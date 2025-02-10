@@ -102,3 +102,46 @@ document.addEventListener("DOMContentLoaded", function () {
 window.navermap_authFailure = function () {
     alert("Naver Map Error");
 };
+
+// 예측된 해파리 출현 지역이 몇곳인지 //
+function updateJellyAlertCount() {
+    let alertKeys = Object.keys(alertObj);
+    let count = alertKeys.length;
+    document.getElementById("jelly-alert-count").textContent = `예측된 해파리 출현 지역수: ${count}`;
+
+    let dropdown = document.getElementById("jelly-alert-dropdown");
+    dropdown.innerHTML = `<option value="" selected disabled>출현 지역 선택</option>`;
+
+    alertKeys.forEach(beachId => {
+        if (oceanInfoObj[beachId]) {
+            let option = document.createElement("option");
+            option.value = beachId;
+            option.textContent = oceanInfoObj[beachId].oceanTitle; // 해당 지역 이름
+            dropdown.appendChild(option);
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+    const mapDiv = document.getElementById('main-map');
+
+    // 예측된 해파리 지역 개수 초기화 및 드롭다운 목록 업데이트
+    updateJellyAlertCount();
+
+    // 드롭다운에서 특정 해파리 출현 지역 선택 시, 해당 지역으로 이동
+    const dropdown = document.getElementById("jelly-alert-dropdown");
+    dropdown.addEventListener("change", function() {
+        let selectedRegion = this.value;
+        if (oceanInfoObj[selectedRegion]) {
+            const { oceanLat, oceanLon } = oceanInfoObj[selectedRegion];
+            const newCenter = new naver.maps.LatLng(oceanLat, oceanLon);
+            map.setCenter(newCenter);
+            map.setZoom(12); // 확대해서 보기
+
+            changeJellyAlert(selectedRegion);
+        } else {
+            alert("선택한 지역의 좌표 정보가 없습니다.");
+        }
+    });
+});
+
