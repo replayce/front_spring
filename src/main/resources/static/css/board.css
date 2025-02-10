@@ -638,7 +638,7 @@ a {
     z-index: 999;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
     .board-list-title, .board-row {
         display:block;
         text-align:right;
@@ -673,6 +673,19 @@ a {
 
     span.no, span.jelly-name {
         display:none;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .left-top {
+        flex-wrap: wrap;
+    }
+    div.search {
+        max-width:unset;
+        width: 100%;
+    }
+    button.search-button {
+        flex:1;
     }
 }
 
