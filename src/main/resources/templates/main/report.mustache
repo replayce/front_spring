@@ -15,7 +15,7 @@
             <h2 class="title">게시글 수정하기</h2>
             <button class="btn edit-btn">수정하기</button>
         {{/is_edit}}
-        
+
         <div id="icon-help">
             <span style="">?</span>
         </div>
@@ -136,11 +136,42 @@
                 <label class="form-label-des">상세 설명</label>
                 <textarea class="description" rows="3" placeholder="목격한 위치와 시간을 작성해 주세요.">{{#is_edit}}{{board.description}}{{/is_edit}}</textarea>
             </div>
+
+            <!-- 개인정보 및 저작권 동의 (스크롤 박스) -->
+            <div class="form-group-agree scroll-box">
+                <h3>📌 개인정보 수집 및 이용 동의</h3>
+                <p>본 서비스는 해파리 제보를 위해 다음과 같은 개인정보를 수집합니다.</p>
+                <ul>
+                    <li><strong>수집 항목:</strong> 제보자 이름, 핸드폰 번호, 비밀번호</li>
+                    <li><strong>이용 목적:</strong> 해파리 목격 정보 저장 및 서비스 운영</li>
+                    <li><strong>보유 기간:</strong> 삭제 요청 시 즉시 파기</li>
+                    <li><strong>동의를 거부할 수 있으며, 거부 시 제보가 제한됩니다.</strong></li>
+                </ul>
+                <label><input type="checkbox" id="agree-personal" required> 개인정보 수집 및 이용에 동의합니다.</label>
+            </div>
+
+            <div class="form-group-agree scroll-box">
+                <h3>📌 저작권 이양 및 AI 학습 동의</h3>
+                <p>해파리 판별 AI 모델 학습을 위해 사용자의 제보 사진 및 내용을 활용할 수 있습니다.</p>
+                <ul>
+                    <li><strong>활용 목적:</strong> AI 해파리 판별 모델 학습 및 서비스 개선</li>
+                    <li><strong>보유 기간:</strong> 사용자가 삭제 요청할 때까지 보유</li>
+                    <li><strong>사용자가 제보 삭제 요청 시,</strong> 개인정보(이름, 연락처, 비밀번호)는 즉시 파기됩니다.</li>
+                    <li><strong>그러나 AI 모델 학습을 위해 업로드된 해파리 사진은 삭제되지 않습니다.</strong></li>
+                </ul>
+                <label><input type="checkbox" id="agree-copyright" required> AI 학습을 포함한 저작권 이양에 동의합니다.</label>
+            </div>
+
+            <!-- 모두 동의 -->
+            <div class="form-group-agree">
+                <label><input type="checkbox" id="agree-all" onclick="toggleAllAgreements()"> 모두 동의합니다.</label>
+            </div>
         </form>
     </div>
 </div>
 
 <div id="help-modal" style="display:none;">
+    <span style="color:white;font-size: 30px;margin: 20px;line-height: 60px;font-weight: bold;">X</span>
     <img src="/images/info_images/info_report.png" alt="제보하기 도움말">
 </div>
 

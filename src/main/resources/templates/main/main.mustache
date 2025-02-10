@@ -140,6 +140,7 @@
         </div>
 
         <div id="help-modal" style="display:none;">
+            <span style="color:white;font-size: 30px;margin: 20px;line-height: 60px;font-weight: bold;">X</span>
             <img src="/images/info_images/info_main.png" alt="메인 도움말">
         </div>
 
@@ -224,12 +225,12 @@
             },
             success: function(response) {
                 var now_board_id = $('div.board-recent > table.board-table tr > input[name="boardId"]').val();
-                if (response['result'][0]['boardId'] == parseInt(now_board_id)) {
+                if (response['result']['content'][0]['boardId'] == parseInt(now_board_id)) {
                     return;
                 }
 
                 var img_tag = `<img src="/images/jelly_icons_noname/외계생물체.png" alt="미확인해파리">`;
-                var jelly_name = response['result'][0]['jelly'];
+                var jelly_name = response['result']['content'][0]['jelly'];
                 if ( jelly_name == '노무라입깃해파리' ) {
                     img_tag = `<img src="/images/jelly_icons_noname/노무라입깃_noname.png" alt="노무라입깃해파리">`;
                 }
@@ -237,12 +238,12 @@
                     img_tag = `<img src="/images/jelly_icons_noname/보름달물_noname.png" alt="보름달물해파리">`;
                 }
 
-                var time_str = timeAgo(response['result'][0]['createDate']);
+                var time_str = timeAgo(response['result']['content'][0]['createDate']);
 
                 // image-class 초기화
                 $('div.board-recent > table.board-table tr').removeClass('rolling-in');
 
-                var newRow = `<tr class="rolling-in" onClick="clickRecentBoard()"><input type="hidden" name="boardId" value="${response['result'][0]['boardId']}"><td>${img_tag}</td><td>${response['result'][0]['location']}</td><td>${response['result'][0]['jelly']}</td><td>${time_str}</td></tr>`;
+                var newRow = `<tr class="rolling-in" onClick="clickRecentBoard()"><input type="hidden" name="boardId" value="${response['result']['content'][0]['boardId']}"><td>${img_tag}</td><td>${response['result']['content'][0]['location']}</td><td>${response['result']['content'][0]['jelly']}</td><td>${time_str}</td></tr>`;
                 $('div.board-recent > table.board-table tr').addClass('rolling-out').one('animationend', function() {
                     $(this).replaceWith(newRow);
                 });

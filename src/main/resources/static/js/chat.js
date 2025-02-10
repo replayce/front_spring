@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.json())
         .then(config => {
             apiHost = config.apiHost;
-            console.log("✅ API Host:", apiHost);
         })
         .catch(error => {
             console.error("❌ API 설정을 불러오는 중 오류 발생:", error);

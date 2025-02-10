@@ -190,7 +190,7 @@ a {
 #chatbotContainer {
     position: fixed;
     right: -100%; /* 처음에는 숨김 */
-    top: 15%;
+    top: 13%;
     padding: 10px;
     max-width: 600px;
     width: 40%;
@@ -207,12 +207,15 @@ a {
 /* ✅ 챗봇 창이 열릴 때 */
 #chatbotContainer.active {
     right: 10px;
-    top:14%;
+    top:13%;
 }
 
 /* ✅ 푸터 위로 올릴 때 */
+#chatbotContainer.footer-fixed {
+    top: calc(18% - 50px); /* ✅ 푸터 바로 위에 위치 */
+}
 #chatbotContainer.active.footer-fixed {
-    top: calc(15% - 50px); /* ✅ 푸터 바로 위에 위치 */
+    top: calc(18% - 50px); /* ✅ 푸터 바로 위에 위치 */
 }
 
 /* ✅ 챗봇 내부 스타일 */
@@ -243,8 +246,11 @@ a {
     cursor: pointer;
 }
 
-/* 📌 💡 화면 너비가 900px 이하일 때 */
-@media screen and (max-width: 900px) {
+/* 📌 💡 화면 너비가 1275px 이하일 때 */
+@media screen and (max-width: 1275px) {
+    #chatbotContainer {
+        top: 14%;
+    }
     #chatbotContainer.active {
         width: 50%;
         height: 70vh;
@@ -259,6 +265,53 @@ a {
     }
 
     /* ✅ 푸터 위로 올릴 때 */
+    #chatbotContainer.footer-fixed {
+        top: calc(15% - 50px); /* ✅ 푸터 바로 위에 위치 */
+    }
+    #chatbotContainer.active.footer-fixed {
+        top: calc(15% - 50px); /* ✅ 푸터 바로 위에 위치 */
+    }
+
+    #chatbox {
+        height: calc(70vh - 60px); /* 입력창 제외한 전체 높이 */
+    }
+
+    .chat-input {
+        padding: 15px;
+    }
+
+    #userInput {
+        font-size: 16px;
+    }
+
+    #sendBtn {
+        font-size: 16px;
+        padding: 12px;
+    }
+}
+
+/* 📌 💡 화면 너비가 900px 이하일 때 */
+@media screen and (max-width: 900px) {
+    #chatbotContainer {
+        top: 14%;
+    }
+    #chatbotContainer.active {
+        width: 50%;
+        height: 70vh;
+        right: 10px;
+        top: 14%;
+        border-radius: 15px;
+    }
+
+    /* ✅ 푸터 위에 위치할 때 */
+    #chatbotToggle.footer-fixed {
+        top: calc(100vh - 125px); /* ✅ 푸터 높이 맞추기 */
+    }
+
+    /* ✅ 푸터 위로 올릴 때 */
+    #chatbotContainer.footer-fixed {
+        top: calc(15% - 50px); /* ✅ 푸터 바로 위에 위치 */
+    }
     #chatbotContainer.active.footer-fixed {
         top: calc(15% - 50px); /* ✅ 푸터 바로 위에 위치 */
     }
@@ -283,6 +336,9 @@ a {
 
 /* 📌 💡 화면 너비가 700px 이하일 때 */
 @media screen and (max-width: 700px) {
+    #chatbotContainer {
+        top: 14%;
+    }
     #chatbotContainer.active {
         width: 60%;
         height: 70vh;
@@ -295,6 +351,9 @@ a {
 
 /* 📌 💡 화면 너비가 600px 이하일 때, 챗봇이 켜진 경우(active)만 전체 화면 적용 */
 @media screen and (max-width: 600px) {
+    #chatbotContainer {
+        top: 14%;
+    }
     #chatbotContainer.active {
         width: 90%;
         height: 70vh;
@@ -326,6 +385,9 @@ a {
     }
 
     /* ✅ 푸터 위로 올릴 때 */
+    #chatbotContainer.footer-fixed {
+        top: calc(15% - 50px); /* ✅ 푸터 바로 위에 위치 */
+    }
     #chatbotContainer.active.footer-fixed {
         top: calc(15% - 50px); /* ✅ 푸터 바로 위에 위치 */
     }
@@ -348,6 +410,9 @@ a {
         transition: top 0.3s ease-in-out;
     }
 
+    #chatbotContainer {
+        top: 15vh;
+    }
     #chatbotContainer.active {
         width: 90%;
         height: 70vh;
@@ -362,6 +427,9 @@ a {
     }
 
     /* ✅ 푸터 위로 올릴 때 */
+    #chatbotContainer.footer-fixed {
+        top: 10vh;
+    }
     #chatbotContainer.active.footer-fixed {
         width: 90%;
         height: 70vh;
