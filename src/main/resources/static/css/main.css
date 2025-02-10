@@ -22,9 +22,10 @@
     background-color: #95B2B0;
     cursor: pointer;
     border-radius: 10px;
-    color: white;
+    color: black;
     font-size: 14px;
     text-align: center;
+    border-color:#95B2B0;
 }
 
 /* 드롭다운 스타일 */
@@ -378,3 +379,26 @@ div.help-high {
 /* .dropdown-content.show 외부영역 클릭감지는 JS에 의존 */
 
 
+/* 🔹 alert_00: 둥둥 떠다니는 애니메이션 */
+@keyframes floatUpDown {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-3px); } /* 위로 3px 이동 */
+    100% { transform: translateY(0px); }
+}
+
+.floating-marker {
+    animation: floatUpDown 1.5s ease-in-out infinite; /* 1.5초 주기로 반복 */
+}
+
+/* 🔹 alert_01: 부르르 떨리는 애니메이션 */
+@keyframes shake {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-1px, 1px) rotate(-1deg); }
+    50% { transform: translate(1px, -1px) rotate(1deg); }
+    75% { transform: translate(-1px, 1px) rotate(-1deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.shaking-marker {
+    animation: shake 0.1s ease-in-out infinite; /* 0.1초마다 반복 */
+}
