@@ -1,14 +1,102 @@
 /* 레이아웃을 잡는 예시 CSS 코드입니다.
    프로젝트에 맞춰 자유롭게 수정하세요. */
+#pre-buttons {
+    display: inline-block;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+#predict-text {
+    background-color: #ffffff;
+    border-radius: 10px;
+    width: 142px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+#select-pre {
+    height: 30px;
+    width: 120px;
+    background-color: #95B2B0;
+    cursor: pointer;
+    border-radius: 10px;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* 드롭다운 스타일 */
+#select-pre option {
+    background-color: white;
+    color: black;
+    font-size: 14px;
+}
+
+
+#pre-buttons button {
+    height: 30px;
+    padding-left: 10px;
+    border-width: 0px;
+    border-style: initial;
+    border-color: initial;
+    border-image: initial;
+    border-radius: 10px;
+}
+
+#date-prev {
+    width:60px;
+    background-color:#95B2B0;
+    cursor: pointer;
+}
+
+#date-next {
+    width:60px;
+    background-color:#95B2B0;
+    cursor: pointer;
+}
+
+#server-time {
+    background-color: #464D77;
+    width:240px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#realtime-button {
+    width: 80px;
+    background-color: #fff275;
+    cursor: pointer;
+}
+
+.model-text {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    gap: 10px;
+    border-style: initial;
+}
+
+#model-text {
+    width: 380px;
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 10px;
+    border-color: #ffffff;
+    opacity: 0.8;
+}
+
+/* ---------------------------- */
 
 .left-contents {
     display:inline-block;
     max-width:830px;
     width:90vw;
-    height: 700px;
+    height: 670px;
     margin-left: 15px;
     margin-right:15px;
-    background-color: #95B2B0;
     border-radius: 10px;
     vertical-align: top;
     position:relative;
@@ -96,7 +184,7 @@
 }
 
 .board-list {
-    height:216px;
+    height:186px;
     background-color:#95B2B0;
     border-radius:10px;
 }
@@ -212,7 +300,7 @@ div.help-high {
 #help-jelly {
     position: absolute;
     left:-150px;
-    top:20px;
+    top:70px;
     width:80vw;
     max-width:500px;
     animation: floatUpDown 3s infinite ease-in-out alternate;
@@ -239,7 +327,7 @@ div.help-high {
 #help-jelly-small {
     position: absolute;
     left:10px;
-    top:10px;
+    top:70px;
     width:60%;
 }
 
@@ -269,7 +357,6 @@ div.help-high {
         height: 90vw;
         margin-left: 15px;
         margin-right:15px;
-        background-color: #95B2B0;
         border-radius: 10px;
         vertical-align: top;
 
