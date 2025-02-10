@@ -126,8 +126,8 @@
                 <!-- 오른쪽 세로형 사진 업로드 박스 -->
                 <div class="photo-upload" onclick="document.getElementById('jellyfish-photo').click();">
                     <input type="file" id="jellyfish-photo" class="file-input" accept="image/*">
-                    <span class="upload-text">사진 등록</span>
-                    <img id="preview-image" {{#is_edit}}src="{{board.imageUrl}}"{{/is_edit}} alt="사진 미리보기">
+                    <span class="upload-text" {{#is_edit}}style="display: none" {{/is_edit}}>사진 등록</span>
+                    <img id="preview-image" {{#is_edit}}src="{{board.imageUrl}}" style="display: block" {{/is_edit}} alt="사진 미리보기">
                 </div>
             </div>
 

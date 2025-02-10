@@ -64,6 +64,15 @@
     font-size: 14px;
 }
 
+.edit-btn {
+    background-color: #FFF275;
+    color: black;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
 /* 제목 스타일 */
 .title {
     font-size: 20px;
@@ -215,9 +224,9 @@
 
 /* 사진 미리보기 */
 #preview-image {
+    display: none; /* 기본적으로 숨김 */
     max-width: 100%;
-    max-height: 140px; /* 크기 조절 */
-    display: none; /* 초기에는 숨김 */
+    max-height: 140px;
 }
 
 /* 목격 시점 입력창 (날짜, 시간, 분을 한 줄로 정렬) */

@@ -4,6 +4,8 @@ const ai_analyzing = "AI가 분석 중 👀";
 document.addEventListener("DOMContentLoaded", function () {
     // 🟢 "등록하기" 버튼 클릭 이벤트 등록
     var submit_btn = document.querySelector(".submit-btn");
+    var editBtn = document.querySelector(".edit-btn");
+
     if (submit_btn) {
         document.querySelector(".submit-btn").addEventListener("click", function (event) {
             event.preventDefault(); // 기본 폼 제출 방지
@@ -11,12 +13,31 @@ document.addEventListener("DOMContentLoaded", function () {
             submitReport();
         });
     }
-    else {
-    // 🟢 "수정하기" 버튼 클릭 이벤트 등록
-        document.querySelector(".edit-btn").addEventListener("click", function (event) {
-            event.preventDefault(); // 기본 폼 제출 방지
-            console.log("🚀 등록 버튼 클릭됨!");
-            submitEdit(document.getElementById("boardId").value);
+    // if (submitBtn) {
+    //     submitBtn.addEventListener("click", function (event) {
+    //         event.preventDefault();
+    //         console.log("🚀 등록 버튼 클릭됨!");
+    //         submitReport();
+    //     });
+    // }
+    // else {
+    // // 🟢 "수정하기" 버튼 클릭 이벤트 등록
+    //     document.querySelector(".edit-btn").addEventListener("click", function (event) {
+    //         event.preventDefault(); // 기본 폼 제출 방지
+    //         console.log("🚀 수정 버튼 클릭됨!");
+    //         submitEdit(document.getElementById("boardId").value);
+    //     });
+    // }
+    if (editBtn) {
+        editBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            var boardId = document.getElementById("boardId")?.value;
+            console.log("🚀 수정 버튼 클릭됨!", boardId);
+            if (boardId) {
+                submitEdit(boardId);
+            } else {
+                alert("❌ 수정할 게시글 ID가 존재하지 않습니다.");
+            }
         });
     }
 
@@ -175,7 +196,17 @@ function validateForm() {
         return false;
     }
 
+    const agreePersonal = document.getElementById("agree-personal").checked;
+    const agreeCopyright = document.getElementById("agree-copyright").checked;
+
+    if (!agreePersonal || !agreeCopyright) {
+        alert("📢 개인정보 수집 및 이용, AI 학습을 포함한 저작권 이양 동의에 모두 체크해야 제보할 수 있습니다.");
+        event.preventDefault(); // 제출 막기
+        return false;
+    }
+
     return true;
+
 }
 
 // 🟢 (4) 등록하기 요청
@@ -235,7 +266,7 @@ async function submitReport() {
         window.location.href = "/board";
     } catch (error) {
         console.error("❌ 등록 오류:", error);
-        alert("등록에 실패했습니다.");
+        alert(`등록에 실패했습니다.\n오류: ${error.message}`);
     }
 }
 
@@ -474,16 +505,4 @@ function toggleAllAgreements() {
 
     personalCheckbox.checked = isChecked;
     copyrightCheckbox.checked = isChecked;
-}
-
-function validateForm(event) {
-    const agreePersonal = document.getElementById("agree-personal").checked;
-    const agreeCopyright = document.getElementById("agree-copyright").checked;
-
-    if (!agreePersonal || !agreeCopyright) {
-        alert("📢 개인정보 수집 및 이용, AI 학습을 포함한 저작권 이양 동의에 모두 체크해야 제보할 수 있습니다.");
-        event.preventDefault(); // 제출 막기
-        return false;
-    }
-    return true;
 }
