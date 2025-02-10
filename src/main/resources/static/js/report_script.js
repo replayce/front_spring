@@ -1,4 +1,5 @@
 // ----------------------- 해파리 판별 & 이미지 업로드 ---------------------//
+const ai_analyzing = "AI가 분석 중 👀";
 
 document.addEventListener("DOMContentLoaded", function () {
     // 🟢 "등록하기" 버튼 클릭 이벤트 등록
@@ -37,6 +38,15 @@ document.addEventListener("DOMContentLoaded", function () {
     $('#help-modal').on('click', function() {
         $('#help-modal').hide();
     });
+
+    const currentDate = new Date();
+    currentDate.setMinutes(currentDate.getMinutes() - 5);
+    const minutes = Math.floor(currentDate.getMinutes() / 5) * 5;
+    currentDate.setMinutes(minutes);
+    const formattedDate = currentDate.toISOString().split('T')[0];
+    $('#date-input').val(formattedDate);
+    $('#hour-input').val(currentDate.getHours());
+    $('#minute-input').val(currentDate.getMinutes());
 });
 
 // 🟢 (1) 이미지 미리보기 함수
@@ -56,7 +66,7 @@ async function uploadImageToServer(file) {
     formData.append("file", file);
 
     try {
-        document.getElementById("jellyfish-type").value = "AI가 분석 중 👀";
+        document.getElementById("jellyfish-type").value = ai_analyzing;
         const response = await fetch("/upload", {
             method: "POST",
             body: formData
@@ -178,6 +188,11 @@ async function submitReport() {
         return; // ❌ 미래 날짜/시간/분이 입력되었으면 등록 중단
     }
 
+    if ( $('#jellyfish-type').val() == ai_analyzing) {
+        alert("AI가 현재 이미지를 분석 중입니다. 분석이 완료된 후 등록하기를 눌러주세요.");
+        return;
+    }
+
     let jellyType = document.getElementById("jellyfish-type").value.trim();
     let toxicity = "";
 
@@ -233,6 +248,11 @@ async function submitEdit(boardId) {
 
     if (!validateDateTime()) {
         return; // ❌ 미래 날짜/시간/분이 입력되었으면 등록 중단
+    }
+
+    if ( $('#jellyfish-type').val() == ai_analyzing) {
+        alert("AI가 현재 이미지를 분석 중입니다. 분석이 완료된 후 수정하기를 눌러주세요.");
+        return;
     }
 
     let jellyType = document.getElementById("jellyfish-type").value.trim();
