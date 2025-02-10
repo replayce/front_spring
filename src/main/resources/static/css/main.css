@@ -48,13 +48,13 @@
 
 #date-prev {
     width:60px;
-    background-color:#95B2B0;
+    background-color:#fff275;
     cursor: pointer;
 }
 
 #date-next {
     width:60px;
-    background-color:#95B2B0;
+    background-color:#fff275;
     cursor: pointer;
 }
 
@@ -68,7 +68,8 @@
 
 #realtime-button {
     width: 80px;
-    background-color: #fff275;
+    color:white;
+    background-color: #464D77;
     cursor: pointer;
 }
 
@@ -95,7 +96,7 @@
     display:inline-block;
     max-width:830px;
     width:90vw;
-    height: 670px;
+    height: 710px;
     margin-left: 15px;
     margin-right:15px;
     border-radius: 10px;
@@ -301,7 +302,7 @@ div.help-high {
 #help-jelly {
     position: absolute;
     left:-150px;
-    top:70px;
+    bottom: 180px;
     width:80vw;
     max-width:500px;
     animation: floatUpDown 3s infinite ease-in-out alternate;
@@ -367,10 +368,29 @@ div.help-high {
 
     #help-jelly {
         left:0px;
+        bottom:-30px;
     }
 
     #help-jelly-small {
         width:85%;
+        top:90px;
+    }
+
+    #pre-buttons {
+        display: flex;
+    }
+
+    #pre-buttons > button, #pre-buttons > #select-pre {
+        flex:1 1 calc(30% - 10px);
+        font-size:10px;
+    }
+    #pre-buttons > #server-time {
+        flex:1 1 60%;
+        font-size:10px;
+    }
+    #pre-buttons > #date-prev, #pre-buttons > #date-next {
+        flex:1 1 14%;
+        font-size:10px;
     }
 }
 
