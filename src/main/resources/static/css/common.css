@@ -207,11 +207,12 @@ a {
 /* ✅ 챗봇 창이 열릴 때 */
 #chatbotContainer.active {
     right: 10px;
+    top:14%;
 }
 
 /* ✅ 푸터 위로 올릴 때 */
 #chatbotContainer.active.footer-fixed {
-    top: 12vh; /* ✅ 푸터 바로 위에 위치 */
+    top: calc(15% - 50px); /* ✅ 푸터 바로 위에 위치 */
 }
 
 /* ✅ 챗봇 내부 스타일 */
@@ -242,14 +243,24 @@ a {
     cursor: pointer;
 }
 
-/* 📌 💡 화면 너비가 900px 이하일 때, 챗봇이 켜진 경우(active)만 전체 화면 적용 */
+/* 📌 💡 화면 너비가 900px 이하일 때 */
 @media screen and (max-width: 900px) {
     #chatbotContainer.active {
         width: 50%;
         height: 70vh;
         right: 10px;
-        top: 15%;
+        top: 14%;
         border-radius: 15px;
+    }
+
+    /* ✅ 푸터 위에 위치할 때 */
+    #chatbotToggle.footer-fixed {
+        top: calc(100vh - 125px); /* ✅ 푸터 높이 맞추기 */
+    }
+
+    /* ✅ 푸터 위로 올릴 때 */
+    #chatbotContainer.active.footer-fixed {
+        top: calc(15% - 50px); /* ✅ 푸터 바로 위에 위치 */
     }
 
     #chatbox {
@@ -270,13 +281,13 @@ a {
     }
 }
 
-/* 📌 💡 화면 너비가 900px 이하일 때, 챗봇이 켜진 경우(active)만 전체 화면 적용 */
+/* 📌 💡 화면 너비가 700px 이하일 때 */
 @media screen and (max-width: 700px) {
     #chatbotContainer.active {
         width: 60%;
         height: 70vh;
         right: 10px;
-        top: 15%;
+        top: 14%;
         border-radius: 15px;
     }
 }
@@ -288,7 +299,7 @@ a {
         width: 90%;
         height: 70vh;
         right: 10px;
-        top: 15%;
+        top: 14%;
         border-radius: 15px;
     }
 
@@ -307,5 +318,51 @@ a {
     #sendBtn {
         font-size: 16px;
         padding: 12px;
+    }
+
+    /* ✅ 푸터 위에 위치할 때 */
+    #chatbotToggle.footer-fixed {
+        top: calc(100vh - 125px); /* ✅ 푸터 높이 맞추기 */
+    }
+
+    /* ✅ 푸터 위로 올릴 때 */
+    #chatbotContainer.active.footer-fixed {
+        top: calc(15% - 50px); /* ✅ 푸터 바로 위에 위치 */
+    }
+}
+
+/* 📌 💡 화면 너비가 400px 이하일 때, 챗봇이 켜진 경우(active)만 전체 화면 적용 */
+@media screen and (max-width: 400px) {
+    #chatbotToggle {
+        position: fixed;
+        right: 10px;
+        top: 95vh;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+        transition: top 0.3s ease-in-out;
+    }
+
+    #chatbotContainer.active {
+        width: 90%;
+        height: 70vh;
+        right: 10px;
+        top: 20vh;
+        border-radius: 15px;
+    }
+
+    /* ✅ 푸터 위에 위치할 때 */
+    #chatbotToggle.footer-fixed {
+        top: 90vh; /* ✅ 푸터 높이 맞추기 */
+    }
+
+    /* ✅ 푸터 위로 올릴 때 */
+    #chatbotContainer.active.footer-fixed {
+        top: 15vh; /* ✅ 푸터 바로 위에 위치 */
     }
 }
