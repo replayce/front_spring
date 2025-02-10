@@ -638,4 +638,42 @@ a {
     z-index: 999;
 }
 
+@media (max-width: 768px) {
+    .board-list-title, .board-row {
+        display:block;
+        text-align:right;
+    }
+
+    .board-list-title > span.icon, .board-row > span.icon {
+        display:inline;
+        float:left;
+        white-space: nowrap;
+    }
+
+    .board-list-title > span.report-time, .board-row > span.report-time {
+        display:inline-block;
+        width:32%;
+    }
+
+    .board-list-title > span.loc, .board-row > span.loc {
+        display:inline-block;
+        width:52%;
+        text-align:center;
+    }
+
+    .board-list-title > span.informant, .board-row > span.informant {
+        display:inline-block;
+        text-align: right;
+        width: 96%;
+    }
+
+    .board-list-title > span, .board-row > span {
+        display:inline-block;
+    }
+
+    span.no, span.jelly-name {
+        display:none;
+    }
+}
+
 
