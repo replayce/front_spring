@@ -182,7 +182,7 @@ a {
 
 #chatbotToggle img {
     width: 40px;
-    height: 60px;
+    height: 55px;
     margin-right: 5px;
 }
 
@@ -336,7 +336,7 @@ a {
     #chatbotToggle {
         position: fixed;
         right: 10px;
-        top: 95vh;
+        top: 90vh;
         background: transparent;
         border: none;
         cursor: pointer;
@@ -352,17 +352,21 @@ a {
         width: 90%;
         height: 70vh;
         right: 10px;
-        top: 20vh;
+        top: 15vh;
         border-radius: 15px;
     }
 
     /* ✅ 푸터 위에 위치할 때 */
     #chatbotToggle.footer-fixed {
-        top: 90vh; /* ✅ 푸터 높이 맞추기 */
+        top: 85vh; /* ✅ 푸터 높이 맞추기 */
     }
 
     /* ✅ 푸터 위로 올릴 때 */
     #chatbotContainer.active.footer-fixed {
-        top: 15vh; /* ✅ 푸터 바로 위에 위치 */
+        width: 90%;
+        height: 70vh;
+        right: 10px;
+        top: 10vh;
+        border-radius: 15px;
     }
 }
