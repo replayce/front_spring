@@ -1,4 +1,12 @@
-    </div>
+<!-- ✅ 챗봇 버튼 추가 -->
+<button id="chatbotToggle">
+    <img src="/images/chat/ai_chat_icon.png" alt="챗봇 열기">
+</button>
+<!-- ✅ 챗봇 불러오기 -->
+<div id="chatbotContainer" class="hidden">
+    {{>main/chat}}
+</div>
+</div>
     <!-- 하단 푸터 -->
     <div class="footer">
         <a href="/terms">
@@ -21,5 +29,7 @@
         </div>
     </div>
 </div> <!-- container 끝 -->
+<script src="/js/chat.js"></script>
+<script src="/js/chatbotToggle.js"></script>
 </body>
 </html>
