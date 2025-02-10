@@ -409,7 +409,7 @@ div.help-high {
     position: absolute;
     bottom: 15px;
     right: 15px;
-    background: rgba(255, 255, 255, 0.8);
+    background: #95B2B0;
     padding: 8px 15px;
     border-radius: 10px;
     font-size: 14px;
@@ -420,14 +420,16 @@ div.help-high {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-direction: column;
 }
 
 #jelly-alert-dropdown {
     height: 30px;
     font-size: 14px;
-    border: 1px solid #95B2B0;
+    border: 1px solid black;
     border-radius: 5px;
-    background-color: white;
+    background-color: #95B2B0;
     cursor: pointer;
+    font-weight:bold;
 }
 
