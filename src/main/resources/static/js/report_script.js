@@ -2,43 +2,51 @@
 const ai_analyzing = "AI가 분석 중 👀";
 
 document.addEventListener("DOMContentLoaded", function () {
-    // 🟢 "등록하기" 버튼 클릭 이벤트 등록
-    var submit_btn = document.querySelector(".submit-btn");
-    var editBtn = document.querySelector(".edit-btn");
+    // 1) "boardId" hidden input이 있으면 ⇒ 수정 모드
+    const boardIdInput = document.getElementById("boardId");
+    const isEdit = boardIdInput !== null; // 있으면 true, 없으면 false
 
-    if (submit_btn) {
-        document.querySelector(".submit-btn").addEventListener("click", function (event) {
-            event.preventDefault(); // 기본 폼 제출 방지
-            console.log("🚀 등록 버튼 클릭됨!");
+    if (isEdit) {
+        // 수정 모드면 로컬스토리지 확인
+        const boardId = boardIdInput.value;
+        const canEdit = localStorage.getItem(`board-${boardId}-editable`);
+
+        if (canEdit !== "true") {
+            // 권한 없음 → 알림 & body 숨기고 리다이렉트
+            alert("수정 권한이 없습니다.");
+            window.location.href = "/board";
+            return; // 여기서 함수 종료
+        }
+    }
+
+    // 2) 여기까지 왔다면 (isEdit=false)거나 권한이 있는 수정 모드
+    //    => 실제 화면을 보이게 한다.
+    document.body.style.display = "block";
+
+    // URL에서 boardId 추출
+    const path = window.location.pathname;
+    const pathParts = path.split("/");
+    const boardId = pathParts[pathParts.length - 1];
+
+    // 🟢 "등록하기" 버튼 클릭 이벤트 등록
+    // var submit_btn = document.querySelector(".submit-btn");
+    const submitButton = document.querySelector(".submit-btn");
+    const editButton = document.querySelector(".edit-btn");
+
+    if (submitButton) {
+        submitButton.addEventListener("click", function (event) {
+            event.preventDefault();
             submitReport();
         });
     }
-    // if (submitBtn) {
-    //     submitBtn.addEventListener("click", function (event) {
-    //         event.preventDefault();
-    //         console.log("🚀 등록 버튼 클릭됨!");
-    //         submitReport();
-    //     });
-    // }
-    // else {
-    // // 🟢 "수정하기" 버튼 클릭 이벤트 등록
-    //     document.querySelector(".edit-btn").addEventListener("click", function (event) {
-    //         event.preventDefault(); // 기본 폼 제출 방지
-    //         console.log("🚀 수정 버튼 클릭됨!");
-    //         submitEdit(document.getElementById("boardId").value);
-    //     });
-    // }
-    if (editBtn) {
-        editBtn.addEventListener("click", function (event) {
-            event.preventDefault();
-            var boardId = document.getElementById("boardId")?.value;
-            console.log("🚀 수정 버튼 클릭됨!", boardId);
-            if (boardId) {
+    if (editButton) {
+        const boardId = document.getElementById("boardId")?.value;
+        if (boardId) {
+            editButton.addEventListener("click", function (event) {
+                event.preventDefault();
                 submitEdit(boardId);
-            } else {
-                alert("❌ 수정할 게시글 ID가 존재하지 않습니다.");
-            }
-        });
+            });
+        }
     }
 
     // 🟢 사진 업로드 시 실행 (해파리 판별 API 호출)
@@ -223,7 +231,6 @@ async function submitReport() {
         alert("AI가 현재 이미지를 분석 중입니다. 분석이 완료된 후 등록하기를 눌러주세요.");
         return;
     }
-
     let jellyType = document.getElementById("jellyfish-type").value.trim();
     let toxicity = "";
 
@@ -243,15 +250,14 @@ async function submitReport() {
         hour: parseInt(document.getElementById("hour-input").value, 10),
         minute: parseInt(document.getElementById("minute-input").value, 10),
         location: document.getElementById("location-dropdown").value,
-        // jelly: document.getElementById("jellyfish-type").value,
         jelly: jellyType,
         toxicity: toxicity,
         description: document.querySelector(".description").value.trim() || "", // 선택 입력 가능
     };
 
     try {
-        const response = await fetch("/board", {
-            method: "POST",
+        const response = await fetch(`/board`, {
+            method: 'POST',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -272,7 +278,6 @@ async function submitReport() {
 
 // 🟢 (5) 수정하기 요청
 async function submitEdit(boardId) {
-
     if (!validateForm()) {
         return; // ❌ 유효성 검사 실패 시 등록 중단
     }
@@ -282,7 +287,7 @@ async function submitEdit(boardId) {
     }
 
     if ( $('#jellyfish-type').val() == ai_analyzing) {
-        alert("AI가 현재 이미지를 분석 중입니다. 분석이 완료된 후 수정하기를 눌러주세요.");
+        alert("AI가 현재 이미지를 분석 중입니다. 분석이 완료된 후 등록하기를 눌러주세요.");
         return;
     }
 
@@ -295,17 +300,17 @@ async function submitEdit(boardId) {
         toxicity = "약독성";
     }
 
+    // PATCH 요청에 보낼 DTO
     let reportData = {
-        content: "",
-        writer: document.getElementById("reporter-name").value,
-        writerNumber: document.getElementById("phone-number").value,
-        writerPassword: document.getElementById("password").value,
-        imageUrl: document.getElementById("jellyfish-image-url").value,
-        date: document.getElementById("date-input").value,
-        hour: parseInt(document.getElementById("hour-input").value, 10),
-        minute: parseInt(document.getElementById("minute-input").value, 10),
-        location: document.getElementById("location-dropdown").value,
-        // jelly: document.getElementById("jellyfish-type").value,
+        content: null, // or ""
+        writer: getElementValue("reporter-name"),
+        writerNumber: getElementValue("phone-number"),
+        writerPassword: getElementValue("password"),
+        imageUrl: getElementValue("jellyfish-image-url"),
+        date: getElementValue("date-input"),
+        hour: getElementValue("hour-input", true),
+        minute: getElementValue("minute-input", true),
+        location: getElementValue("location-dropdown"),
         jelly: jellyType,
         toxicity: toxicity,
         description: document.querySelector(".description").value.trim() || "", // 선택 입력 가능
@@ -314,22 +319,45 @@ async function submitEdit(boardId) {
     try {
         const response = await fetch(`/board/${boardId}`, {
             method: 'PATCH',
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(reportData),
         });
 
-        if (!response.ok) {
-            throw new Error(`등록 실패: ${response.status} ${response.statusText}`);
-        }
+        if (!response.ok) throw new Error(`수정 실패: ${response.status} ${response.statusText}`);
 
-        alert("등록 성공!");
+        alert("수정 성공!");
+        // 권한 제거
+        localStorage.removeItem(`board-${boardId}-editable`);
         window.location.href = "/board";
     } catch (error) {
-        console.error("❌ 등록 오류:", error);
-        alert(`등록에 실패했습니다.${boardId}`);
+        console.error("❌ 수정 오류:", error);
+        alert(`수정에 실패했습니다.\n오류: ${error.message}`);
     }
+}
+
+async function fetchBoard(boardId) {
+    try {
+        const response = await fetch(`/board/${boardId}`);
+        if (!response.ok) throw new Error(`데이터 불러오기 실패: ${response.status}`);
+
+        const data = await response.json();
+        console.log("✅ 기존 데이터 불러옴:", data);
+        return data.result;  // 기존 데이터 반환
+    } catch (error) {
+        console.error("❌ 기존 데이터 불러오기 실패:", error);
+        return null;
+    }
+}
+
+
+// ✅ `null` 체크 및 기본값 반환 함수
+function getElementValue(id, isNumber = false) {
+    const element = document.getElementById(id);
+    if (!element) {
+        console.warn(`⚠️ ID "${id}" 요소를 찾을 수 없음.`);
+        return isNumber ? 0 : ""; // 기본값 반환 (숫자는 0, 문자열은 "")
+    }
+    return isNumber ? parseInt(element.value, 10) || 0 : element.value;
 }
 
 
@@ -505,4 +533,71 @@ function toggleAllAgreements() {
 
     personalCheckbox.checked = isChecked;
     copyrightCheckbox.checked = isChecked;
+}
+
+
+// 📌 URL에서 boardId 추출하는 함수
+function getBoardIdFromUrl() {
+    const pathParts = window.location.pathname.split("/");
+    if (pathParts.length < 3 || isNaN(pathParts[pathParts.length - 1])) {
+        return null; // ✅ URL이 `/report`일 경우 `null` 반환
+    }
+    return pathParts[pathParts.length - 1]; // ✅ `/report/{boardId}`일 때만 boardId 반환
+}
+
+async function loadBoardData() {
+    const boardId = getBoardIdFromUrl();
+    if (!boardId) return; // ✅ boardId가 `null`이면 실행 안 함 (제보 페이지 예외처리)
+
+    try {
+        console.log("🔵 요청하는 boardId:", boardId);
+
+        const response = await fetch(`/board/${boardId}`);
+        if (!response.ok) throw new Error(`데이터 불러오기 실패: ${response.status}`);
+
+        const data = await response.json();
+        console.log("✅ 불러온 데이터:", data);
+
+        if (!data.result) throw new Error("❌ `result` 데이터가 존재하지 않습니다.");
+
+        const board = data.result;
+
+        setElementValue("reporter-name", board.writer);
+        setElementValue("phone-number", board.writerNumber);
+        setElementValue("password", board.writerPassword);
+        setElementValue("date-input", board.date || new Date().toISOString().split('T')[0]);
+        setElementValue("hour-input", board.hour, true);
+        setElementValue("minute-input", board.minute, true);
+        setElementValue("location-dropdown", board.location);
+        setElementValue("jellyfish-type", board.jelly);
+        setElementValue("toxicity", board.toxicity);
+        setElementValue("description", board.description);
+
+        if (board.imageUrl && document.getElementById("preview-image")) {
+            document.getElementById("preview-image").src = board.imageUrl;
+            document.getElementById("preview-image").style.display = "block";
+        }
+    } catch (error) {
+        console.error("❌ 데이터 로드 실패:", error);
+        alert("데이터를 불러오지 못했습니다.");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadBoardData);
+
+// ✅ 페이지 로딩 시 자동으로 호출 (boardId를 서버에서 넘겨받음)
+document.addEventListener("DOMContentLoaded", function () {
+    const boardId = document.getElementById("boardId")?.value;
+    if (boardId) {
+        loadBoardData(boardId);
+    }
+});
+
+function setElementValue(id, value, isNumber = false) {
+    const element = document.getElementById(id);
+    if (!element) {
+        console.warn(`⚠️ ID "${id}" 요소를 찾을 수 없음.`);
+        return;
+    }
+    element.value = isNumber ? (value !== undefined ? value : 0) : (value || "");
 }

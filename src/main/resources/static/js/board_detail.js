@@ -1,55 +1,3 @@
-function edit_del_Post(mode,id,num,pass) {
-    //let boardId = "{{board.boardId}}";
-    //let content = document.getElementById("content").value;
-    const writerNumber = document.getElementById('writerNumber').value;
-    const writerPassword = document.getElementById('writerPassword').value;
-
-
-    if (!writerNumber || !writerPassword) {
-        alert("핸드폰 번호와 비밀번호를 모두 입력해야 합니다.");
-        return;
-    } else if(writerNumber!=num || writerPassword!=pass){
-        alert("핸드폰 번호나 비밀번호가 일치하지 않습니다.");
-        return;
-    }
-
-    if(mode === "edit"){
-        fetch(`/main/board/${id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                content: content
-            })
-        })
-        .then(response => {
-            if (response.ok) {
-                alert("게시글이 수정되었습니다.");
-                location.reload();
-            } else {
-                alert("수정에 실패하였습니다.");
-            }
-        })
-        .catch(error => console.error("Error:", error));
-    }else{
-        if (confirm("정말 삭제하시겠습니까?")) {
-            fetch(`/board/${id}`, {
-                method: "DELETE"
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert("게시글이 삭제되었습니다.");
-                    window.location.href = "/board";
-                } else {
-                    alert("삭제에 실패하였습니다.");
-                }
-            })
-            .catch(error => console.error("Error:", error));
-        }
-    }
-}
-
 // 수정 및 삭제 확인 팝업 열기 (화면 중앙에 표시)
 function openVeriPopup(mode, id, num, pass) {
     const popupContent = `
@@ -80,7 +28,18 @@ function openVeriPopup(mode, id, num, pass) {
 
     // 팝업 띄울 때 포커스 자동 설정
     document.getElementById("writerNumber").focus();
+
+    // 🔴 Enter 키를 누르면 확인 버튼이 자동 클릭되도록 이벤트 리스너 추가
+    document.querySelectorAll("#writerNumber, #writerPassword").forEach((input) => {
+        input.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // 기본 엔터 동작 방지
+                document.querySelector(".confirm-btn").click(); // 확인 버튼 클릭
+            }
+        });
+    });
 }
+
 
 // 사용자 확인 후 수정 페이지 이동 or 삭제 실행
 function verifyUser(mode, id, num, pass) {
@@ -99,9 +58,12 @@ function verifyUser(mode, id, num, pass) {
     closePopup(); // 입력이 맞으면 팝업 닫기
 
     if (mode === "edit") {
+        // (1) localStorage에 "이 글은 수정 가능" 표시 저장
+        localStorage.setItem(`board-${id}-editable`, "true")
+        // (2) 수정 페이지로 이동 (URL에는 전화번호/비번 붙이지 않음)
         window.location.href = `/report/${id}`;
     } else {
-        edit_del_Post("del", id, num, pass);
+        deletePost(id);
     }
 }
 
@@ -109,6 +71,23 @@ function verifyUser(mode, id, num, pass) {
 function closePopup() {
     document.getElementById('search-popup').remove();
     document.getElementById('popup-overlay').remove();
+}
+
+function deletePost(boardId) {
+    if (!confirm("정말 삭제하시겠습니까?")) ㄱㄷ셔구;
+
+    fetch(`/board/${boardId}`, {
+        method: "DELETE"
+    })
+        .then(response => {
+            if (response.ok) {
+                alert("게시글이 삭제되었습니다.");
+                window.location.href = "/board";
+            } else {
+                alert("삭제에 실패하였습니다.")
+            }
+        })
+        .catch(error => console.error("Error:", error));
 }
 
 // 비밀번호 보이기/숨기기 기능

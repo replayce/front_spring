@@ -1,7 +1,18 @@
 {{>layouts/header}}
 <title>해파리 제보하기</title>
 <link rel="stylesheet" href="/css/styles_report.css">
+<style>
+    /* 처음에는 페이지 전체를 숨김 */
+    body {
+        display: none;
+        background-color: #fff; /* 권한 없을 때 보이게 할 흰 배경 */
+    }
+</style>
 {{>layouts/header2}}
+{{#is_edit}}
+    <input type="hidden" id="boardId" value={{board.boardId}}>
+{{/is_edit}}
+
 <div class="center-container">
     <!-- 상단 버튼 및 제목 -->
     <div class="header-container">
@@ -121,6 +132,9 @@
                     </div>
                     <!-- 숨겨진 이미지 URL 저장 필드 -->
                     <input type="hidden" id="jellyfish-image-url" name="imageUrl">
+                    <!-- 숨겨진 toxicity 입력 필드 추가 -->
+                    <input type="hidden" id="toxicity" name="toxicity" value="">
+
                 </div>
 
                 <!-- 오른쪽 세로형 사진 업로드 박스 -->
@@ -134,7 +148,7 @@
             <!-- 상세 설명 -->
             <div class="form-group-des">
                 <label class="form-label-des">상세 설명</label>
-                <textarea class="description" rows="3" placeholder="목격한 위치와 시간을 작성해 주세요.">{{#is_edit}}{{board.description}}{{/is_edit}}</textarea>
+                <textarea class="description" id="description" rows="3" placeholder="목격한 위치와 시간을 작성해 주세요.">{{#is_edit}}{{board.description}}{{/is_edit}}</textarea>
             </div>
 
             <!-- 개인정보 및 저작권 동의 (스크롤 박스) -->
@@ -176,14 +190,20 @@
 </div>
 
 <script src="/js/report_script.js"></script>
+<script>
+    // 🔵 페이지에서 벗어날 때 로컬 스토리지 삭제
+    window.addEventListener("beforeunload", function() {
+        const boardIdInput = document.getElementById("boardId");
+        if (boardIdInput) {
+            const boardId = boardIdInput.value;
+            localStorage.removeItem(`board-${boardId}-editable`);
+        }
+    });
+</script>
 
 <script>
     var oceanInfoList = {{{oceanInfoJson}}};
     var API_HOST = "{{pythonApiHost}}";
 </script>
-
-{{#is_edit}}
-<input type="hidden" id="boardId" value={{board.boardId}}>
-{{/is_edit}}
 
 {{>layouts/footer}}
