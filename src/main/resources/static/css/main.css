@@ -401,7 +401,7 @@ div.help-high {
 }
 
 .shaking-marker {
-    animation: shake 0.1s ease-in-out infinite; /* 0.1초마다 반복 */
+    animation: shake 0.5s ease-in-out infinite; /* 0.1초마다 반복 */
 }
 
 /* ------------ 예측된 해파리 출현 지역 몇곳인지 ------------ */
