@@ -18,6 +18,7 @@
     border-radius: 15px;
     max-width: 60%;
     word-wrap: break-word;
+    text-align: start;
 }
 
 /* 챗봇 메시지 + 아이콘 */

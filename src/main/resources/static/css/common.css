@@ -155,3 +155,218 @@ a {
         line-height: 10px;
     }
 }
+
+
+
+/*챗봇 구현*/
+/* ✅ 챗봇 토글 버튼 */
+#chatbotToggle {
+    position: fixed;
+    right: 10px;
+    top: 88%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    transition: top 0.3s ease-in-out;
+}
+
+/* ✅ 푸터 위에 위치할 때 */
+#chatbotToggle.footer-fixed {
+    top: calc(100vh - 125px); /* ✅ 푸터 높이 맞추기 */
+}
+
+#chatbotToggle img {
+    width: 40px;
+    height: 55px;
+    margin-right: 5px;
+}
+
+/* 📌 기본 챗봇 창 스타일 */
+#chatbotContainer {
+    position: fixed;
+    right: -100%; /* 처음에는 숨김 */
+    top: 15%;
+    padding: 10px;
+    max-width: 600px;
+    width: 40%;
+    height: 70vh;
+    background-color: #95B2B0;
+    border-radius: 15px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    transition: right 0.3s ease-in-out;
+    z-index: 9999;
+}
+
+/* ✅ 챗봇 창이 열릴 때 */
+#chatbotContainer.active {
+    right: 10px;
+    top:14%;
+}
+
+/* ✅ 푸터 위로 올릴 때 */
+#chatbotContainer.active.footer-fixed {
+    top: calc(15% - 50px); /* ✅ 푸터 바로 위에 위치 */
+}
+
+/* ✅ 챗봇 내부 스타일 */
+#chatbox {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.chat-input {
+    display: flex;
+    padding: 10px;
+}
+
+#userInput {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+}
+
+#sendBtn {
+    padding: 10px;
+    background-color: #464D77;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* 📌 💡 화면 너비가 900px 이하일 때 */
+@media screen and (max-width: 900px) {
+    #chatbotContainer.active {
+        width: 50%;
+        height: 70vh;
+        right: 10px;
+        top: 14%;
+        border-radius: 15px;
+    }
+
+    /* ✅ 푸터 위에 위치할 때 */
+    #chatbotToggle.footer-fixed {
+        top: calc(100vh - 125px); /* ✅ 푸터 높이 맞추기 */
+    }
+
+    /* ✅ 푸터 위로 올릴 때 */
+    #chatbotContainer.active.footer-fixed {
+        top: calc(15% - 50px); /* ✅ 푸터 바로 위에 위치 */
+    }
+
+    #chatbox {
+        height: calc(70vh - 60px); /* 입력창 제외한 전체 높이 */
+    }
+
+    .chat-input {
+        padding: 15px;
+    }
+
+    #userInput {
+        font-size: 16px;
+    }
+
+    #sendBtn {
+        font-size: 16px;
+        padding: 12px;
+    }
+}
+
+/* 📌 💡 화면 너비가 700px 이하일 때 */
+@media screen and (max-width: 700px) {
+    #chatbotContainer.active {
+        width: 60%;
+        height: 70vh;
+        right: 10px;
+        top: 14%;
+        border-radius: 15px;
+    }
+}
+
+
+/* 📌 💡 화면 너비가 600px 이하일 때, 챗봇이 켜진 경우(active)만 전체 화면 적용 */
+@media screen and (max-width: 600px) {
+    #chatbotContainer.active {
+        width: 90%;
+        height: 70vh;
+        right: 10px;
+        top: 14%;
+        border-radius: 15px;
+    }
+
+    #chatbox {
+        height: calc(70vh - 60px); /* 입력창 제외한 전체 높이 */
+    }
+
+    .chat-input {
+        padding: 15px;
+    }
+
+    #userInput {
+        font-size: 16px;
+    }
+
+    #sendBtn {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    /* ✅ 푸터 위에 위치할 때 */
+    #chatbotToggle.footer-fixed {
+        top: calc(100vh - 125px); /* ✅ 푸터 높이 맞추기 */
+    }
+
+    /* ✅ 푸터 위로 올릴 때 */
+    #chatbotContainer.active.footer-fixed {
+        top: calc(15% - 50px); /* ✅ 푸터 바로 위에 위치 */
+    }
+}
+
+/* 📌 💡 화면 너비가 400px 이하일 때, 챗봇이 켜진 경우(active)만 전체 화면 적용 */
+@media screen and (max-width: 400px) {
+    #chatbotToggle {
+        position: fixed;
+        right: 10px;
+        top: 90vh;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+        transition: top 0.3s ease-in-out;
+    }
+
+    #chatbotContainer.active {
+        width: 90%;
+        height: 70vh;
+        right: 10px;
+        top: 15vh;
+        border-radius: 15px;
+    }
+
+    /* ✅ 푸터 위에 위치할 때 */
+    #chatbotToggle.footer-fixed {
+        top: 85vh; /* ✅ 푸터 높이 맞추기 */
+    }
+
+    /* ✅ 푸터 위로 올릴 때 */
+    #chatbotContainer.active.footer-fixed {
+        width: 90%;
+        height: 70vh;
+        right: 10px;
+        top: 10vh;
+        border-radius: 15px;
+    }
+}
