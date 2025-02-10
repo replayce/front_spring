@@ -56,6 +56,7 @@ async function uploadImageToServer(file) {
     formData.append("file", file);
 
     try {
+        document.getElementById("jellyfish-type").value = "AI가 분석 중 👀";
         const response = await fetch("/upload", {
             method: "POST",
             body: formData
