@@ -85,6 +85,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const dropdown = document.getElementById('alert-location');
     dropdown.addEventListener('change', function () {
         const selectedRegion = this.value;
+        if($(`#jelly-alert-dropdown option[value="${selectedRegion}"]`).length > 0) {
+            $('#jelly-alert-dropdown').val(selectedRegion);
+        }
+        else {
+            $('#jelly-alert-dropdown').val('');
+        }
+
         if (oceanInfoObj[selectedRegion]) {
             const { oceanLat, oceanLon } = oceanInfoObj[selectedRegion];
             const newCenter = new naver.maps.LatLng(oceanLat, oceanLon);
@@ -107,7 +114,7 @@ window.navermap_authFailure = function () {
 function updateJellyAlertCount() {
     let alertKeys = Object.keys(alertObj);
     let count = alertKeys.length;
-    document.getElementById("jelly-alert-count").textContent = `예측된 해파리 출현 지역수: ${count}`;
+    document.getElementById("jelly-alert-count").textContent = `예측 출현수: ${count} 지역`;
 
     let dropdown = document.getElementById("jelly-alert-dropdown");
     dropdown.innerHTML = `<option value="" selected disabled>출현 지역 선택</option>`;
@@ -132,6 +139,9 @@ document.addEventListener("DOMContentLoaded", function(){
     const dropdown = document.getElementById("jelly-alert-dropdown");
     dropdown.addEventListener("change", function() {
         let selectedRegion = this.value;
+
+        $('#alert-location').val(selectedRegion);
+
         if (oceanInfoObj[selectedRegion]) {
             const { oceanLat, oceanLon } = oceanInfoObj[selectedRegion];
             const newCenter = new naver.maps.LatLng(oceanLat, oceanLon);
@@ -139,8 +149,6 @@ document.addEventListener("DOMContentLoaded", function(){
             map.setZoom(12); // 확대해서 보기
 
             changeJellyAlert(selectedRegion);
-        } else {
-            alert("선택한 지역의 좌표 정보가 없습니다.");
         }
     });
 });

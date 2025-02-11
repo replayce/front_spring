@@ -101,7 +101,8 @@ public class BoardController {
     @PatchMapping("/{boardId}")
     public ResponseEntity<CommonResponse<BoardResponse>> updateBoard(
             @PathVariable Long boardId,
-            @RequestBody Board boardDetails) {
+            @RequestBody BoardRequestDto boardDetails
+    ) {
         CommonResponse<BoardResponse> response = boardClient.updateBoard(boardId, boardDetails);
         return ResponseEntity.ok(response);
     }
