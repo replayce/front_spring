@@ -36,6 +36,7 @@
     max-width: 60%;
     word-wrap: break-word;
     margin-left: 10px; /* 해파리 아이콘과의 간격 */
+    rgba(255, 255, 255, 0.8);
 }
 
 /* 해파리 아이콘 */
@@ -94,4 +95,8 @@
     0% { opacity: 0.3; }
     50% { opacity: 1; }
     100% { opacity: 0.3; }
+}
+
+#chatbotContainer {
+    border: 1px solid #464D77;
 }

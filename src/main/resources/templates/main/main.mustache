@@ -11,8 +11,20 @@
     <!-- 지도 관련 JavaScript -->
     <script type="text/javascript" src="/js/map.js"></script>
 {{>layouts/header2}}
+            <!-- 기존 HTML 구조 위에 미래 예측 문구와 버튼 추가 -->
         <div class="left-contents">
-            <div id="main-map" style="width:100%;height:100%;"></div>
+            <div id="pre-buttons">
+                <button id="predict-text">미래 예측 기능 ▶</button>
+                <select id="select-pre">
+                    <option value="" disabled selected>날짜 선택</option>
+                </select>
+                <button id="realtime-button">실시간</button>
+                <button id="date-prev">-1일</button>
+                <button id="server-time">2025 - 02 - 08 서버 시간 타이머</button>
+                <button id="date-next">+1일</button>
+
+            </div>
+            <div id="main-map" style="width:100%;height:calc(100% - 40px);"></div>
             <div id="help-jelly">
                 <img src="/images/main_help.png" alt="도움말" style="width:100%;">
                 <div class="close-area"></div>
@@ -20,6 +32,12 @@
             </div>
             <div id="help-jelly-small" style="display:none;">
                 <img src="/images/main_help_close.png" alt="도움말" style="width:100%;">
+            </div>
+            <div id="jelly-alert-container">
+                <span id="jelly-alert-count">예측된 해파리 출현 지역수: 0</span>
+                <select id="jelly-alert-dropdown">
+                    <option value="" selected>출현 지역 선택</option>
+                </select>
             </div>
         </div>
         <div class="right-contents">
@@ -40,6 +58,11 @@
                     </div>
                 </div>
             </div>
+
+            <div class="model-text">
+                <button id="model-text">AI가 예측한 해파리 출현 확률입니다.</button>
+            </div>
+
             <div class="jelly-list">
                 <div class="jelly-character" data-name="노무라입깃해파리">
                     <img src="/images/jelly_icons/노무라입깃.png" alt="노무라입깃해파리">
@@ -259,4 +282,5 @@
     }
 
 </script>
+<script src="/js/main_pre.js"></script>
 {{>layouts/footer}}
