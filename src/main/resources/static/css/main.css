@@ -1,18 +1,104 @@
 /* 레이아웃을 잡는 예시 CSS 코드입니다.
    프로젝트에 맞춰 자유롭게 수정하세요. */
+#pre-buttons {
+    display: inline-block;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+#predict-text {
+    background-color: #ffffff;
+    border-radius: 10px;
+    width: 142px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+#select-pre {
+    height: 30px;
+    width: 120px;
+    background-color: #95B2B0;
+    cursor: pointer;
+    border-radius: 10px;
+    color: black;
+    font-size: 14px;
+    text-align: center;
+    border-color:#95B2B0;
+}
+
+/* 드롭다운 스타일 */
+#select-pre option {
+    background-color: white;
+    color: black;
+    font-size: 14px;
+}
 
 
+#pre-buttons button {
+    height: 30px;
+    padding-left: 10px;
+    border-width: 0px;
+    border-style: initial;
+    border-color: initial;
+    border-image: initial;
+    border-radius: 10px;
+}
 
+#date-prev {
+    width:60px;
+    background-color:#fff275;
+    cursor: pointer;
+}
 
+#date-next {
+    width:60px;
+    background-color:#fff275;
+    cursor: pointer;
+}
+
+#server-time {
+    background-color: #464D77;
+    width:240px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#realtime-button {
+    width: 80px;
+    color:white;
+    background-color: #464D77;
+    cursor: pointer;
+}
+
+.model-text {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    gap: 10px;
+    border-style: initial;
+}
+
+#model-text {
+    width: 380px;
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 10px;
+    border-color: #ffffff;
+    opacity: 0.8;
+}
+
+/* ---------------------------- */
 
 .left-contents {
     display:inline-block;
     max-width:830px;
     width:90vw;
-    height: 700px;
+    height: 710px;
     margin-left: 15px;
     margin-right:15px;
-    background-color: #95B2B0;
     border-radius: 10px;
     vertical-align: top;
     position:relative;
@@ -55,7 +141,8 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     color:white;
-
+    white-space: pre-wrap;
+    font-size:12px;
 }
 
 .jelly-character:hover {
@@ -99,7 +186,7 @@
 }
 
 .board-list {
-    height:216px;
+    height:186px;
     background-color:#95B2B0;
     border-radius:10px;
 }
@@ -215,7 +302,7 @@ div.help-high {
 #help-jelly {
     position: absolute;
     left:-150px;
-    top:20px;
+    bottom: 180px;
     width:80vw;
     max-width:500px;
     animation: floatUpDown 3s infinite ease-in-out alternate;
@@ -226,8 +313,8 @@ div.help-high {
     position:absolute;
     width:65%;
     height:74%;
-    top:0px;
-    right:0px;
+    top:0;
+    right:0;
 }
 
 .help-area {
@@ -240,11 +327,47 @@ div.help-high {
 }
 
 #help-jelly-small {
+    display: flex;
+    align-items: center; /* 세로 정렬 맞추기 */
+    gap: 8px; /* 이미지 간격 */
     position: absolute;
-    left:10px;
-    top:10px;
-    width:60%;
+    left: 10px;
+    top: 70px;
+    width: auto; /* 너비 자동 조정 */
 }
+
+#help-close-icon {
+    width: 60%; /* 기존 help_close 아이콘 크기 */
+}
+
+#rotating-ai-container {
+    position: relative;
+    width: 40px; /* 컨테이너 크기 */
+    height: 40px;
+}
+
+#static-ai-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes rotateAnimation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#rotating-ai-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation: rotateAnimation 2s linear infinite;
+}
+
 
 #help-modal {
     position:fixed;
@@ -253,6 +376,7 @@ div.help-high {
     height:100vh;
     z-index: 110;
     background-color:black;
+    text-align:right;
 }
 
 #help-modal > img {
@@ -263,6 +387,61 @@ div.help-high {
     transform: translate(-50%, -50%);
 }
 
+/* 🔹 alert_00: 둥둥 떠다니는 애니메이션 */
+@keyframes floatUpDown {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-3px); } /* 위로 3px 이동 */
+    100% { transform: translateY(0px); }
+}
+
+.floating-marker {
+    animation: floatUpDown 1.5s ease-in-out infinite; /* 1.5초 주기로 반복 */
+}
+
+/* 🔹 alert_01: 부르르 떨리는 애니메이션 */
+@keyframes shake {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-1px, 1px) rotate(-1deg); }
+    50% { transform: translate(1px, -1px) rotate(1deg); }
+    75% { transform: translate(-1px, 1px) rotate(-1deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.shaking-marker {
+    animation: shake 0.5s ease-in-out infinite; /* 0.1초마다 반복 */
+}
+
+/* ------------ 예측된 해파리 출현 지역 몇곳인지 ------------ */
+#jelly-alert-container {
+    position: absolute;
+    bottom: 30px;
+    right: 15px;
+    background: #95B2B0;
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: column;
+}
+
+#jelly-alert-dropdown {
+    height: 30px;
+    font-size: 14px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #95B2B0;
+    cursor: pointer;
+    font-weight:bold;
+}
+
+
+
 /* 화면 너비가 768px 이하일 때 적용되는 스타일 */
 @media (max-width: 768px) {
     .left-contents {
@@ -272,7 +451,6 @@ div.help-high {
         height: 90vw;
         margin-left: 15px;
         margin-right:15px;
-        background-color: #95B2B0;
         border-radius: 10px;
         vertical-align: top;
 
@@ -281,10 +459,42 @@ div.help-high {
 
     #help-jelly {
         left:0px;
+        bottom:-30px;
     }
 
     #help-jelly-small {
         width:85%;
+        top:90px;
+    }
+
+    #pre-buttons {
+        display: flex;
+    }
+
+    #pre-buttons > button, #pre-buttons > #select-pre {
+        flex:1 1 calc(30% - 10px);
+        font-size:10px;
+    }
+    #pre-buttons > #server-time {
+        flex:1 1 60%;
+        font-size:10px;
+    }
+    #pre-buttons > #date-prev, #pre-buttons > #date-next {
+        flex:1 1 14%;
+        font-size:10px;
+    }
+
+    .right-contents {
+        margin-top:40px;
+    }
+
+    div#jelly-alert-container {
+        bottom:-16px;
+        font-size: 12px;
+    }
+
+    #jelly-alert-dropdown {
+        font-size:12px;
     }
 }
 
@@ -292,3 +502,6 @@ div.help-high {
 /* ============== 드롭다운 이외의 영역 클릭 시 닫기 ============== */
 /* (JS로 처리하지만, 필요한 경우 아래와 같이 CSS를 활용한 처리를 추가 가능) */
 /* .dropdown-content.show 외부영역 클릭감지는 JS에 의존 */
+
+
+

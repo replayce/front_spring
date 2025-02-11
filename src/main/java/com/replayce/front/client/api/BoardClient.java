@@ -46,10 +46,16 @@ public interface BoardClient {
     @PostMapping(value = "/board", consumes = "application/json", produces = "application/json")
     CommonResponse<BoardResponse> createBoard(@RequestBody BoardRequestDto requestDto);
 
-    @PatchMapping("/board/{boardId}")
+//    @PatchMapping("/board/{boardId}")
+//    CommonResponse<BoardResponse> updateBoard(
+//            @PathVariable Long boardId,
+//            @RequestBody Board boardDetails
+//    );
+
+    @PatchMapping(value = "/board/{boardId}", consumes = "application/json", produces = "application/json")
     CommonResponse<BoardResponse> updateBoard(
             @PathVariable Long boardId,
-            @RequestBody Board boardDetails
+            @RequestBody BoardRequestDto boardDetails
     );
 
     @DeleteMapping("/board/{boardId}")

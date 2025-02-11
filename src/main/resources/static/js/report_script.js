@@ -1,12 +1,53 @@
 // ----------------------- 해파리 판별 & 이미지 업로드 ---------------------//
+const ai_analyzing = "AI가 분석 중 👀";
 
 document.addEventListener("DOMContentLoaded", function () {
+    // 1) "boardId" hidden input이 있으면 ⇒ 수정 모드
+    const boardIdInput = document.getElementById("boardId");
+    const isEdit = boardIdInput !== null; // 있으면 true, 없으면 false
+
+    if (isEdit) {
+        // 수정 모드면 로컬스토리지 확인
+        const boardId = boardIdInput.value;
+        const canEdit = localStorage.getItem(`board-${boardId}-editable`);
+
+        if (canEdit !== "true") {
+            // 권한 없음 → 알림 & body 숨기고 리다이렉트
+            alert("수정 권한이 없습니다.");
+            window.location.href = "/board";
+            return; // 여기서 함수 종료
+        }
+    }
+
+    // 2) 여기까지 왔다면 (isEdit=false)거나 권한이 있는 수정 모드
+    //    => 실제 화면을 보이게 한다.
+    document.body.style.display = "block";
+
+    // URL에서 boardId 추출
+    const path = window.location.pathname;
+    const pathParts = path.split("/");
+    const boardId = pathParts[pathParts.length - 1];
+
     // 🟢 "등록하기" 버튼 클릭 이벤트 등록
-    document.querySelector(".submit-btn").addEventListener("click", function (event) {
-        event.preventDefault(); // 기본 폼 제출 방지
-        console.log("🚀 등록 버튼 클릭됨!");
-        submitReport();
-    });
+    // var submit_btn = document.querySelector(".submit-btn");
+    const submitButton = document.querySelector(".submit-btn");
+    const editButton = document.querySelector(".edit-btn");
+
+    if (submitButton) {
+        submitButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            submitReport();
+        });
+    }
+    if (editButton) {
+        const boardId = document.getElementById("boardId")?.value;
+        if (boardId) {
+            editButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                submitEdit(boardId);
+            });
+        }
+    }
 
     // 🟢 사진 업로드 시 실행 (해파리 판별 API 호출)
     document.getElementById("jellyfish-photo").addEventListener("change", function(event) {
@@ -26,6 +67,15 @@ document.addEventListener("DOMContentLoaded", function () {
     $('#help-modal').on('click', function() {
         $('#help-modal').hide();
     });
+
+    const currentDate = new Date();
+    currentDate.setMinutes(currentDate.getMinutes() - 5);
+    const minutes = Math.floor(currentDate.getMinutes() / 5) * 5;
+    currentDate.setMinutes(minutes);
+    const formattedDate = currentDate.toISOString().split('T')[0];
+    $('#date-input').val(formattedDate);
+    $('#hour-input').val(currentDate.getHours());
+    $('#minute-input').val(currentDate.getMinutes());
 });
 
 // 🟢 (1) 이미지 미리보기 함수
@@ -45,6 +95,7 @@ async function uploadImageToServer(file) {
     formData.append("file", file);
 
     try {
+        document.getElementById("jellyfish-type").value = ai_analyzing;
         const response = await fetch("/upload", {
             method: "POST",
             body: formData
@@ -68,10 +119,20 @@ async function uploadImageToServer(file) {
 }
 
 // 🟢 (3) Python 서버에 이미지 판별 요청
+async function getApiHost() {
+    const response = await fetch("/api/config/python-api-host");
+    return response.text();
+}
+
 async function fetchJellyfishTypeFromAPI(imageUrl) {
     try {
-        const response = await fetch(`http://localhost:8082/image/predict?imageUrl=${encodeURIComponent(imageUrl)}`, {
-            method: "GET"
+        const requestUrl = `/api/proxy/image/predict?imageUrl=${imageUrl}`;
+
+        const response = await fetch(requestUrl, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
         });
 
         if (!response.ok) {
@@ -79,12 +140,13 @@ async function fetchJellyfishTypeFromAPI(imageUrl) {
         }
 
         const data = await response.json();
-        document.getElementById("jellyfish-type").value = data.result.jellyfish || "해파리 판별 실패 😢";
+        document.getElementById("jellyfish-type").value = data.result?.jellyfish || "해파리 판별 실패 😢";
     } catch (error) {
         console.error("❌ 해파리 판별 오류:", error);
         document.getElementById("jellyfish-type").value = "해파리 판별 실패 😢";
     }
 }
+
 
 // 미래 시간 선택 불가능
 function validateDateTime() {
@@ -142,7 +204,17 @@ function validateForm() {
         return false;
     }
 
+    const agreePersonal = document.getElementById("agree-personal").checked;
+    const agreeCopyright = document.getElementById("agree-copyright").checked;
+
+    if (!agreePersonal || !agreeCopyright) {
+        alert("📢 개인정보 수집 및 이용, AI 학습을 포함한 저작권 이양 동의에 모두 체크해야 제보할 수 있습니다.");
+        event.preventDefault(); // 제출 막기
+        return false;
+    }
+
     return true;
+
 }
 
 // 🟢 (4) 등록하기 요청
@@ -155,6 +227,10 @@ async function submitReport() {
         return; // ❌ 미래 날짜/시간/분이 입력되었으면 등록 중단
     }
 
+    if ( $('#jellyfish-type').val() == ai_analyzing) {
+        alert("AI가 현재 이미지를 분석 중입니다. 분석이 완료된 후 등록하기를 눌러주세요.");
+        return;
+    }
     let jellyType = document.getElementById("jellyfish-type").value.trim();
     let toxicity = "";
 
@@ -174,15 +250,14 @@ async function submitReport() {
         hour: parseInt(document.getElementById("hour-input").value, 10),
         minute: parseInt(document.getElementById("minute-input").value, 10),
         location: document.getElementById("location-dropdown").value,
-        // jelly: document.getElementById("jellyfish-type").value,
         jelly: jellyType,
         toxicity: toxicity,
         description: document.querySelector(".description").value.trim() || "", // 선택 입력 가능
     };
 
     try {
-        const response = await fetch("/board", {
-            method: "POST",
+        const response = await fetch(`/board`, {
+            method: 'POST',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -197,9 +272,94 @@ async function submitReport() {
         window.location.href = "/board";
     } catch (error) {
         console.error("❌ 등록 오류:", error);
-        alert("등록에 실패했습니다.");
+        alert(`등록에 실패했습니다.\n오류: ${error.message}`);
     }
 }
+
+// 🟢 (5) 수정하기 요청
+async function submitEdit(boardId) {
+    if (!validateForm()) {
+        return; // ❌ 유효성 검사 실패 시 등록 중단
+    }
+
+    if (!validateDateTime()) {
+        return; // ❌ 미래 날짜/시간/분이 입력되었으면 등록 중단
+    }
+
+    if ( $('#jellyfish-type').val() == ai_analyzing) {
+        alert("AI가 현재 이미지를 분석 중입니다. 분석이 완료된 후 등록하기를 눌러주세요.");
+        return;
+    }
+
+    let jellyType = document.getElementById("jellyfish-type").value.trim();
+    let toxicity = "";
+
+    if (jellyType === "노무라입깃해파리") {
+        toxicity = "강독성";
+    } else if (jellyType === "보름달물해파리") {
+        toxicity = "약독성";
+    }
+
+    // PATCH 요청에 보낼 DTO
+    let reportData = {
+        content: null, // or ""
+        writer: getElementValue("reporter-name"),
+        writerNumber: getElementValue("phone-number"),
+        writerPassword: getElementValue("password"),
+        imageUrl: getElementValue("jellyfish-image-url"),
+        date: getElementValue("date-input"),
+        hour: getElementValue("hour-input", true),
+        minute: getElementValue("minute-input", true),
+        location: getElementValue("location-dropdown"),
+        jelly: jellyType,
+        toxicity: toxicity,
+        description: document.querySelector(".description").value.trim() || "", // 선택 입력 가능
+    };
+
+    try {
+        const response = await fetch(`/board/${boardId}`, {
+            method: 'PATCH',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(reportData),
+        });
+
+        if (!response.ok) throw new Error(`수정 실패: ${response.status} ${response.statusText}`);
+
+        alert("수정 성공!");
+        // 권한 제거
+        localStorage.removeItem(`board-${boardId}-editable`);
+        window.location.href = "/board";
+    } catch (error) {
+        console.error("❌ 수정 오류:", error);
+        alert(`수정에 실패했습니다.\n오류: ${error.message}`);
+    }
+}
+
+async function fetchBoard(boardId) {
+    try {
+        const response = await fetch(`/board/${boardId}`);
+        if (!response.ok) throw new Error(`데이터 불러오기 실패: ${response.status}`);
+
+        const data = await response.json();
+        console.log("✅ 기존 데이터 불러옴:", data);
+        return data.result;  // 기존 데이터 반환
+    } catch (error) {
+        console.error("❌ 기존 데이터 불러오기 실패:", error);
+        return null;
+    }
+}
+
+
+// ✅ `null` 체크 및 기본값 반환 함수
+function getElementValue(id, isNumber = false) {
+    const element = document.getElementById(id);
+    if (!element) {
+        console.warn(`⚠️ ID "${id}" 요소를 찾을 수 없음.`);
+        return isNumber ? 0 : ""; // 기본값 반환 (숫자는 0, 문자열은 "")
+    }
+    return isNumber ? parseInt(element.value, 10) || 0 : element.value;
+}
+
 
 // ------------------ 해파리 판별 & 이미지 업로드 -------------------- //
 
@@ -361,3 +521,83 @@ function goBack() {
 
 // 버튼 클릭 시 실행
 document.getElementById("auto-generate-btn").addEventListener("click", generateJellyfishNameWithOpenAI);
+
+
+// 개인정보 동의
+function toggleAllAgreements() {
+    const allAgreeCheckbox = document.getElementById("agree-all");
+    const personalCheckbox = document.getElementById("agree-personal");
+    const copyrightCheckbox = document.getElementById("agree-copyright");
+
+    const isChecked = allAgreeCheckbox.checked;
+
+    personalCheckbox.checked = isChecked;
+    copyrightCheckbox.checked = isChecked;
+}
+
+
+// 📌 URL에서 boardId 추출하는 함수
+function getBoardIdFromUrl() {
+    const pathParts = window.location.pathname.split("/");
+    if (pathParts.length < 3 || isNaN(pathParts[pathParts.length - 1])) {
+        return null; // ✅ URL이 `/report`일 경우 `null` 반환
+    }
+    return pathParts[pathParts.length - 1]; // ✅ `/report/{boardId}`일 때만 boardId 반환
+}
+
+async function loadBoardData() {
+    const boardId = getBoardIdFromUrl();
+    if (!boardId) return; // ✅ boardId가 `null`이면 실행 안 함 (제보 페이지 예외처리)
+
+    try {
+        console.log("🔵 요청하는 boardId:", boardId);
+
+        const response = await fetch(`/board/${boardId}`);
+        if (!response.ok) throw new Error(`데이터 불러오기 실패: ${response.status}`);
+
+        const data = await response.json();
+        console.log("✅ 불러온 데이터:", data);
+
+        if (!data.result) throw new Error("❌ `result` 데이터가 존재하지 않습니다.");
+
+        const board = data.result;
+
+        setElementValue("reporter-name", board.writer);
+        setElementValue("phone-number", board.writerNumber);
+        setElementValue("password", board.writerPassword);
+        setElementValue("date-input", board.date || new Date().toISOString().split('T')[0]);
+        setElementValue("hour-input", board.hour, true);
+        setElementValue("minute-input", board.minute, true);
+        setElementValue("location-dropdown", board.location);
+        setElementValue("jellyfish-type", board.jelly);
+        setElementValue("toxicity", board.toxicity);
+        setElementValue("description", board.description);
+
+        if (board.imageUrl && document.getElementById("preview-image")) {
+            document.getElementById("preview-image").src = board.imageUrl;
+            document.getElementById("preview-image").style.display = "block";
+        }
+    } catch (error) {
+        console.error("❌ 데이터 로드 실패:", error);
+        alert("데이터를 불러오지 못했습니다.");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadBoardData);
+
+// ✅ 페이지 로딩 시 자동으로 호출 (boardId를 서버에서 넘겨받음)
+document.addEventListener("DOMContentLoaded", function () {
+    const boardId = document.getElementById("boardId")?.value;
+    if (boardId) {
+        loadBoardData(boardId);
+    }
+});
+
+function setElementValue(id, value, isNumber = false) {
+    const element = document.getElementById(id);
+    if (!element) {
+        console.warn(`⚠️ ID "${id}" 요소를 찾을 수 없음.`);
+        return;
+    }
+    element.value = isNumber ? (value !== undefined ? value : 0) : (value || "");
+}

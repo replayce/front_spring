@@ -45,6 +45,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                 return false;
             }
             // 인증된 사용자는 요청을 계속 진행
+            request.setAttribute("username", session.getAttribute("username"));
             logger.info("AuthInterceptor: Authenticated user accessing admin page.");
             return true;
         }

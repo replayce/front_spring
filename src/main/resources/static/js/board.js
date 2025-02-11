@@ -44,6 +44,7 @@ function setupJellyFilters() {
     if (filterButton) {
         filterButton.addEventListener("click", function () {
             console.log("🔍 필터 적용 버튼 클릭됨!");
+            currentPage = 1;
             applyJellyFilter();
         });
     }
@@ -134,14 +135,12 @@ function applyJellyFilter(page = 1, size = pageSize) {
             return response.json();
         })
         .then(data => {
-            if (data.result && data.result.length > 0) {
-                updateBoardList(data.result);
+            if (data.result && data.result.content.length > 0) {
+                updateBoardList(data.result.content);
+                totalPages = data.result.totalPages;  // ✅ totalPages 업데이트
+                renderPagination(totalPages);  // ✅ 페이지네이션 업데이트
 
-                // 🔥 totalPages 값이 정상적으로 업데이트되는지 확인
-                console.log("📌 필터링된 totalPages 값:", data.totalPages);
-
-                totalPages = data.totalPages || 1;  // ✅ 필터링된 데이터가 있을 때만 업데이트
-                renderPagination(totalPages); // ✅ 필터링된 페이지네이션 적용
+                resetMyContent();
             } else {
                 alert("필터에 해당하는 게시글이 없습니다.");
                 totalPages = 1; // ✅ 필터 결과가 없으면 1페이지로 고정
@@ -180,7 +179,10 @@ function setupResetButton() {
                 searchInput.value = "";
             }
 
+            resetMyContent();
+
             // 4. 전체 게시글을 다시 불러오기
+            currentPage = 1;
             getAllBoards(1, pageSize);
         });
     }
@@ -238,8 +240,12 @@ function searchBoards(page = currentPage, size = pageSize) {
             return response.json();
         })
         .then(data => {
-            if (data.result && data.result.length > 0) {
-                updateBoardList(data.result);
+            if (data.result && data.result.content.length > 0) {
+                updateBoardList(data.result.content);
+                totalPages = data.result.totalPages;  // ✅ totalPages 업데이트
+                renderPagination(totalPages);  // ✅ 페이지네이션 업데이트
+
+                resetMyContent();
             } else {
                 if (page > 1) {
                     alert("마지막 페이지입니다.");
@@ -257,14 +263,24 @@ function searchBoards(page = currentPage, size = pageSize) {
 }
 
 // 내 글 검색 기능
-function searchMyBoards(page = currentPage, size = pageSize) {
-    currentPage = 1;  // 내 글 검색 시 반드시 1페이지부터
-    const writerNumber = document.getElementById('writerNumber').value;
-    const writerPassword = document.getElementById('writerPassword').value;
-    if (!writerNumber || !writerPassword) {
-        alert("핸드폰 번호와 비밀번호를 모두 입력해야 합니다.");
-        return;
+function searchMyBoards(page = currentPage, size = pageSize, pagenation = false) {
+    var writerNumber = '';
+    var writerPassword = '';
+
+    if (pagenation) {
+        writerNumber = $('input[data-name="my_number"]').val();
+        writerPassword = $('input[data-name="my_password"]').val();
     }
+    else {
+        currentPage = 1;
+        writerNumber = document.getElementById('writerNumber').value;
+        writerPassword = document.getElementById('writerPassword').value;
+        if (!writerNumber || !writerPassword) {
+            alert("핸드폰 번호와 비밀번호를 모두 입력해야 합니다.");
+            return;
+        }
+    }
+
     currentSearchQuery = ""; // 내 글 검색은 별도 모드
     const url = `${backend_url}/api/board/search?writerNumber=${encodeURIComponent(writerNumber)}&writerPassword=${encodeURIComponent(writerPassword)}&page=${currentPage}&size=${size}`;
     fetch(url)
@@ -274,9 +290,18 @@ function searchMyBoards(page = currentPage, size = pageSize) {
             return data;
         })
         .then(data => {
-            if (data.result && data.result.length > 0) {
-                updateBoardList(data.result);
-                closePopup();
+            if (data.result && data.result.content.length > 0) {
+                // 정상으로 받아왔으니, 히든 태그에 저장
+                $('input[data-name="my_number"]').val(writerNumber);
+                $('input[data-name="my_password"]').val(writerPassword);
+                $('.my-content').text("전체보기");
+
+                updateBoardList(data.result.content);
+                totalPages = data.result.totalPages;  // ✅ totalPages 업데이트
+                renderPagination(totalPages);  // ✅ 페이지네이션 업데이트
+                if (!pagenation) {
+                    closePopup();
+                }
             } else {
                 alert("해당하는 제보 내역이 없습니다.");
             }
@@ -367,7 +392,11 @@ function changePage(page) {
     const selectedJellies = document.querySelectorAll(".selected-jelly").length > 0;
     const selectedLocation = document.getElementById("alert-location").value.trim() !== "";
 
-    if (currentSearchQuery !== "") {
+    const my_board_search = $('input[data-name="my_number"]').val();
+    if (my_board_search !== "") {
+        searchMyBoards(currentPage, pageSize, true);
+    }
+    else if (currentSearchQuery !== "") {
         searchBoards(currentPage, pageSize);
     } else if (selectedJellies || selectedLocation) {
         console.log("✅ 필터 유지하며 페이지 변경");
@@ -388,9 +417,21 @@ function updatePageData() {
     }
 }
 
+function resetMyContent() {
+    $('button.my-content').text('내 글 보기');
+    $('input[data-name="my_number"]').val('');
+    $('input[data-name="my_password"]').val('');
+}
+
 
 // 검색 팝업 관련 (동일)
 function openSearchPopup() {
+    if ($('button.my-content').text() == '전체보기') {
+        resetMyContent();
+        changePage(1);
+        return;
+    }
+
     const popupContent = `
         <div id="search-popup">
             <h2>제보 내역 검색</h2>
@@ -462,7 +503,7 @@ function updateBoardList(boards) {
                 <div class="board-row ${rowClass}">
                     <span class="no">${board.boardId}</span>
                     <span class="icon">
-                        <img src="${iconPath}" alt="해파리 아이콘">
+                        <img src="${iconPath}" alt="해파리 아이콘" onerror="this.onerror=null; this.src='/images/jelly_icons_noname/외계생물체.png';">
                     </span>
                     <span class="loc">${board.location}</span> <!-- location 표시 -->
                     <span class="jelly-name">${board.jelly}</span>

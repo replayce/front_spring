@@ -11,15 +11,37 @@
     <!-- 지도 관련 JavaScript -->
     <script type="text/javascript" src="/js/map.js"></script>
 {{>layouts/header2}}
+            <!-- 기존 HTML 구조 위에 미래 예측 문구와 버튼 추가 -->
         <div class="left-contents">
-            <div id="main-map" style="width:100%;height:100%;"></div>
+            <div id="pre-buttons">
+                <button id="predict-text">미래 예측 기능 ▶</button>
+                <select id="select-pre">
+                    <option value="" disabled selected>날짜 선택</option>
+                </select>
+                <button id="realtime-button">실시간</button>
+                <button id="date-prev">-1일</button>
+                <button id="server-time">2025 - 02 - 08 서버 시간 타이머</button>
+                <button id="date-next">+1일</button>
+
+            </div>
+            <div id="main-map" style="width:100%;height:calc(100% - 40px);"></div>
             <div id="help-jelly">
                 <img src="/images/main_help.png" alt="도움말" style="width:100%;">
                 <div class="close-area"></div>
                 <div class="help-area"></div>
             </div>
             <div id="help-jelly-small" style="display:none;">
-                <img src="/images/main_help_close.png" alt="도움말" style="width:100%;">
+                <img id="help-close-icon" src="/images/main_help_close.png" alt="도움말">
+                <div id="rotating-ai-container">
+                    <img id="static-ai-icon" src="/images/Ai_회전01.png" alt="AI 고정">
+                    <img id="rotating-ai-icon" src="/images/Ai_회전02.png" alt="AI 회전">
+                </div>
+            </div>
+            <div id="jelly-alert-container">
+                <span id="jelly-alert-count">예측된 해파리 출현 지역수: 0</span>
+                <select id="jelly-alert-dropdown">
+                    <option value="" selected>출현 지역 선택</option>
+                </select>
             </div>
         </div>
         <div class="right-contents">
@@ -40,6 +62,11 @@
                     </div>
                 </div>
             </div>
+
+            <div class="model-text">
+                <button id="model-text">AI가 예측한 해파리 출현 확률입니다.</button>
+            </div>
+
             <div class="jelly-list">
                 <div class="jelly-character" data-name="노무라입깃해파리">
                     <img src="/images/jelly_icons/노무라입깃.png" alt="노무라입깃해파리">
@@ -118,6 +145,7 @@
         </div>
 
         <div id="help-modal" style="display:none;">
+            <span style="color:white;font-size: 30px;margin: 20px;line-height: 60px;font-weight: bold;">X</span>
             <img src="/images/info_images/info_main.png" alt="메인 도움말">
         </div>
 
@@ -139,6 +167,15 @@
         alertObj[item.beachId].push({...item});
     });
 
+    var futureList = {{{alertFutureJson}}};
+    var futureObj = {};
+    futureList.forEach(item=> {
+        if (!futureObj[item.time]) {
+            futureObj[item.time] = {};
+            futureObj[item.time][item.beachId] = [];
+        }
+        futureObj[item.time][item.beachId].push({...item});
+    });
 
     //  .jelly-character에 클릭 이벤트 -> 도감 연결
     document.querySelectorAll('.jelly-character').forEach(item => {
@@ -181,6 +218,20 @@
             }
             else if(jelly_name == '보름달물해파리') {
                 $(this).find('td > img').attr('src', '/images/jelly_icons_noname/보름달물_noname.png').attr('alt', '보름달물해파리');
+            } else if(jelly_name == '커튼원양해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/커튼원양_noname.png').attr('alt', '커튼원양해파리');
+            } else if(jelly_name == '유령해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/유령_noname.png').attr('alt', '유령해파리');
+            } else if(jelly_name == '작은상자해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/작은상자_noname.png').attr('alt', '작은상자해파리');
+            } else if(jelly_name == '두빛보름달해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/두빛보름달_noname.png').attr('alt', '두빛보름달해파리');
+            } else if(jelly_name == '기수식용해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/기수식용_noname.png').attr('alt', '기수식용해파리');
+            } else if(jelly_name == '야광원양해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/야광원양_noname.png').attr('alt', '야광원양해파리');
+            } else if(jelly_name == '푸른우산관해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/푸른우산관_noname.png').attr('alt', '푸른우산관해파리');
             }
             else {
                 $(this).find('td > img').attr('src', '/images/jelly_icons_noname/외계생물체.png').attr('alt', '미확인해파리');
@@ -202,25 +253,38 @@
             },
             success: function(response) {
                 var now_board_id = $('div.board-recent > table.board-table tr > input[name="boardId"]').val();
-                if (response['result'][0]['boardId'] == parseInt(now_board_id)) {
+                if (response['result']['content'][0]['boardId'] == parseInt(now_board_id)) {
                     return;
                 }
 
                 var img_tag = `<img src="/images/jelly_icons_noname/외계생물체.png" alt="미확인해파리">`;
-                var jelly_name = response['result'][0]['jelly'];
+                var jelly_name = response['result']['content'][0]['jelly'];
                 if ( jelly_name == '노무라입깃해파리' ) {
                     img_tag = `<img src="/images/jelly_icons_noname/노무라입깃_noname.png" alt="노무라입깃해파리">`;
-                }
-                else if(jelly_name == '보름달물해파리') {
+                } else if(jelly_name == '보름달물해파리') {
                     img_tag = `<img src="/images/jelly_icons_noname/보름달물_noname.png" alt="보름달물해파리">`;
+                } else if(jelly_name == '커튼원양해파리') {
+                    img_tag = `<img src="/images/jelly_icons_noname/커튼원양_noname.png" alt="커튼원양해파리">`;
+                } else if(jelly_name == '유령해파리') {
+                    img_tag = `<img src="/images/jelly_icons_noname/유령_noname.png" alt="유령해파리">`;
+                } else if(jelly_name == '작은상자해파리') {
+                    img_tag = `<img src="/images/jelly_icons_noname/작은상자_noname.png" alt="작은상자해파리">`;
+                } else if(jelly_name == '두빛보름달해파리') {
+                    img_tag = `<img src="/images/jelly_icons_noname/두빛보름달_noname.png" alt="두빛보름달해파리">`;
+                } else if(jelly_name == '기수식용해파리') {
+                    img_tag = `<img src="/images/jelly_icons_noname/기수식용_noname.png" alt="기수식용해파리">`;
+                } else if(jelly_name == '야광원양해파리') {
+                    img_tag = `<img src="/images/jelly_icons_noname/야광원양_noname.png" alt="야광원양해파리">`;
+                } else if(jelly_name == '푸른우산관해파리') {
+                    img_tag = `<img src="/images/jelly_icons_noname/푸른우산관_noname.png" alt="푸른우산관해파리">`;
                 }
 
-                var time_str = timeAgo(response['result'][0]['createDate']);
+                var time_str = timeAgo(response['result']['content'][0]['createDate']);
 
                 // image-class 초기화
                 $('div.board-recent > table.board-table tr').removeClass('rolling-in');
 
-                var newRow = `<tr class="rolling-in" onClick="clickRecentBoard()"><input type="hidden" name="boardId" value="${response['result'][0]['boardId']}"><td>${img_tag}</td><td>${response['result'][0]['location']}</td><td>${response['result'][0]['jelly']}</td><td>${time_str}</td></tr>`;
+                var newRow = `<tr class="rolling-in" onClick="clickRecentBoard()"><input type="hidden" name="boardId" value="${response['result']['content'][0]['boardId']}"><td>${img_tag}</td><td>${response['result']['content'][0]['location']}</td><td>${response['result']['content'][0]['jelly']}</td><td>${time_str}</td></tr>`;
                 $('div.board-recent > table.board-table tr').addClass('rolling-out').one('animationend', function() {
                     $(this).replaceWith(newRow);
                 });
@@ -258,5 +322,5 @@
     }
 
 </script>
-
+<script src="/js/main_pre.js"></script>
 {{>layouts/footer}}

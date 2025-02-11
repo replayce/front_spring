@@ -49,6 +49,14 @@ public class MainController {
         List<BoardStatisticsDto> boardList = mainService.getRecentBoard();
         model.addAttribute("boardList", boardList);
 
+        List<AlertFutureResponse> alertFutureList = mainService.getAlertFuture();
+        try {
+            String json = new ObjectMapper().writeValueAsString(alertFutureList);
+            model.addAttribute("alertFutureJson", json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
         model.addAttribute("backend_addr", env.getProperty("java-client.api.host"));
 
         return "main/main";
@@ -95,6 +103,14 @@ public class MainController {
         }
 
         model.addAttribute("is_edit", false);
+
+        String pythonApiHost = env.getProperty("python-client.api.host");
+
+        if (pythonApiHost == null || pythonApiHost.isEmpty()) {
+            System.out.println("❌ pythonApiHost 값이 없습니다! application.yaml을 확인하세요.");
+        }
+
+        model.addAttribute("pythonApiHost", pythonApiHost);
         return "main/report";
     }
 
@@ -122,6 +138,15 @@ public class MainController {
         BoardResponse board = response.getResult();
         model.addAttribute("board", board);
         model.addAttribute("is_edit", true);
+
+        String pythonApiHost = env.getProperty("python-client.api.host");
+
+        if (pythonApiHost == null || pythonApiHost.isEmpty()) {
+            System.out.println("❌ pythonApiHost 값이 없습니다! application.yaml을 확인하세요.");
+        }
+
+        model.addAttribute("pythonApiHost", pythonApiHost);
+
         return "main/report";
     }
 

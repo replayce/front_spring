@@ -34,6 +34,7 @@
     height:100vh;
     z-index: 110;
     background-color:black;
+    text-align:right;
 }
 
 #help-modal > img {
@@ -55,6 +56,15 @@
 }
 
 .submit-btn {
+    background-color: #FFF275;
+    color: black;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.edit-btn {
     background-color: #FFF275;
     color: black;
     border: none;
@@ -214,9 +224,9 @@
 
 /* 사진 미리보기 */
 #preview-image {
+    display: none; /* 기본적으로 숨김 */
     max-width: 100%;
-    max-height: 140px; /* 크기 조절 */
-    display: none; /* 초기에는 숨김 */
+    max-height: 140px;
 }
 
 /* 목격 시점 입력창 (날짜, 시간, 분을 한 줄로 정렬) */
@@ -376,4 +386,24 @@ textarea {
         right:0px;
         top:-26px;
     }
+}
+
+.scroll-box {
+    max-height: 80px; /* 동의 내용 박스 크기 제한 */
+    overflow-y: auto; /* 세로 스크롤 추가 */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f9f9f9;
+    scrollbar-width: thin;
+}
+
+.form-group-agree {
+    text-align: start;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.form-group-agree h3 {
+    margin-top: 0;
 }

@@ -10,8 +10,13 @@
     <div class="header-container">
         <a href="javascript:window.history.back(); "><button class="btn back-btn">뒤로가기</button></a>
         <div class="header-actions">
-            <button class="btn delete-btn" onclick="openVeriPopup('del',{{board.boardId}},{{board.writerNumber}},{{board.writerPassword}})">삭제</button>
-            <a href="/report/{{board.boardId}}"><button class="btn edit-btn">수정하기</button></a>
+            <button class="btn delete-btn"
+                    onclick="openVeriPopup('del', {{board.boardId}}, '{{board.writerNumber}}', '{{board.writerPassword}}')">
+                삭제
+            </button>
+            <button class="btn edit-btn" onclick="openVeriPopup('edit', {{board.boardId}}, '{{board.writerNumber}}', '{{board.writerPassword}}')">
+                수정하기
+            </button>
         </div>
     </div>
 

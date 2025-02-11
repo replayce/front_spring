@@ -1,15 +1,32 @@
 {{>layouts/header}}
 <title>해파리 제보하기</title>
 <link rel="stylesheet" href="/css/styles_report.css">
-
+<style>
+    /* 처음에는 페이지 전체를 숨김 */
+    body {
+        display: none;
+        background-color: #fff; /* 권한 없을 때 보이게 할 흰 배경 */
+    }
+</style>
 {{>layouts/header2}}
+{{#is_edit}}
+    <input type="hidden" id="boardId" value={{board.boardId}}>
+{{/is_edit}}
+
 <div class="center-container">
     <!-- 상단 버튼 및 제목 -->
     <div class="header-container">
         <!-- 기존 뒤로가기 버튼 -->
         <button class="btn back-btn" onclick="goBack()">뒤로가기</button>
-        <h2 class="title">해파리 제보하기</h2>
-        <button class="btn submit-btn">등록하기</button>
+        {{^is_edit}}
+            <h2 class="title">해파리 제보하기</h2>
+            <button class="btn submit-btn">등록하기</button>
+        {{/is_edit}}
+        {{#is_edit}}
+            <h2 class="title">게시글 수정하기</h2>
+            <button class="btn edit-btn">수정하기</button>
+        {{/is_edit}}
+
         <div id="icon-help">
             <span style="">?</span>
         </div>
@@ -115,32 +132,78 @@
                     </div>
                     <!-- 숨겨진 이미지 URL 저장 필드 -->
                     <input type="hidden" id="jellyfish-image-url" name="imageUrl">
+                    <!-- 숨겨진 toxicity 입력 필드 추가 -->
+                    <input type="hidden" id="toxicity" name="toxicity" value="">
+
                 </div>
 
                 <!-- 오른쪽 세로형 사진 업로드 박스 -->
                 <div class="photo-upload" onclick="document.getElementById('jellyfish-photo').click();">
                     <input type="file" id="jellyfish-photo" class="file-input" accept="image/*">
-                    <span class="upload-text">사진 등록</span>
-                    <img id="preview-image" {{#is_edit}}src="{{board.imageUrl}}"{{/is_edit}} alt="사진 미리보기">
+                    <span class="upload-text" {{#is_edit}}style="display: none" {{/is_edit}}>사진 등록</span>
+                    <img id="preview-image" {{#is_edit}}src="{{board.imageUrl}}" style="display: block" {{/is_edit}} alt="사진 미리보기">
                 </div>
             </div>
 
             <!-- 상세 설명 -->
             <div class="form-group-des">
                 <label class="form-label-des">상세 설명</label>
-                <textarea class="description" rows="3" placeholder="목격한 위치와 시간을 작성해 주세요.">{{#is_edit}}{{board.description}}{{/is_edit}}</textarea>
+                <textarea class="description" id="description" rows="3" placeholder="목격한 위치와 시간을 작성해 주세요.">{{#is_edit}}{{board.description}}{{/is_edit}}</textarea>
+            </div>
+
+            <!-- 개인정보 및 저작권 동의 (스크롤 박스) -->
+            <div class="form-group-agree scroll-box">
+                <h3>📌 개인정보 수집 및 이용 동의</h3>
+                <p>본 서비스는 해파리 제보를 위해 다음과 같은 개인정보를 수집합니다.</p>
+                <ul>
+                    <li><strong>수집 항목:</strong> 제보자 이름, 핸드폰 번호, 비밀번호</li>
+                    <li><strong>이용 목적:</strong> 해파리 목격 정보 저장 및 서비스 운영</li>
+                    <li><strong>보유 기간:</strong> 삭제 요청 시 즉시 파기</li>
+                    <li><strong>동의를 거부할 수 있으며, 거부 시 제보가 제한됩니다.</strong></li>
+                </ul>
+                <label><input type="checkbox" id="agree-personal" required> 개인정보 수집 및 이용에 동의합니다.</label>
+            </div>
+
+            <div class="form-group-agree scroll-box">
+                <h3>📌 저작권 이양 및 AI 학습 동의</h3>
+                <p>해파리 판별 AI 모델 학습을 위해 사용자의 제보 사진 및 내용을 활용할 수 있습니다.</p>
+                <ul>
+                    <li><strong>활용 목적:</strong> AI 해파리 판별 모델 학습 및 서비스 개선</li>
+                    <li><strong>보유 기간:</strong> 사용자가 삭제 요청할 때까지 보유</li>
+                    <li><strong>사용자가 제보 삭제 요청 시,</strong> 개인정보(이름, 연락처, 비밀번호)는 즉시 파기됩니다.</li>
+                    <li><strong>그러나 AI 모델 학습을 위해 업로드된 해파리 사진은 삭제되지 않습니다.</strong></li>
+                </ul>
+                <label><input type="checkbox" id="agree-copyright" required> AI 학습을 포함한 저작권 이양에 동의합니다.</label>
+            </div>
+
+            <!-- 모두 동의 -->
+            <div class="form-group-agree">
+                <label><input type="checkbox" id="agree-all" onclick="toggleAllAgreements()"> 모두 동의합니다.</label>
             </div>
         </form>
     </div>
 </div>
 
 <div id="help-modal" style="display:none;">
+    <span style="color:white;font-size: 30px;margin: 20px;line-height: 60px;font-weight: bold;">X</span>
     <img src="/images/info_images/info_report.png" alt="제보하기 도움말">
 </div>
 
 <script src="/js/report_script.js"></script>
+<script>
+    // 🔵 페이지에서 벗어날 때 로컬 스토리지 삭제
+    window.addEventListener("beforeunload", function() {
+        const boardIdInput = document.getElementById("boardId");
+        if (boardIdInput) {
+            const boardId = boardIdInput.value;
+            localStorage.removeItem(`board-${boardId}-editable`);
+        }
+    });
+</script>
 
 <script>
     var oceanInfoList = {{{oceanInfoJson}}};
+    var API_HOST = "{{pythonApiHost}}";
 </script>
+
 {{>layouts/footer}}

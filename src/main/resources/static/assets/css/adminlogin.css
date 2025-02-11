@@ -170,3 +170,8 @@
     margin-bottom: 5px; }
 .al-card .card-footer .legend, .card-light .card-footer .legend {
     display: inline-block; }
+
+.error-msg {
+    text-align: center;
+    color: red;
+}
