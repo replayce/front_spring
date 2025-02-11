@@ -203,6 +203,7 @@ public class AdminController {
         return "admin/admin_account";
     }
 
+    /*
     // 계정 정보 수정 POST 요청 처리 (예시)
     @PostMapping("/admin/admin_account")
     public String updateAccount(@RequestParam String username,
@@ -230,5 +231,6 @@ public class AdminController {
 
         return "admin/admin_account";
     }
+    */
 
 }
