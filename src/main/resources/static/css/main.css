@@ -326,11 +326,47 @@ div.help-high {
 }
 
 #help-jelly-small {
+    display: flex;
+    align-items: center; /* 세로 정렬 맞추기 */
+    gap: 8px; /* 이미지 간격 */
     position: absolute;
-    left:10px;
-    top:70px;
-    width:60%;
+    left: 10px;
+    top: 70px;
+    width: auto; /* 너비 자동 조정 */
 }
+
+#help-close-icon {
+    width: 60%; /* 기존 help_close 아이콘 크기 */
+}
+
+#rotating-ai-container {
+    position: relative;
+    width: 40px; /* 컨테이너 크기 */
+    height: 40px;
+}
+
+#static-ai-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes rotateAnimation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#rotating-ai-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation: rotateAnimation 2s linear infinite;
+}
+
 
 #help-modal {
     position:fixed;
@@ -430,4 +466,6 @@ div.help-high {
     background-color: white;
     cursor: pointer;
 }
+
+
 
