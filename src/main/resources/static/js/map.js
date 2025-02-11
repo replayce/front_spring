@@ -1,5 +1,19 @@
 let map = null;
 let markers = [];
+let markersObj = {};
+
+function changePredictDate(date) {
+    for (const key in markersObj) {
+        markersObj[key].forEach(item => {
+            item.setMap(null);
+        });
+    }
+
+    // all reset 이후 진행해야 될 듯
+    markersObj[date].forEach(item => {
+        item.setMap(map);
+    });
+}
 
 function changeJellyAlert(beach_id) {
     // 알람 초기화
@@ -7,11 +21,23 @@ function changeJellyAlert(beach_id) {
     $("div.jelly-list > div.jelly-character > div.jelly-rate").hide();
     $("div.jelly-list > div.jelly-character > div.jelly-density").removeClass("jelly-density-high").removeClass("jelly-density-low");
 
+    var selectedDateFormat = selectedDate.toISOString().split("T")[0];
+    var selectObj = null;
+    if (isToday(selectedDate)) {
+        selectObj = alertObj[beach_id];
+    }
+    else {
+        selectObj = futureObj[selectedDateFormat];
+        if (selectObj) {
+            selectObj = selectObj[beach_id];
+        }
+    }
+
     // 알람이 아니면 끝
-    if (!alertObj[beach_id]) return;
+    if (!selectObj) return;
 
     // 알람 셋팅
-    alertObj[beach_id].forEach(item => {
+    selectObj.forEach(item => {
         var jellyDiv = $(`div.jelly-list > div.jelly-character[data-name="${item["jelly"]}"]`);
         jellyDiv.addClass("jelly-alert");
         jellyDiv.find("div.jelly-rate").text(`예측 출현율\n${parseInt(item["percentLoc"])}%`).show();
@@ -23,14 +49,14 @@ function changeJellyAlert(beach_id) {
     });
 }
 
-function addMarker(lat, lng, type, beach_id) {
+function addMarker(lat, lng, type, beach_id, is_view) {
     var url_list = ["/images/alert_00.png", "/images/alert_01.png"];
 
     // 마커 작업
     const position = new naver.maps.LatLng(lat, lng);
     const markerOptions = {
         position: position.destinationPoint(90, 15),
-        map: map,
+        map: is_view ? map : null,
         icon: {
             url: url_list[type],
             size: new naver.maps.Size(25, 25),
@@ -58,7 +84,7 @@ function addMarker(lat, lng, type, beach_id) {
         changeJellyAlert(beach_id);
     });
 
-    markers.push(marker);
+    return marker;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -77,8 +103,24 @@ document.addEventListener("DOMContentLoaded", function () {
     map = new naver.maps.Map(mapDiv, mapOptions);
 
     // 마커 추가
+    let todayDate = new Date();
+    todayDate = todayDate.toISOString().split("T")[0];
+    for (let i = 0; i <= 7; i++) {
+        let tempDate = new Date();
+        tempDate.setDate(tempDate.getDate() + i);
+        markersObj[tempDate.toISOString().split("T")[0]] = [];
+    }
+
     oceanInfoList.forEach(item => {
-        addMarker(item.oceanLat, item.oceanLon, !alertObj[item.id] ? 0 : 1, item.id);
+        for (const key in markersObj){
+            if (key == todayDate) {
+                markersObj[key].push(addMarker(item.oceanLat, item.oceanLon, !alertObj[item.id] ? 0 : 1, item.id, true));
+            }
+            else {
+                type = !futureObj[key] ? 0 : !futureObj[key][item.id] ? 0 : 1;
+                markersObj[key].push(addMarker(item.oceanLat, item.oceanLon, type, item.id, false));
+            }
+        }
     });
 
     // 드롭다운 이벤트 리스너
@@ -113,6 +155,24 @@ window.navermap_authFailure = function () {
 // 예측된 해파리 출현 지역이 몇곳인지 //
 function updateJellyAlertCount() {
     let alertKeys = Object.keys(alertObj);
+
+    var tempDate = selectedDate;
+    if (!selectedDate) {
+        tempDate = new Date();
+    }
+    var selectedDateFormat = tempDate.toISOString().split("T")[0];
+    if (isToday(tempDate)) {
+        alertKeys = Object.keys(alertObj);
+    }
+    else {
+        if (!futureObj[selectedDateFormat]) {
+            alertKeys = [];
+        }
+        else {
+            alertKeys = Object.keys(futureObj[selectedDateFormat]);
+        }
+    }
+
     let count = alertKeys.length;
     document.getElementById("jelly-alert-count").textContent = `예측 출현수: ${count} 지역`;
 

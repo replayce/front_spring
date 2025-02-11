@@ -49,6 +49,14 @@ public class MainController {
         List<BoardStatisticsDto> boardList = mainService.getRecentBoard();
         model.addAttribute("boardList", boardList);
 
+        List<AlertFutureResponse> alertFutureList = mainService.getAlertFuture();
+        try {
+            String json = new ObjectMapper().writeValueAsString(alertFutureList);
+            model.addAttribute("alertFutureJson", json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
         model.addAttribute("backend_addr", env.getProperty("java-client.api.host"));
 
         return "main/main";
