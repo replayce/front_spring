@@ -416,7 +416,7 @@ div.help-high {
     position: absolute;
     bottom: 30px;
     right: 15px;
-    background: #95B2B0;
+    background: #FFF275jelly-alert-dropdown;
     padding: 8px 15px;
     border-radius: 10px;
     font-size: 14px;
@@ -435,7 +435,7 @@ div.help-high {
     font-size: 14px;
     border: 1px solid black;
     border-radius: 5px;
-    background-color: #95B2B0;
+    background-color: #FFF275;
     cursor: pointer;
     font-weight:bold;
 }
