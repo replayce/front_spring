@@ -167,6 +167,15 @@
         alertObj[item.beachId].push({...item});
     });
 
+    var futureList = {{{alertFutureJson}}};
+    var futureObj = {};
+    futureList.forEach(item=> {
+        if (!futureObj[item.time]) {
+            futureObj[item.time] = {};
+            futureObj[item.time][item.beachId] = [];
+        }
+        futureObj[item.time][item.beachId].push({...item});
+    });
 
     //  .jelly-character에 클릭 이벤트 -> 도감 연결
     document.querySelectorAll('.jelly-character').forEach(item => {

@@ -1,9 +1,6 @@
 package com.replayce.front.service;
 
-import com.replayce.front.client.api.AlertClient;
-import com.replayce.front.client.api.BoardClient;
-import com.replayce.front.client.api.JavaClient;
-import com.replayce.front.client.api.OceanInfoClient;
+import com.replayce.front.client.api.*;
 import com.replayce.front.client.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +15,7 @@ public class MainService {
     private final AlertClient alertClient;
     private final OceanInfoClient oceanInfoClient;
     private final BoardClient boardClient;
+    private final AlertFutureClient alertFutureClient;
 
     public JavaResponse getJava(Long id, String query) {
         // 에러코드 처리 진행해야 한다.
@@ -41,4 +39,6 @@ public class MainService {
     public CommonResponse<BoardResponse> getBoard(Long boardId) {
         return boardClient.getBoard(boardId);
     }
+
+    public List<AlertFutureResponse> getAlertFuture() { return alertFutureClient.getAlertFuture().getResult();}
 }

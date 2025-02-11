@@ -1,3 +1,14 @@
+var selectedDate = null;
+
+function isToday(date) {
+    let today = new Date();
+    return (
+        date.getFullYear() === today.getFullYear() &&
+        date.getMonth() === today.getMonth() &&
+        date.getDate() === today.getDate()
+    );
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const serverTimeEl = document.getElementById("server-time");
     const datePrevBtn = document.getElementById("date-prev");
@@ -6,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const realtimeBtn = document.getElementById("realtime-button");
 
     let currentDate = new Date(); // 현재 날짜
-    let selectedDate = new Date(); // 선택한 날짜 (조정 가능)
+    selectedDate = new Date(); // 선택한 날짜 (조정 가능)
     let maxDate = new Date();
     maxDate.setDate(maxDate.getDate() + 7); // +7일까지 가능
 
@@ -35,15 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function isToday(date) {
-        let today = new Date();
-        return (
-            date.getFullYear() === today.getFullYear() &&
-            date.getMonth() === today.getMonth() &&
-            date.getDate() === today.getDate()
-        );
-    }
-
     function formatDate(date) {
         const days = ["일", "월", "화", "수", "목", "금", "토"];
         return date.toISOString().split("T")[0] + " (" + days[date.getDay()] + ")";
@@ -56,6 +58,9 @@ document.addEventListener("DOMContentLoaded", function () {
             selectedDate = new Date(currentDate); // 오늘보다 작아지지 않게
         }
         updateServerTime();
+        changePredictDate(selectedDate.toISOString().split("T")[0]);
+        changeJellyAlert($('#alert-location').val());
+        updateJellyAlertCount();
     });
 
     // 날짜 증가 (+1일)
@@ -65,18 +70,30 @@ document.addEventListener("DOMContentLoaded", function () {
             selectedDate = new Date(maxDate); // 최대 7일까지만 증가
         }
         updateServerTime();
+
+        changePredictDate(selectedDate.toISOString().split("T")[0]);
+        changeJellyAlert($('#alert-location').val());
+        updateJellyAlertCount();
     });
 
     // 날짜 선택 드롭다운 기능
     selectPre.addEventListener("change", function () {
         selectedDate = new Date(this.value);
         updateServerTime();
+
+        changePredictDate(selectedDate.toISOString().split("T")[0]);
+        changeJellyAlert($('#alert-location').val());
+        updateJellyAlertCount();
     });
 
     // 실시간 버튼: 오늘 날짜로 리셋
     realtimeBtn.addEventListener("click", function () {
         selectedDate = new Date();
         updateServerTime();
+
+        changePredictDate(selectedDate.toISOString().split("T")[0]);
+        changeJellyAlert($('#alert-location').val());
+        updateJellyAlertCount();
     });
 
     // 1초마다 서버 시간 업데이트
