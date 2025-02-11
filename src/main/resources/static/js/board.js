@@ -44,6 +44,7 @@ function setupJellyFilters() {
     if (filterButton) {
         filterButton.addEventListener("click", function () {
             console.log("🔍 필터 적용 버튼 클릭됨!");
+            currentPage = 1;
             applyJellyFilter();
         });
     }

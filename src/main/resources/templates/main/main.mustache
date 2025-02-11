@@ -218,6 +218,20 @@
             }
             else if(jelly_name == '보름달물해파리') {
                 $(this).find('td > img').attr('src', '/images/jelly_icons_noname/보름달물_noname.png').attr('alt', '보름달물해파리');
+            } else if(jelly_name == '커튼원양해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/커튼원양_noname.png').attr('alt', '커튼원양해파리');
+            } else if(jelly_name == '유령해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/유령_noname.png').attr('alt', '유령해파리');
+            } else if(jelly_name == '작은상자해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/작은상자_noname.png').attr('alt', '작은상자해파리');
+            } else if(jelly_name == '두빛보름달해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/두빛보름달_noname.png').attr('alt', '두빛보름달해파리');
+            } else if(jelly_name == '기수식용해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/기수식용_noname.png').attr('alt', '기수식용해파리');
+            } else if(jelly_name == '야광원양해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/야광원양_noname.png').attr('alt', '야광원양해파리');
+            } else if(jelly_name == '푸른우산관해파리') {
+                $(this).find('td > img').attr('src', '/images/jelly_icons_noname/푸른우산관_noname.png').attr('alt', '푸른우산관해파리');
             }
             else {
                 $(this).find('td > img').attr('src', '/images/jelly_icons_noname/외계생물체.png').attr('alt', '미확인해파리');
@@ -247,9 +261,22 @@
                 var jelly_name = response['result']['content'][0]['jelly'];
                 if ( jelly_name == '노무라입깃해파리' ) {
                     img_tag = `<img src="/images/jelly_icons_noname/노무라입깃_noname.png" alt="노무라입깃해파리">`;
-                }
-                else if(jelly_name == '보름달물해파리') {
+                } else if(jelly_name == '보름달물해파리') {
                     img_tag = `<img src="/images/jelly_icons_noname/보름달물_noname.png" alt="보름달물해파리">`;
+                } else if(jelly_name == '커튼원양해파리') {
+                    img_tag = `<img src="/images/jelly_icons_noname/커튼원양_noname.png" alt="커튼원양해파리">`;
+                } else if(jelly_name == '유령해파리') {
+                    img_tag = `<img src="/images/jelly_icons_noname/유령_noname.png" alt="유령해파리">`;
+                } else if(jelly_name == '작은상자해파리') {
+                    img_tag = `<img src="/images/jelly_icons_noname/작은상자_noname.png" alt="작은상자해파리">`;
+                } else if(jelly_name == '두빛보름달해파리') {
+                    img_tag = `<img src="/images/jelly_icons_noname/두빛보름달_noname.png" alt="두빛보름달해파리">`;
+                } else if(jelly_name == '기수식용해파리') {
+                    img_tag = `<img src="/images/jelly_icons_noname/기수식용_noname.png" alt="기수식용해파리">`;
+                } else if(jelly_name == '야광원양해파리') {
+                    img_tag = `<img src="/images/jelly_icons_noname/야광원양_noname.png" alt="야광원양해파리">`;
+                } else if(jelly_name == '푸른우산관해파리') {
+                    img_tag = `<img src="/images/jelly_icons_noname/푸른우산관_noname.png" alt="푸른우산관해파리">`;
                 }
 
                 var time_str = timeAgo(response['result']['content'][0]['createDate']);
