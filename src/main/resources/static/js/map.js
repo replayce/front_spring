@@ -40,7 +40,13 @@ function changeJellyAlert(beach_id) {
     selectObj.forEach(item => {
         var jellyDiv = $(`div.jelly-list > div.jelly-character[data-name="${item["jelly"]}"]`);
         jellyDiv.addClass("jelly-alert");
-        jellyDiv.find("div.jelly-rate").text(`예측 출현율\n${parseInt(item["percentLoc"])}%`).show();
+        var tempPercent = parseInt(item["percentLoc"]);
+        if (tempPercent >= 0) {
+            jellyDiv.find("div.jelly-rate").text(`예측 출현율\n${tempPercent}%`).show();
+        }
+        else {
+            jellyDiv.find("div.jelly-rate").text(`출현 예측`).show();
+        }
         if (item['densityPred'] == 1) {
             jellyDiv.find("div.jelly-density").addClass("jelly-density-low");
         } else {
