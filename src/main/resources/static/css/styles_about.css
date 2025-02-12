@@ -72,7 +72,7 @@
 
 /* Home 버튼 */
 .home-button img {
-    max-width: 80px;
+    max-width: 100px;
     height: auto;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
