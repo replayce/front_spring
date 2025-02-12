@@ -50,8 +50,8 @@ public class AdminController {
             model.addAttribute("alertsJson", alertsJson);
 
             // 제보 데이터
-            CommonResponse<List<ReportResponse>> reportResponse = reportClient.getBoards();
-            List<ReportResponse> reports = reportResponse.getResult();
+            CommonResponse<PageResponseDto<ReportResponse>> reportResponse = reportClient.getBoards(); // List<ReportResponse> -> <PageResponseDto<ReportResponse>
+            PageResponseDto<ReportResponse> reports = reportResponse.getResult(); // List<ReportResponse> -> <PageResponseDto<ReportResponse>
             model.addAttribute("reports", reports);
             String reportsJson = objectMapper.writeValueAsString(reports);
             model.addAttribute("reportsJson", reportsJson);
@@ -170,7 +170,7 @@ public class AdminController {
     public String reports(HttpServletRequest request, Model model) {
         try {
             // FeignClient 호출
-            CommonResponse<List<ReportResponse>> response = reportClient.getBoards();
+            CommonResponse<PageResponseDto<ReportResponse>> response = reportClient.getBoards(); // List<ReportResponse> -> <PageResponseDto<ReportResponse>
             model.addAttribute("reports", response.getResult());
         } catch (Exception e) {
             System.err.println("Error fetching reports: " + e.getMessage());
