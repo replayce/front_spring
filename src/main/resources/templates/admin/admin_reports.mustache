@@ -15,8 +15,8 @@
         // 테이블의 바디 부분에서 tr을 클릭했을 때 이벤트
         $('#example tbody').on('click', 'tr', function() {
             // 현재 클릭한 행(tr)의 data-id 값 가져오기
-            var boardId = parseInt($(this).data('id'), 10) + 1;
-            window.location.href = "/board/detail/" + boardId;
+            var id = parseInt($(this).data('id'), 10);
+            window.location.href = "/board/detail/" + id;
         });
     });
 

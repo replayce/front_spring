@@ -130,6 +130,7 @@
     // 서버에서 전달된 alertsJson과 reportsJson을 파싱합니다.
     const alerts = JSON.parse('{{{alertsJson}}}');
     const reports = JSON.parse('{{{reportsJson}}}');
+    // const reportData = reports.content || []; // 추가
 
     // 오늘 기준 지난 7일의 날짜 문자열 배열 (YYYY-MM-DD)
     const now = new Date();
