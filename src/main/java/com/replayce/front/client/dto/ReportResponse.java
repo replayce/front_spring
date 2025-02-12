@@ -1,5 +1,6 @@
 package com.replayce.front.client.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 public class ReportResponse {
+    @JsonProperty("boardId")
     private int id;
     private String writer;
     private LocalDateTime createDate;
@@ -23,6 +25,8 @@ public class ReportResponse {
     // 작성일시 포맷 수정
     private String formattedCreateDate;
 
+    public ReportResponse() {}
+
     public String getFormattedCreateDate() {
         if(createDate == null) {
             return "작성일시 없음";
@@ -30,6 +34,5 @@ public class ReportResponse {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return createDate.format(formatter);
     }
-
 
 }
