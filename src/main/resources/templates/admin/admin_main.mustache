@@ -130,6 +130,7 @@
     // 서버에서 전달된 alertsJson과 reportsJson을 파싱합니다.
     const alerts = JSON.parse('{{{alertsJson}}}');
     const reports = JSON.parse('{{{reportsJson}}}');
+    const reportData = reports.content || []; // 추가
 
     // 오늘 기준 지난 7일의 날짜 문자열 배열 (YYYY-MM-DD)
     const now = new Date();
@@ -216,12 +217,12 @@
 
     // ===== 해파리 모니터링 주간보고 - 해변별 제보 건 수 집계 (Reports) =====
     // ReportResponse에서는 해변 이름이 'location'으로 저장됩니다.
-    const uniqueBeachesReports = new Set(reports.map(report => report.location));
+    const uniqueBeachesReports = new Set(reportData.map(report => report.location));
     const beachReportCounts = {};
     uniqueBeachesReports.forEach(location => {
         beachReportCounts[location] = 0;
     });
-    reports.forEach(report => {
+    reportData.forEach(report => {
         const rawDateStr = report.createDate || report.time;
         const parsedDate = parseDate(rawDateStr);
         if (isNaN(parsedDate.getTime())) {
@@ -273,7 +274,7 @@
     ];
     const jellyCounts = {};
     jellyTypes.forEach(jelly => { jellyCounts[jelly] = 0; });
-    reports.forEach(report => {
+    reportData.forEach(report => {
         const rawDateStr = report.createDate || report.time;
         const parsedDate = parseDate(rawDateStr);
         if (isNaN(parsedDate.getTime())) {
