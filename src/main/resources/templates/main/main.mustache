@@ -172,8 +172,11 @@
     futureList.forEach(item=> {
         if (!futureObj[item.time]) {
             futureObj[item.time] = {};
+        }
+        if(!futureObj[item.time][item.beachId) {
             futureObj[item.time][item.beachId] = [];
         }
+
         futureObj[item.time][item.beachId].push({...item});
     });
 
