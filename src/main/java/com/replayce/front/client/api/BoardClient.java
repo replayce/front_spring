@@ -60,4 +60,8 @@ public interface BoardClient {
 
     @DeleteMapping("/board/{boardId}")
     ResponseEntity<BaseResponse> deleteBoard(@PathVariable Long boardId);
+
+    // 어드민 대시보드
+    @GetMapping("/board/count/today")
+    CommonResponse<Long> getTodayBoardCount();
 }

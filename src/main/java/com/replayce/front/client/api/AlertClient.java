@@ -19,6 +19,10 @@ public interface AlertClient {
     @GetMapping("/alert/{alertId}")
     CommonResponse<AlertResponse> getAlertById(@PathVariable Long alertId);
 
+    // 어드민 대시보드
+    @GetMapping("/alert/count/today")
+    CommonResponse<Integer> getTodayAlertCount();
+
     @PostMapping("/alert")
     CommonResponse<AlertResponse> createAlert(
             @RequestBody Alert alert,

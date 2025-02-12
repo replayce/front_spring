@@ -112,4 +112,12 @@ public class BoardController {
         ResponseEntity<BaseResponse> response = boardClient.deleteBoard(boardId);
         return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
     }
+
+    // 어드민 대시보드
+    @GetMapping("/board/count/today")
+    public ResponseEntity<Long> getTodayBoardCount() {
+        CommonResponse<Long> response = boardClient.getTodayBoardCount();
+        return ResponseEntity.ok(response.getResult());  // ✅ 백엔드에서 받은 개수만 반환
+    }
+
 }

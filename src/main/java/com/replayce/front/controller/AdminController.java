@@ -11,6 +11,7 @@ import com.replayce.front.dto.RegisterRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +36,9 @@ public class AdminController {
     private final AuthClient authClient;
 
     private final ObjectMapper objectMapper;
+
+    @Value("${java-client.api.host}") // YAML에서 값 가져오기
+    private String backendAddr;
 
 
     // 관리자 메인 페이지
@@ -64,6 +68,7 @@ public class AdminController {
             model.addAttribute("reportsJson", "[]");
         }
 
+        model.addAttribute("backend_addr", backendAddr);
         model.addAttribute("username", request.getAttribute("username"));
         return "admin/admin_main";
     }

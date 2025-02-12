@@ -27,7 +27,7 @@
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
                                     <p class="card-category">방문자 수</p>
-                                    <h4 class="card-title">1,294</h4>
+                                    <h4 class="card-title" id="visitor-count">로딩 중...</h4>
                                 </div>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
                                     <p class="card-category">제보자 수</p>
-                                    <h4 class="card-title">1303</h4>
+                                    <h4 class="card-title" id="report-count">로딩 중...</h4>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
                                     <p class="card-category">경보 알림 수</p>
-                                    <h4 class="card-title">$ 1,345</h4>
+                                    <h4 class="card-title" id="alert-count">0</h4>
                                 </div>
                             </div>
                         </div>
@@ -336,4 +336,49 @@
         }
     });
 </script>
+
+<script>
+    var backend_url = "{{backend_addr}}"; // 백엔드 주소를 가져와서 사용
+
+    function loadDashboardData() {
+        // 방문자 수 가져오기
+        fetch(backend_url + "/visitor/count")
+                .then(response => response.json())
+                .then(count => {
+                    document.getElementById("visitor-count").innerText = count.toLocaleString();
+                })
+                .catch(error => {
+                    console.error("방문자 수 조회 실패:", error);
+                    document.getElementById("visitor-count").innerText = "조회 실패";
+                });
+
+        // 당일 제보 개수 가져오기
+        fetch(backend_url + "/api/board/count/today")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("report-count").innerText = data.result.toLocaleString();  // ✅ result 값만 출력!
+                })
+                .catch(error => {
+                    document.getElementById("report-count").innerText = "조회 실패";
+                });
+
+        // 당일 경보 알림 개수 가져오기
+        fetch(backend_url + "/api/alert/count/today")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("alert-count").innerText = data.result.toLocaleString();
+                })
+                .catch(error => {
+                    console.error("🚨 경보 알림 수 조회 실패:", error);
+                    document.getElementById("alert-count").innerText = "조회 실패";
+                });
+
+
+    }
+
+    document.addEventListener("DOMContentLoaded", loadDashboardData);
+</script>
+
+
+
 {{>admin/layouts/footer}}
