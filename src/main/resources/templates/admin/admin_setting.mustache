@@ -17,7 +17,7 @@
     // 승인 버튼 클릭 시 호출되는 함수
     function approveAdmin(adminId) {
         if (confirm("ID " + adminId + " 관리자를 승인하시겠습니까?")) {
-            fetch("http://localhost:8081/api/admin/admin_setting/" + adminId, {
+            fetch("/api/proxy/admin/admin_setting/" + adminId, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

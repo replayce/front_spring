@@ -1,9 +1,13 @@
 package com.replayce.front.controller;
 
+import com.replayce.front.client.api.AdminClient;
+import com.replayce.front.client.dto.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -15,6 +19,7 @@ public class ProxyController {
 
     private static final Logger log = LoggerFactory.getLogger(ProxyController.class);
     private final RestTemplate restTemplate;
+    private final AdminClient adminClient;
 
     // ✅ application.yaml 대신 환경 변수에서 Python API URL 가져오기
     @Value("${python-client.api.host:default_value_if_missing}")
@@ -45,5 +50,12 @@ public class ProxyController {
             log.error("[Proxy] Error while forwarding request", e);
             return ResponseEntity.status(500).body("서버 내부 오류가 발생했습니다. 관리자에게 문의하세요.");
         }
+    }
+
+    @PostMapping("/admin/admin_setting/{adminId}")
+    public ResponseEntity<CommonResponse<String>> adminSetting(@PathVariable Long adminId) {
+        CommonResponse<String> result = adminClient.setAgreeAdmin(adminId);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
