@@ -219,12 +219,14 @@ public class AdminController {
 
     @GetMapping("/admin/admin_account")
     public String account(HttpServletRequest request, Model model) {
-        model.addAttribute("username", request.getAttribute("username"));
+        String username = (String) request.getSession().getAttribute("username");
+        model.addAttribute("username", username);
         return "admin/admin_account";
     }
 
     @PostMapping("/admin/admin_account_update")
     public String updateAccount(
+            HttpServletRequest request,
             @RequestParam String username,
             @RequestParam(required = false) String email,
             @RequestParam(required = false) String phoneNumber,
@@ -256,6 +258,9 @@ public class AdminController {
             log.error("업데이트 후 계정 정보 조회 실패: {}", e.getMessage());
             model.addAttribute("error", "업데이트 후 계정 정보를 가져오는데 오류가 발생했습니다.");
         }
+
+        String user = (String) request.getSession().getAttribute("username");
+        model.addAttribute("username", user);
 
         return "admin/admin_account_update";
     }
