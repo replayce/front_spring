@@ -2,6 +2,8 @@
 const ai_analyzing = "AI가 분석 중 👀";
 
 document.addEventListener("DOMContentLoaded", function () {
+    var API_HOST = "{{pythonApiHost}}";
+
     // 1) "boardId" hidden input이 있으면 ⇒ 수정 모드
     const boardIdInput = document.getElementById("boardId");
     const isEdit = boardIdInput !== null; // 있으면 true, 없으면 false
@@ -107,7 +109,7 @@ async function uploadImageToServer(file) {
 
         const data = await response.json();
         if (data.result) {
-            console.log("🟢 이미지 업로드 성공:", data.result);
+            // console.log("🟢 이미지 업로드 성공:", data.result);
             document.getElementById("jellyfish-image-url").value = data.result;
             fetchJellyfishTypeFromAPI(data.result);
         } else {
@@ -341,10 +343,10 @@ async function fetchBoard(boardId) {
         if (!response.ok) throw new Error(`데이터 불러오기 실패: ${response.status}`);
 
         const data = await response.json();
-        console.log("✅ 기존 데이터 불러옴:", data);
+        // console.log("✅ 기존 데이터 불러옴:", data);
         return data.result;  // 기존 데이터 반환
     } catch (error) {
-        console.error("❌ 기존 데이터 불러오기 실패:", error);
+        // console.error("❌ 기존 데이터 불러오기 실패:", error);
         return null;
     }
 }
@@ -447,7 +449,7 @@ async function generateJellyfishNameWithOpenAI() {
     const apiKey = "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"; // 🔴 OpenAI API 키 입력
     const reporterInput = document.getElementById("reporter-name");
 
-    console.log("🔵 OpenAI API 요청 시작...");
+    // console.log("🔵 OpenAI API 요청 시작...");
 
     try {
         const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -473,7 +475,7 @@ async function generateJellyfishNameWithOpenAI() {
             })
         });
 
-        console.log("🟢 API 응답 상태 코드:", response.status);
+        // console.log("🟢 API 응답 상태 코드:", response.status);
 
         if (!response.ok) {
             const errorText = await response.text(); // ❗ 오류 메시지 가져오기
@@ -483,7 +485,7 @@ async function generateJellyfishNameWithOpenAI() {
         }
 
         const data = await response.json();
-        console.log("🟡 API 응답 데이터:", data);
+        // console.log("🟡 API 응답 데이터:", data);
 
         if (data.choices && data.choices[0] && data.choices[0].message) {
             // ✅ 불필요한 중복 제거
@@ -501,7 +503,7 @@ async function generateJellyfishNameWithOpenAI() {
             name = name.replace(/해파\s?해파리$/, "해파리");
 
             reporterInput.value = name;
-            console.log("✅ 입력창 업데이트 완료:", reporterInput.value);
+            // console.log("✅ 입력창 업데이트 완료:", reporterInput.value);
         } else {
             console.error("❌ API 응답이 비어 있음:", data);
             reporterInput.value = "이름 생성 실패 😢";
@@ -514,7 +516,7 @@ async function generateJellyfishNameWithOpenAI() {
 
 // 뒤로가기 버튼
 function goBack() {
-    console.log("🔙 뒤로 가기 버튼 클릭됨!");
+    // console.log("🔙 뒤로 가기 버튼 클릭됨!");
     window.history.back(); // 🔴 이전 페이지로 이동
 }
 
@@ -550,13 +552,13 @@ async function loadBoardData() {
     if (!boardId) return; // ✅ boardId가 `null`이면 실행 안 함 (제보 페이지 예외처리)
 
     try {
-        console.log("🔵 요청하는 boardId:", boardId);
+        // console.log("🔵 요청하는 boardId:", boardId);
 
         const response = await fetch(`/board/${boardId}`);
         if (!response.ok) throw new Error(`데이터 불러오기 실패: ${response.status}`);
 
         const data = await response.json();
-        console.log("✅ 불러온 데이터:", data);
+        // console.log("✅ 불러온 데이터:", data);
 
         if (!data.result) throw new Error("❌ `result` 데이터가 존재하지 않습니다.");
 
