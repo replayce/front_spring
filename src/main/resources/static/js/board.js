@@ -37,13 +37,13 @@ function setupJellyFilters() {
             this.blur();
             // 토글 클래스로 초록색 테두리 적용
             this.classList.toggle("selected-jelly");
-            console.log("✅ 선택된 해파리:", this.getAttribute("data-name"));
+            // console.log("✅ 선택된 해파리:", this.getAttribute("data-name"));
         });
     });
     const filterButton = document.querySelector(".filter");
     if (filterButton) {
         filterButton.addEventListener("click", function () {
-            console.log("🔍 필터 적용 버튼 클릭됨!");
+            // console.log("🔍 필터 적용 버튼 클릭됨!");
             currentPage = 1;
             applyJellyFilter();
         });
@@ -127,7 +127,7 @@ function applyJellyFilter(page = 1, size = pageSize) {
     let requestUrl = `${backend_url}/api/board/filter?jellies=${encodedJellies}&page=${page}&size=${size}`;
     if (region) requestUrl += `&location=${encodeURIComponent(region)}`;
 
-    console.log("🚀 필터 적용 API 요청 URL:", requestUrl);
+    // console.log("🚀 필터 적용 API 요청 URL:", requestUrl);
 
     fetch(requestUrl)
         .then(response => {
@@ -164,13 +164,13 @@ function setupResetButton() {
             document.querySelectorAll(".jelly-character.selected-jelly").forEach(elem => {
                 elem.classList.remove("selected-jelly");
             });
-            console.log("✅ 해파리 필터 초기화됨.");
+            // console.log("✅ 해파리 필터 초기화됨.");
 
             // 2. 지역 선택 리셋 (기본값: 첫 번째 옵션, "지역을 선택하세요")
             const regionSelect = document.getElementById("alert-location");
             if (regionSelect) {
                 regionSelect.selectedIndex = 0;
-                console.log("✅ 지역 필터 초기화됨.");
+                // console.log("✅ 지역 필터 초기화됨.");
             }
 
             // 3. 검색 입력값 초기화 (있을 경우)
@@ -345,7 +345,7 @@ function renderPagination(totalPages) {
     const paginationContainer = document.getElementById("paginationNumbers");
     paginationContainer.innerHTML = "";
 
-    console.log("✅ 렌더링할 totalPages 값:", totalPages); // 🔥 디버깅용 로그 추가
+    // console.log("✅ 렌더링할 totalPages 값:", totalPages); // 🔥 디버깅용 로그 추가
 
     if (totalPages < 1) totalPages = 1; // ✅ 최소 1페이지는 표시해야 함
 
@@ -386,7 +386,7 @@ function renderPagination(totalPages) {
 
 function changePage(page) {
     currentPage = page;
-    console.log(`📌 현재 페이지 변경됨: ${currentPage}`);
+    // console.log(`📌 현재 페이지 변경됨: ${currentPage}`);
 
     // 🔥 필터가 적용된 상태인지 체크 후 유지
     const selectedJellies = document.querySelectorAll(".selected-jelly").length > 0;
@@ -399,10 +399,10 @@ function changePage(page) {
     else if (currentSearchQuery !== "") {
         searchBoards(currentPage, pageSize);
     } else if (selectedJellies || selectedLocation) {
-        console.log("✅ 필터 유지하며 페이지 변경");
+        // console.log("✅ 필터 유지하며 페이지 변경");
         applyJellyFilter(currentPage, pageSize);
     } else {
-        console.log("📌 필터 없이 전체 게시글 불러오기");
+        // console.log("📌 필터 없이 전체 게시글 불러오기");
         getAllBoards(currentPage, pageSize);
     }
     updateCurrentPageDisplay();
